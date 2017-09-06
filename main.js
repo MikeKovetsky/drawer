@@ -17,6 +17,13 @@ class Canvas {
 	}
 } 
 
+class Point {
+	constructor(x, y) {
+		this.x = x;
+		this.y = y;
+	}
+}
+
 class Drawer {
 	constructor(canvas) {
 		this.canvas = canvas;
@@ -26,21 +33,21 @@ class Drawer {
 
 	draw() {	
 		for (let i = 0; i < this.canvas.width; i += this.canvas.vectorLength) {
-			this.drawLine([i, i], [0, this.canvas.height]);
+			this.drawLine(new Point(i, 0), new Point(i, this.canvas.height));
 		}
 		for (let i = 0; i < this.canvas.height; i += this.canvas.vectorLength) {
-			this.drawLine([0, this.canvas.width] , [i, i]);
+			this.drawLine(new Point(0, i) , new Point(this.canvas.width, i));
 		}
 
 	}
 
-	drawLine(x, y) {
+	drawLine(p1, p2) {
 		this.context.beginPath();
-		this.context.moveTo(x[0], y[0]);
-		this.context.lineTo(x[1], y[1]);
+		this.context.moveTo(p1.x, p1.y);
+		this.context.lineTo(p2.x, p2.y);
 		this.context.stroke();
 	}
 }
 
-var drawer = new Drawer(new Canvas(1000, 600, 30));
+const drawer = new Drawer(new Canvas(1000, 600, 30));
 drawer.draw();
