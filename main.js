@@ -29,9 +29,11 @@ class Drawer {
 		this.canvas = canvas;
 		this.context = canvas.getContext();
 		this.context.imageSmoothingQuality = "high";
+		this.initGrid();
+		this.initAxis();
 	}
 
-	draw() {	
+	initGrid() {
 		this.context.globalAlpha = 0.2;
 		for (let i = 0; i < this.canvas.width; i += this.canvas.vectorLength) {
 			//vertical lines
@@ -41,10 +43,16 @@ class Drawer {
 			//horizontal lines
 			this.drawLine(new Point(0, i) , new Point(this.canvas.width, i));
 		}
+	}
+	initAxis() {
 		this.context.globalAlpha = 1;
+		//x and y lines
 		this.drawLine(new Point(0, this.canvas.height / 2) , new Point(this.canvas.width, this.canvas.height / 2));	
 		this.drawLine(new Point(this.canvas.width / 2, 0) , new Point(this.canvas.width / 2, this.canvas.height));	
-
+		// set the canvas origin (0,0) to center canvas
+		// All coordinates to the left of center canvas are negative
+		// All coordinates below center canvas are negative
+		this.context.translate(canvas.width/2,canvas.height/2);
 	}
 
 	drawLine(p1, p2) {
@@ -56,4 +64,4 @@ class Drawer {
 }
 
 const drawer = new Drawer(new Canvas(1000, 600, 20));
-drawer.draw();
+drawer.drawLine(new Point(0,0), new Point(220,220));
