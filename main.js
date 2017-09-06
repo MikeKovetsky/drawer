@@ -32,12 +32,18 @@ class Drawer {
 	}
 
 	draw() {	
+		this.context.globalAlpha = 0.2;
 		for (let i = 0; i < this.canvas.width; i += this.canvas.vectorLength) {
+			//vertical lines
 			this.drawLine(new Point(i, 0), new Point(i, this.canvas.height));
 		}
 		for (let i = 0; i < this.canvas.height; i += this.canvas.vectorLength) {
+			//horizontal lines
 			this.drawLine(new Point(0, i) , new Point(this.canvas.width, i));
 		}
+		this.context.globalAlpha = 1;
+		this.drawLine(new Point(0, this.canvas.height / 2) , new Point(this.canvas.width, this.canvas.height / 2));	
+		this.drawLine(new Point(this.canvas.width / 2, 0) , new Point(this.canvas.width / 2, this.canvas.height));	
 
 	}
 
@@ -49,5 +55,5 @@ class Drawer {
 	}
 }
 
-const drawer = new Drawer(new Canvas(1000, 600, 30));
+const drawer = new Drawer(new Canvas(1000, 600, 20));
 drawer.draw();
