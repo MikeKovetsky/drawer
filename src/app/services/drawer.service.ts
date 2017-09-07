@@ -1,0 +1,54 @@
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class DrawerService {
+
+  constructor() { }
+
+  initGrid(canvas, context) {
+    context.globalAlpha = 0.2;
+    for (let i = 0; i < canvas.width; i += canvas.vectorLength) {
+      //vertical lines
+      this.drawLine(context, new Point(i, 0), new Point(i, canvas.height));
+    }
+    for (let i = 0; i < canvas.height; i += canvas.vectorLength) {
+      //horizontal lines
+      this.drawLine(context, new Point(0, i) , new Point(canvas.width, i));
+    }
+    context.globalAlpha = 1;
+    return canvas;
+  }
+
+  initAxis(canvas, context) {
+    //x and y axis
+    this.drawLine(context, new Point(0, canvas.height / 2) , new Point(canvas.width, canvas.height / 2));
+    this.drawLine(context, new Point(canvas.width / 2, 0) , new Point(canvas.width / 2, canvas.height));
+    for (let i = 0; i < canvas.height; i += canvas.vectorLength) {
+      const helperStrokeStart = new Point(canvas.width / 2 - canvas.vectorLength / 2, i);
+      const helperStrokeEnd = new Point(canvas.width / 2 + canvas.vectorLength / 2, i);
+      this.drawLine(context, helperStrokeStart, helperStrokeEnd);
+    }
+    for (let i = 0; i < canvas.width; i += canvas.vectorLength) {
+      const helperStrokeStart = new Point(i, canvas.height / 2 - canvas.vectorLength / 2);
+      const helperStrokeEnd = new Point(i, canvas.height / 2 + canvas.vectorLength / 2);
+      this.drawLine(context, helperStrokeStart , helperStrokeEnd);
+    }
+  }
+
+  revertCoordinates(canvas, context) {
+    // set the canvas origin (0,0) to center canvas
+    // All coordinates to the left of center canvas are negative
+    // All coordinates below center canvas are negative
+    context.translate(canvas.width/2, canvas.height/2);
+    return context;
+  }
+
+  drawLine(context, p1, p2) {
+    context.beginPath();
+    context.moveTo(p1.x, p1.y);
+    context.lineTo(p2.x, p2.y);
+    context.stroke();
+  }
+
+
+}
