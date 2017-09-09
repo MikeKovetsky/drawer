@@ -1,4 +1,4 @@
-class Canvas {
+export class DrawerCanvas {
   width: number;
   height: number;
   vectorLength: number;

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {Point} from "../models/point.model";
 
 @Injectable()
 export class DrawerService {
@@ -37,13 +38,13 @@ export class DrawerService {
 
   revertCoordinates(canvas, context) {
     // set the canvas origin (0,0) to center canvas
-    // All coordinates to the left of center canvas are negative
-    // All coordinates below center canvas are negative
-    context.translate(canvas.width/2, canvas.height/2);
+    // All coordinates$ to the left of center canvas are negative
+    // All coordinates$ below center canvas are negative
+    context.translate(canvas.width / 2, canvas.height / 2);
     return context;
   }
 
-  drawLine(context, p1, p2) {
+  drawLine(context, p1: Point, p2: Point) {
     context.beginPath();
     context.moveTo(p1.x, p1.y);
     context.lineTo(p2.x, p2.y);

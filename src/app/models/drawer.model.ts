@@ -1,5 +1,7 @@
 
-class Drawer {
+import {Point} from "./point.model";
+
+export class Drawer {
   canvas;
   context;
   constructor(canvas) {
@@ -37,8 +39,8 @@ class Drawer {
       this.drawLine(helperStrokeStart , helperStrokeEnd);
     }
     // set the canvas origin (0,0) to center canvas
-    // All coordinates to the left of center canvas are negative
-    // All coordinates below center canvas are negative
+    // All coordinates$ to the left of center canvas are negative
+    // All coordinates$ below center canvas are negative
     this.context.translate(this.canvas.width/2, this.canvas.height/2);
   }
 
