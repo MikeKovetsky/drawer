@@ -1,7 +1,8 @@
 <section class="history">
   <div>
     <app-history-event
-      *ngFor="let event of history" [event]="event">
+      (eventAdded)="history.splice(i,1)"
+      *ngFor="let event of history;let i=index" [event]="event">
     </app-history-event>
   </div>
 </section>

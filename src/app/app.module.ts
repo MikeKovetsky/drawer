@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {CommonModule} from "@angular/common";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 import {AppComponent} from './app.component';
 import {CanvasComponent} from './canvas/canvas.component';
@@ -24,7 +24,8 @@ import {HistoryService} from "./services/history.service";
   imports: [
     BrowserModule,
     CommonModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     DrawerService,

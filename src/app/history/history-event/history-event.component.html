@@ -1,10 +1,23 @@
 <section class="event">
   <div>
-    Start point:
-    ({{event.start.x}},{{event.start.y}});
-  </div>
-  <div>
-    End point:
-    ({{event.end.x}},{{event.end.y}});
+    <div *ngIf="event.completed">
+      Start point:
+      ({{event.start.x}},{{event.start.y}});<br>
+      End point:
+      ({{event.end.x}},{{event.end.y}});
+    </div>
+    <form *ngIf="!event.completed" [formGroup]="newEvent" (ngSubmit)="add(newEvent)">
+      <div formGroupName="p1">
+        Start point:
+        <input type="number" placeholder="P1 X" formControlName="x" name="p1x">
+        <input type="number" placeholder="P1 Y" formControlName="y" name="p1y">
+      </div>
+      <div formGroupName="p2">
+        End point:
+        <input type="number" placeholder="P2 X" formControlName="x" name="p2x">
+        <input type="number" placeholder="P2 Y" formControlName="y" name="p2y">
+        <button [disabled]="!newEvent.valid">Add line</button>
+      </div>
+    </form>
   </div>
 </section>

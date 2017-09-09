@@ -14,7 +14,6 @@ import {Point} from "../models/point.model";
 export class CanvasComponent implements OnInit {
   @ViewChild('canvas') domCanvas: ElementRef;
   canvas: DrawerCanvas;
-  context: CanvasRenderingContext2D;
 
   private readonly CANVAS_CONFIG = {
     width: 1000,
@@ -29,12 +28,12 @@ export class CanvasComponent implements OnInit {
 
   ngOnInit() {
     this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, this.CANVAS_CONFIG.width, this.CANVAS_CONFIG.height, this.CANVAS_CONFIG.vectorLength);
-    this.context = this.canvas.getContext();
-    this.drawer.initGrid(this.canvas, this.context);
-    this.drawer.initAxis(this.canvas, this.context);
-    this.drawer.invertYAxis(this.canvas, this.context);
+    this.drawer.setContext(this.canvas);
+    this.drawer.initGrid(this.canvas);
+    this.drawer.initAxis(this.canvas);
+    this.drawer.invertYAxis(this.canvas);
     this.history.isRecording = true;
-    this.drawer.drawLine(this.context, new Point(0,0), new Point(200, 200));
+    this.drawer.drawLine(new Point(0,0), new Point(200, 200));
   }
 
   updateCursorPosition(ev: MouseEvent) {
