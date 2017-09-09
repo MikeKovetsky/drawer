@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {HistoryService} from "./history.service";
 import {Point} from "../models/point.model";
 import {DrawerCanvas} from "../models/canvas.model";
 
@@ -6,7 +7,7 @@ import {DrawerCanvas} from "../models/canvas.model";
 export class DrawerService {
   yAxisInverted = false;
 
-  constructor() { }
+  constructor(private history: HistoryService) { }
 
   initGrid(canvas: DrawerCanvas, context) {
     context.globalAlpha = 0.2;
@@ -52,5 +53,6 @@ export class DrawerService {
     context.moveTo(p1.x, this.yAxisInverted ? -p1.y : p1.y);
     context.lineTo(p2.x, this.yAxisInverted ? -p2.y : p2.y);
     context.stroke();
+    this.history.add(p1, p2);
   }
 }

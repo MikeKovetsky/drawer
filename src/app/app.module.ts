@@ -11,6 +11,7 @@ import {CursorPositionComponent} from './cursor-position/cursor-position.compone
 
 import {DrawerService} from "./services/drawer.service";
 import {CursorPositionService} from "./services/cursor-position.service";
+import {HistoryService} from "./services/history.service";
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import {CursorPositionService} from "./services/cursor-position.service";
   ],
   providers: [
     DrawerService,
+    HistoryService,
     CursorPositionService
   ],
   bootstrap: [AppComponent]

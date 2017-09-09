@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HistoryEvent} from "../models/history-event.model";
-import {Point} from "../models/point.model";
+import {HistoryService} from "../services/history.service";
 
 @Component({
   selector: 'app-history',
@@ -10,12 +10,13 @@ import {Point} from "../models/point.model";
 export class HistoryComponent implements OnInit {
   history: HistoryEvent[] = [];
 
-  constructor() {
+  constructor(private historyService: HistoryService) {
   }
 
   ngOnInit() {
-    const canvasCenter = new Point(0, 0);
-    this.history.push(new HistoryEvent(canvasCenter, canvasCenter))
+    this.historyService.history$.asObservable().subscribe((updated) => {
+      this.history = updated;
+    })
   }
 
 }

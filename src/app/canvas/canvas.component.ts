@@ -1,6 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DrawerService} from "../services/drawer.service";
 import {CursorPositionService} from "../services/cursor-position.service";
+import {HistoryService} from "../services/history.service";
+
 import {DrawerCanvas} from "../models/canvas.model";
 import {Point} from "../models/point.model";
 
@@ -22,6 +24,7 @@ export class CanvasComponent implements OnInit {
 
   constructor(
     private drawer: DrawerService,
+    private history: HistoryService,
     private cursorPosition: CursorPositionService) { }
 
   ngOnInit() {
@@ -30,6 +33,7 @@ export class CanvasComponent implements OnInit {
     this.drawer.initGrid(this.canvas, this.context);
     this.drawer.initAxis(this.canvas, this.context);
     this.drawer.invertYAxis(this.canvas, this.context);
+    this.history.isRecording = true;
     this.drawer.drawLine(this.context, new Point(0,0), new Point(200, 200));
   }
 
