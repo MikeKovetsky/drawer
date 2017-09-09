@@ -1,3 +1,5 @@
-<p>
-  history works!
-</p>
+<section class="history">
+  <app-history-event
+    *ngFor="let event of history" [event]="event">
+  </app-history-event>
+</section>

@@ -1,0 +1,9 @@
+.history {
+  position: fixed;
+  right: 0;
+  top: 0;
+  background: whitesmoke;
+  border: 1px solid #444;
+  width: 200px;
+  height: 100%;
+}

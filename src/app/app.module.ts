@@ -6,7 +6,7 @@ import {FormsModule} from "@angular/forms";
 import {AppComponent} from './app.component';
 import {CanvasComponent} from './canvas/canvas.component';
 import {HistoryComponent} from './history/history.component';
-import {HistoryItemComponent} from './history/history-item/history-item.component';
+import {HistoryEventComponent} from './history/history-event/history-event.component';
 import {CursorPositionComponent} from './cursor-position/cursor-position.component';
 
 import {DrawerService} from "./services/drawer.service";
@@ -17,7 +17,7 @@ import {CursorPositionService} from "./services/cursor-position.service";
     AppComponent,
     CanvasComponent,
     HistoryComponent,
-    HistoryItemComponent,
+    HistoryEventComponent,
     CursorPositionComponent
   ],
   imports: [
@@ -27,7 +27,8 @@ import {CursorPositionService} from "./services/cursor-position.service";
   ],
   providers: [
     DrawerService,
-    CursorPositionService],
+    CursorPositionService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
