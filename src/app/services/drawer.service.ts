@@ -3,6 +3,7 @@ import {Point} from "../models/point.model";
 
 @Injectable()
 export class DrawerService {
+  yAxisInverted = false;
 
   constructor() { }
 
@@ -36,20 +37,19 @@ export class DrawerService {
     }
   }
 
-  revertCoordinates(canvas, context) {
+  invertYAxis(canvas, context) {
     // set the canvas origin (0,0) to center canvas
     // All coordinates$ to the left of center canvas are negative
     // All coordinates$ below center canvas are negative
+    this.yAxisInverted = true;
     context.translate(canvas.width / 2, canvas.height / 2);
     return context;
   }
 
   drawLine(context, p1: Point, p2: Point) {
     context.beginPath();
-    context.moveTo(p1.x, p1.y);
-    context.lineTo(p2.x, p2.y);
+    context.moveTo(p1.x, this.yAxisInverted ? -p1.y : p1.y);
+    context.lineTo(p2.x, this.yAxisInverted ? -p2.y : p2.y);
     context.stroke();
   }
-
-
 }

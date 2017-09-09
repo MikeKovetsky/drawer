@@ -1,8 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DrawerService} from "../services/drawer.service";
+import {CursorPositionService} from "../services/cursor-position.service";
 import {DrawerCanvas} from "../models/canvas.model";
 import {Point} from "../models/point.model";
-import {CursorPositionService} from "../services/cursor-position.service";
 
 @Component({
   selector: 'app-canvas',
@@ -29,15 +29,13 @@ export class CanvasComponent implements OnInit {
     this.context = this.canvas.getContext();
     this.drawer.initGrid(this.canvas, this.context);
     this.drawer.initAxis(this.canvas, this.context);
-    this.drawer.revertCoordinates(this.canvas, this.context);
+    this.drawer.invertYAxis(this.canvas, this.context);
     this.drawer.drawLine(this.context, new Point(0,0), new Point(200, 200));
   }
 
-  getCursorPosition(event) {
+  updateCursorPosition(event) {
     const rect = this.domCanvas.nativeElement.getBoundingClientRect();
-    const x = event.clientX - rect.left - this.canvas.width / 2;
-    const y = event.clientY - rect.top - this.canvas.height / 2;
-    this.cursorPosition.coordinates$.next(new Point(x, y))
+    this.cursorPosition.updatePosition(event, rect, this.canvas);
   }
 
 }
