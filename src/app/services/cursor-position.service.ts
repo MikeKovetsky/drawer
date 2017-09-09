@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Point} from "../models/point.model";
 import {Subject} from "rxjs/Subject";
+import {Point} from "../models/point.model";
+import {DrawerCanvas} from "../models/canvas.model";
 
 @Injectable()
 export class CursorPositionService {
@@ -9,9 +10,9 @@ export class CursorPositionService {
   constructor() {
   }
 
-  updatePosition(event, rect, canvas) {
-    const x = event.clientX - rect.left - canvas.width / 2;
-    const y = -(event.clientY - rect.top - canvas.height / 2);
+  updatePosition(clientPosition: Point, canvas: DrawerCanvas, rect) {
+    const x = clientPosition.x - rect.left - canvas.width / 2;
+    const y = -(clientPosition.y - rect.top - canvas.height / 2);
     this.coordinates$.next(new Point(x, y))
   }
 

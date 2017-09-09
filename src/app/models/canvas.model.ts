@@ -11,7 +11,7 @@ export class DrawerCanvas {
     this.canvas.setAttribute('width', width);
     this.canvas.setAttribute('height', height);
   }
-  getContext() {
+  getContext(): CanvasRenderingContext2D | null {
     if (this.canvas.getContext) {
       return this.canvas.getContext('2d');
     } else {

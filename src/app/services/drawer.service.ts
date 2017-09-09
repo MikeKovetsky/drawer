@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Point} from "../models/point.model";
+import {DrawerCanvas} from "../models/canvas.model";
 
 @Injectable()
 export class DrawerService {
@@ -7,7 +8,7 @@ export class DrawerService {
 
   constructor() { }
 
-  initGrid(canvas, context) {
+  initGrid(canvas: DrawerCanvas, context) {
     context.globalAlpha = 0.2;
     for (let i = 0; i < canvas.width; i += canvas.vectorLength) {
       //vertical lines
@@ -21,7 +22,7 @@ export class DrawerService {
     return canvas;
   }
 
-  initAxis(canvas, context) {
+  initAxis(canvas: DrawerCanvas, context) {
     //x and y axis
     this.drawLine(context, new Point(0, canvas.height / 2) , new Point(canvas.width, canvas.height / 2));
     this.drawLine(context, new Point(canvas.width / 2, 0) , new Point(canvas.width / 2, canvas.height));

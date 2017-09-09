@@ -12,7 +12,7 @@ import {Point} from "../models/point.model";
 export class CanvasComponent implements OnInit {
   @ViewChild('canvas') domCanvas: ElementRef;
   canvas: DrawerCanvas;
-  context;
+  context: CanvasRenderingContext2D;
 
   private readonly CANVAS_CONFIG = {
     width: 1000,
@@ -33,9 +33,10 @@ export class CanvasComponent implements OnInit {
     this.drawer.drawLine(this.context, new Point(0,0), new Point(200, 200));
   }
 
-  updateCursorPosition(event) {
+  updateCursorPosition(ev: MouseEvent) {
     const rect = this.domCanvas.nativeElement.getBoundingClientRect();
-    this.cursorPosition.updatePosition(event, rect, this.canvas);
+    const clientPos = new Point(ev.clientX, ev.clientY);
+    this.cursorPosition.updatePosition(clientPos, this.canvas, rect);
   }
 
 }
