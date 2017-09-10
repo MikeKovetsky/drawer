@@ -65,7 +65,7 @@ export class DrawerService {
     if (controlPoint === null) {
       this.context.lineTo(p2.x, p2.y);
     } else {
-      controlPoint = new Point(controlPoint.x, -controlPoint.y)
+      controlPoint = new Point(controlPoint.x, -controlPoint.y);
       this.context.quadraticCurveTo(controlPoint.x, controlPoint.y, p2.x, p2.y)
     }
     this.context.stroke();

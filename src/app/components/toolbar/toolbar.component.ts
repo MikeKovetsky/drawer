@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormGroup} from "@angular/forms";
 
 import {DrawerService} from "../../services/drawer.service";
@@ -10,16 +10,12 @@ import {SupportedLineType} from "../../configs/supported-lines";
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.css']
 })
-export class ToolbarComponent implements OnInit {
+export class ToolbarComponent {
   readonly lineTypes = SupportedLineType;
   lineType = this.lineTypes.Line;
 
   constructor(private drawer: DrawerService,
               private selection: SelectionService) {
-  }
-
-  ngOnInit() {
-
   }
 
   add(event: FormGroup, lineType: SupportedLineType) {
