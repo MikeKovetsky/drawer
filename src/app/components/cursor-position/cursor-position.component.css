@@ -1,15 +1,23 @@
 .box {
-  border: 1px solid #aaa;
-  border-radius: 5px;
   position: fixed;
-  top: 40px;
-  left: 40px;
-  background: white;
-  width: 70px;
+  bottom: 0;
+  left: 50%;
+  background: #333;
+  width: 90px;
   padding: 6px;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 14px;
+  text-align: center;
+  border-radius: 6px 6px 0 0;
 }
 
-.nearest {
+.box-nearest {
+  border-radius: 6px;
+  background: #333;
+  width: 60px;
+  padding: 6px;
   position: absolute;
-  color: #2e7d32;
+  font-size: 14px;
+  color: white;
 }
