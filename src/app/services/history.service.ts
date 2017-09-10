@@ -3,11 +3,9 @@ import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {HistoryEvent} from "../models/history-event.model";
 import {Point} from "../models/point.model";
 
-const blankEvent = new HistoryEvent(new Point(), new Point(), false);
-
 @Injectable()
 export class HistoryService {
-  history$ = new BehaviorSubject<HistoryEvent[]>([blankEvent]);
+  history$ = new BehaviorSubject<HistoryEvent[]>([]);
   isRecording = false;
 
   constructor() {
@@ -15,10 +13,8 @@ export class HistoryService {
 
   add(p1: Point, p2: Point) {
     if (!this.isRecording) return;
-    const history = this.history$.getValue() || [];
-    history.pop();
+    const history = this.history$.getValue();
     history.push(new HistoryEvent(p1, p2));
-    history.push(new HistoryEvent(p2, new Point(), false));
     this.history$.next(history);
   }
 

@@ -5,6 +5,7 @@
 
 .mat-select {
   width: 140px;
+  margin-bottom: 10px;
 }
 
 .toolbar {
@@ -25,6 +26,6 @@
   display: flex;
 }
 
-.toolbar__select {
-  margin-bottom: 10px;
+.toolbar__header {
+  display: flex;
 }

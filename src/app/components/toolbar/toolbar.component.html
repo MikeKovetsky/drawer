@@ -1,11 +1,15 @@
 <section class="toolbar">
   <form [formGroup]="newEvent" (ngSubmit)="add(newEvent)">
 
-    <md-select placeholder="Line type" color="toolbar__select" formControlName="lineType">
-      <md-option [value]="lineTypes.Line">Default line</md-option>
-      <md-option [value]="lineTypes.QuadraticCurve">QuadraticCurve</md-option>
-      <!--<md-option [value]="lineTypes.Circle">Circle</md-option>-->
-    </md-select>
+    <header class="toolbar__header">
+      <md-select placeholder="Line type" formControlName="lineType">
+        <md-option [value]="lineTypes.Line">Default line</md-option>
+        <md-option [value]="lineTypes.QuadraticCurve">QuadraticCurve</md-option>
+        <!--<md-option [value]="lineTypes.Circle">Circle</md-option>-->
+      </md-select>
+
+      <app-cursor-position></app-cursor-position>
+    </header>
 
     <div class="toolbar__group">
       <div formGroupName="p1">

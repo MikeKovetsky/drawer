@@ -34,7 +34,7 @@ export class ToolbarComponent implements OnInit {
         x: [null, [Validators.min(GRID_CONFIG.minX), Validators.max(GRID_CONFIG.maxX)]],
         y: [null, [Validators.min(GRID_CONFIG.minY), Validators.max(GRID_CONFIG.maxY)]],
       }),
-      lineType: this.lineTypes.Line
+      lineType: [this.lineTypes.Line, Validators.required]
     });
 
 
@@ -52,7 +52,7 @@ export class ToolbarComponent implements OnInit {
 
   add(event: FormGroup) {
     const points = event.value;
-    switch (points.lineTypes) {
+    switch (points.lineType) {
       case (this.lineTypes.Line):
         this.drawer.drawLine(points.p1, points.p2);
         break;
@@ -64,6 +64,7 @@ export class ToolbarComponent implements OnInit {
         break;
     }
     this.selection.set(points.p2);
-    this.newEvent.reset();
+    this.newEvent.controls.p1.setValue(points.p2);
+    this.newEvent.controls.p2.reset();
   }
 }

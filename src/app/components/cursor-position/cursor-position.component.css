@@ -1,15 +1,14 @@
 .box {
   position: fixed;
   bottom: 0;
-  left: 50%;
+  right: 0;
   background: #333;
   width: 90px;
   padding: 6px;
-  transform: translateX(-50%);
   color: white;
   font-size: 14px;
   text-align: center;
-  border-radius: 6px 6px 0 0;
+  border: 1px solid #888;
 }
 
 .box-nearest {
