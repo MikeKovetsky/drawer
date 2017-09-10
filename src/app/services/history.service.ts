@@ -17,8 +17,8 @@ export class HistoryService {
     if (!this.isRecording) return;
     const history = this.history$.getValue() || [];
     history.pop();
-    history.push(new HistoryEvent(p1, p2, true));
-    history.push(blankEvent);
+    history.push(new HistoryEvent(p1, p2));
+    history.push(new HistoryEvent(p2, new Point(), false));
     this.history$.next(history);
   }
 

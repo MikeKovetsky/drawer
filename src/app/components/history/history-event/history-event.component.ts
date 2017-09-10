@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {HistoryEvent} from "../../../models/history-event.model";
 import {DrawerService} from "../../../services/drawer.service";
 import {SelectionService} from "../../../services/selection.service";
+import {CursorPositionService} from "../../../services/cursor-position.service";
 
 import {Point} from "../../../models/point.model";
 
@@ -35,14 +36,24 @@ export class HistoryEventComponent implements OnInit {
       })
     });
 
-    let selection = new Point();
+    // let selection = new Point();
 
-    this.newEvent.valueChanges.subscribe((val) => {
-      if (val.p1.x !== null && val.p1.y !== null && selection !== val.p1) {
-        selection = val.p1;
-        this.selection.set(selection);
-      }
-    })
+    // this.newEvent.valueChanges.subscribe((val) => {
+    //   if (val.p1.x !== null && val.p1.y !== null && selection !== val.p1) {
+    //     selection = val.p1;
+    //     this.selection.set(selection);
+    //   }
+    // });
+
+    this.selection.get().subscribe(pos => {
+      if (!pos) return;
+      this.newEvent.patchValue({
+        p1: {
+          x: pos.x,
+          y: pos.y
+        }
+      });
+    });
   }
 
   add(event: FormGroup) {
