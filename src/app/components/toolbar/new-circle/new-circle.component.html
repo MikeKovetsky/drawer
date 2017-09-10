@@ -1,0 +1,21 @@
+<form [formGroup]="newEventForm" (ngSubmit)="submit(newEventForm)">
+  <div class="toolbar__group">
+    <div formGroupName="circleCenter">
+      <div class="toolbar__label">Circle center</div>
+      <md-form-field>
+        <input mdInput type="number" placeholder="x" formControlName="x" name="cpx">
+      </md-form-field>
+      <md-form-field>
+        <input mdInput type="number" placeholder="y" formControlName="y" name="cpy">
+      </md-form-field>
+    </div>
+
+    <div>
+      <div class="toolbar__label">Circle radius:</div>
+      <md-form-field>
+        <input mdInput type="number" placeholder="Circle Radius" formControlName="radius" name="radius">
+      </md-form-field>
+    </div>
+  </div>
+  <button md-raised-button [disabled]="!newEventForm.valid">Add Circle</button>
+</form>

@@ -1,0 +1,36 @@
+<form [formGroup]="newEventForm" (ngSubmit)="submit(newEventForm)">
+  <div class="toolbar__group">
+    <div formGroupName="p1">
+      <div class="toolbar__label">Start point:</div>
+      <md-form-field>
+        <input mdInput type="number" placeholder="x" formControlName="x" name="p1x">
+        <md-error *ngIf="newEventForm.get('p1').get('x').invalid && newEventForm.get('p1').get('x').touched">
+          Your value is out of bounds
+        </md-error>
+      </md-form-field>
+      <md-form-field>
+        <input mdInput type="number" placeholder="y" formControlName="y" name="p1y">
+        <md-error *ngIf="newEventForm.get('p1').get('y').invalid && newEventForm.get('p1').get('y').touched">
+          Your value is out of bounds
+        </md-error>
+      </md-form-field>
+    </div>
+
+    <div formGroupName="p2">
+      <div class="toolbar__label">End point:</div>
+      <md-form-field>
+        <input mdInput type="number" placeholder="x" formControlName="x" name="p2x">
+        <md-error *ngIf="newEventForm.get('p2').get('x').invalid && newEventForm.get('p2').get('x').touched">
+          Your value is out of bounds
+        </md-error>
+      </md-form-field>
+      <md-form-field>
+        <input mdInput type="number" placeholder="y" formControlName="y" name="p2y">
+        <md-error *ngIf="newEventForm.get('p2').get('y').invalid && newEventForm.get('p2').get('y').touched">
+          Your value is out of bounds
+        </md-error>
+      </md-form-field>
+    </div>
+  </div>
+  <button md-raised-button [disabled]="!newEventForm.valid">Add Line</button>
+</form>

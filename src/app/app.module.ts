@@ -19,6 +19,9 @@ import {SelectionService} from "./services/selection.service";
 import {HelpersService} from "./services/helpers.service";
 import {ToolbarComponent} from './components/toolbar/toolbar.component';
 import { PointPositionComponent } from './components/point-position/point-position.component';
+import { NewCircleComponent } from './components/toolbar/new-circle/new-circle.component';
+import { NewLineComponent } from './components/toolbar/new-line/new-line.component';
+import { NewCurveComponent } from './components/toolbar/new-curve/new-curve.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,10 @@ import { PointPositionComponent } from './components/point-position/point-positi
     CursorPositionComponent,
     SelectionComponent,
     ToolbarComponent,
-    PointPositionComponent
+    PointPositionComponent,
+    NewCircleComponent,
+    NewLineComponent,
+    NewCurveComponent
   ],
   imports: [
     BrowserModule,

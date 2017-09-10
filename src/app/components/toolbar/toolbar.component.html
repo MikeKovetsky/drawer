@@ -1,61 +1,18 @@
 <section class="toolbar">
-  <form [formGroup]="newEvent" (ngSubmit)="add(newEvent)">
 
-    <header class="toolbar__header">
-      <md-select placeholder="Line type" formControlName="lineType">
-        <md-option [value]="lineTypes.Line">Default line</md-option>
-        <md-option [value]="lineTypes.QuadraticCurve">QuadraticCurve</md-option>
-        <!--<md-option [value]="lineTypes.Circle">Circle</md-option>-->
-      </md-select>
+  <header class="toolbar__header">
+    <md-select placeholder="Line type" [(ngModel)]="lineType">
+      <md-option [value]="lineTypes.Line">Default line</md-option>
+      <md-option [value]="lineTypes.QuadraticCurve">QuadraticCurve</md-option>
+      <md-option [value]="lineTypes.Circle">Circle</md-option>
+    </md-select>
 
-      <app-cursor-position></app-cursor-position>
-    </header>
+    <app-cursor-position></app-cursor-position>
+  </header>
 
-    <div class="toolbar__group">
-      <div formGroupName="p1">
-        <div class="toolbar__label">Start point:</div>
-        <md-form-field>
-          <input mdInput type="number" placeholder="x" formControlName="x" name="p1x">
-          <md-error *ngIf="newEvent.get('p1').get('x').invalid && newEvent.get('p1').get('x').touched">
-            Your value is out of bounds
-          </md-error>
-        </md-form-field>
-        <md-form-field>
-          <input mdInput type="number" placeholder="y" formControlName="y" name="p1y">
-          <md-error class="error" *ngIf="newEvent.get('p1').get('y').invalid && newEvent.get('p1').get('y').touched">
-            Your value is out of bounds
-          </md-error>
-        </md-form-field>
-      </div>
+  <app-new-line (newEvent)="add($event, lineType)" *ngIf="lineType === lineTypes.Line"></app-new-line>
+  <app-new-curve (newEvent)="add($event, lineType)" *ngIf="lineType === lineTypes.QuadraticCurve"></app-new-curve>
+  <app-new-circle (newEvent)="add($event, lineType)" *ngIf="lineType === lineTypes.Circle"></app-new-circle>
 
-      <div formGroupName="p2">
-        <div class="toolbar__label">End point:</div>
-        <md-form-field>
-          <input mdInput type="number" placeholder="x" formControlName="x" name="p2x">
-          <md-error class="error" *ngIf="newEvent.get('p2').get('x').invalid && newEvent.get('p2').get('x').touched">
-            Your value is out of bounds
-          </md-error>
-        </md-form-field>
-        <md-form-field>
-          <input mdInput type="number" placeholder="y" formControlName="y" name="p2y">
-          <md-error class="error" *ngIf="newEvent.get('p2').get('y').invalid && newEvent.get('p2').get('y').touched">
-            Your value is out of bounds
-          </md-error>
-        </md-form-field>
-      </div>
 
-      <div formGroupName="controlPoint" *ngIf="newEvent.get('lineType').value === lineTypes.QuadraticCurve">
-        <div class="toolbar__label">Curve control point:</div>
-        <md-form-field>
-          <input mdInput type="number" placeholder="x" formControlName="x" name="cpx">
-        </md-form-field>
-        <md-form-field>
-          <input mdInput type="number" placeholder="y" formControlName="y" name="cpy">
-        </md-form-field>
-      </div>
-    </div>
-
-    <button md-raised-button [disabled]="!newEvent.valid">Add line</button>
-
-  </form>
 </section>

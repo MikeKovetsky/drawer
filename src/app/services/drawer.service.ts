@@ -71,4 +71,14 @@ export class DrawerService {
     this.context.stroke();
   }
 
+  drawCircle(p: Point, radius: number) {
+    this.history.add(p, p);
+    if (this.yAxisInverted) {
+      p = new Point(p.x, -p.y) ;
+    }
+
+    this.context.beginPath();
+    this.context.arc(p.x, p.y, radius,0,2*Math.PI);
+    this.context.stroke();
+  }
 }

@@ -1,7 +1,7 @@
 .box {
   position: fixed;
-  bottom: 0;
-  right: 0;
+  top: 0;
+  left: 0;
   background: #333;
   width: 90px;
   padding: 6px;

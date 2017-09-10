@@ -1,4 +1,4 @@
-.mat-form-field {
+/deep/ .mat-form-field {
   width: 100px;
   margin-right: 10px;
 }
@@ -22,7 +22,7 @@
   margin-right: 10px;
 }
 
-.toolbar__group {
+/deep/ .toolbar__group {
   display: flex;
 }
 
