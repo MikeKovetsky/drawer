@@ -61,8 +61,8 @@ export class HistoryEventComponent implements OnInit {
 
   add(event: FormGroup) {
     const points = event.value;
-    this.drawer.drawLine(points.p1, points.p2, points.controlPoint);
-    this.selection.set(event.value.p2);
+    this.drawer.drawLine(points.p1, points.p2, points.arc ? points.controlPoint : null);
+    this.selection.set(points.p2);
     this.newEvent.reset();
   }
 

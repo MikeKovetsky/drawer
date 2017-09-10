@@ -62,7 +62,7 @@ export class DrawerService {
 
     this.context.beginPath();
     this.context.moveTo(p1.x, p1.y);
-    if (controlPoint === null || controlPoint.x === null || controlPoint.y === null) {
+    if (controlPoint === null) {
       this.context.lineTo(p2.x, p2.y);
     } else {
       controlPoint = new Point(controlPoint.x, -controlPoint.y)
