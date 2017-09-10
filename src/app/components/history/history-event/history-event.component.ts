@@ -1,9 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 import {HistoryEvent} from "../../../models/history-event.model";
-import {HistoryService} from "../../../services/history.service";
 import {DrawerService} from "../../../services/drawer.service";
+import {SelectionService} from "../../../services/selection.service";
+
+import {Point} from "../../../models/point.model";
 
 @Component({
   selector: 'app-history-event',
@@ -15,7 +17,8 @@ export class HistoryEventComponent implements OnInit {
   newEvent: FormGroup;
 
   constructor(private fb: FormBuilder,
-              private drawer: DrawerService) {
+              private drawer: DrawerService,
+              private selection: SelectionService) {
   }
 
   ngOnInit() {
@@ -30,11 +33,17 @@ export class HistoryEventComponent implements OnInit {
         x: ['', Validators.required],
         y: ['', Validators.required],
       })
+    });
+
+    this.newEvent.valueChanges.subscribe(val => {
+      if (val.p1.x !== '' && val.p1.y !== '') {
+        this.selection.set(new Point(val.p1.x, val.p1.y));
+      }
     })
   }
 
   add(event: FormGroup) {
-    this.drawer.drawLine(event.value.p1 , event.value.p2);
+    this.drawer.drawLine(event.value.p1, event.value.p2);
     this.newEvent.reset();
   }
 

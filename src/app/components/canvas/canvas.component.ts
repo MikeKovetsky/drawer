@@ -7,6 +7,7 @@ import {CANVAS_CONFIG} from "../../configs/canvas-config";
 
 import {DrawerCanvas} from "../../models/canvas.model";
 import {Point} from "../../models/point.model";
+import {SelectionService} from "../../services/selection.service";
 
 @Component({
   selector: 'app-canvas',
@@ -21,6 +22,7 @@ export class CanvasComponent implements OnInit {
   constructor(
     private drawer: DrawerService,
     private history: HistoryService,
+    private selection: SelectionService,
     private cursorPosition: CursorPositionService) { }
 
   ngOnInit() {
@@ -30,6 +32,10 @@ export class CanvasComponent implements OnInit {
     this.drawer.initAxis(this.canvas);
     this.drawer.invertYAxis(this.canvas);
     this.history.isRecording = true;
+
+    this.selection.position$.asObservable().subscribe(pos => {
+      this.selected = pos;
+    })
   }
 
   updateCursorPosition(ev: MouseEvent) {

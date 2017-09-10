@@ -8,11 +8,12 @@ import {CanvasComponent} from './components/canvas/canvas.component';
 import {HistoryComponent} from './components/history/history.component';
 import {HistoryEventComponent} from './components/history/history-event/history-event.component';
 import {CursorPositionComponent} from './components/cursor-position/cursor-position.component';
+import {SelectionComponent} from './components/selection/selection.component';
 
 import {DrawerService} from "./services/drawer.service";
 import {CursorPositionService} from "./services/cursor-position.service";
 import {HistoryService} from "./services/history.service";
-import {SelectionComponent} from './components/selection/selection.component';
+import {SelectionService} from "./services/selection.service";
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import {SelectionComponent} from './components/selection/selection.component';
   providers: [
     DrawerService,
     HistoryService,
-    CursorPositionService
+    CursorPositionService,
+    SelectionService
   ],
   bootstrap: [AppComponent]
 })
