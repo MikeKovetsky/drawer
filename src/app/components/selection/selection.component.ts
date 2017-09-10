@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Input, OnChanges} from '@angular/core';
 import {Point} from "../../models/point.model";
 import {CANVAS_CONFIG} from "../../configs/canvas-config";
 

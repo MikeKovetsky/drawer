@@ -4,9 +4,6 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {HistoryEvent} from "../../../models/history-event.model";
 import {DrawerService} from "../../../services/drawer.service";
 import {SelectionService} from "../../../services/selection.service";
-import {CursorPositionService} from "../../../services/cursor-position.service";
-
-import {Point} from "../../../models/point.model";
 
 @Component({
   selector: 'app-history-event',

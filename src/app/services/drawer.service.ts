@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {HistoryService} from "./history.service";
-import {SelectionService} from "./selection.service";
 import {Point} from "../models/point.model";
 import {DrawerCanvas} from "../models/canvas.model";
 
@@ -9,8 +8,7 @@ export class DrawerService {
   yAxisInverted = false;
   context: CanvasRenderingContext2D;
 
-  constructor(private history: HistoryService,
-              private selection: SelectionService) {
+  constructor(private history: HistoryService) {
   }
 
   setContext(canvas: DrawerCanvas) {

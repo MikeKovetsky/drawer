@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Subject} from "rxjs/Subject";
 import {Point} from "../models/point.model";
 import {DrawerCanvas} from "../models/canvas.model";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";

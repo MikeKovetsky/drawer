@@ -54,8 +54,4 @@ export class CanvasComponent implements OnInit {
     }
   }
 
-  private setSelection(point: Point) {
-    this.selected = point;
-  }
-
 }
