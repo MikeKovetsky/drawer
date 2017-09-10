@@ -25,17 +25,17 @@ export class ToolbarComponent {
     switch (lineType) {
       case (this.lineTypes.Line):
         this.drawer.drawLine(points.p1, points.p2);
-        this.history.add([points.p1, points.p2]);
+        this.history.add([points.p1, points.p2], lineType);
         this.selection.set(points.p2);
         break;
       case (this.lineTypes.QuadraticCurve):
         this.drawer.drawLine(points.p1, points.p2, points.controlPoint);
-        this.history.add([points.p1, points.p2, points.controlPoint]);
+        this.history.add([points.p1, points.p2, points.controlPoint], lineType);
         this.selection.set(points.p2);
         break;
       case (this.lineTypes.Circle):
         this.drawer.drawCircle(points.circleCenter, points.radius);
-        this.history.add([points.circleCenter]);
+        this.history.add([points.circleCenter], lineType);
         this.selection.set(points.circleCenter);
         break;
     }

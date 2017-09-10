@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {HistoryEvent} from "../../../models/history-event.model";
+import {SupportedLineType} from "../../../configs/supported-lines";
 
 @Component({
   selector: 'app-history-event',
@@ -8,6 +9,7 @@ import {HistoryEvent} from "../../../models/history-event.model";
 })
 export class HistoryEventComponent{
   @Input() event: HistoryEvent;
+  readonly lineTypes = SupportedLineType;
 
   constructor() {
   }

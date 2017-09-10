@@ -8,6 +8,7 @@ import {CANVAS_CONFIG} from "../../configs/canvas-config";
 import {DrawerCanvas} from "../../models/canvas.model";
 import {Point} from "../../models/point.model";
 import {SelectionService} from "../../services/selection.service";
+import {SupportedLineType} from "../../configs/supported-lines";
 
 @Component({
   selector: 'app-canvas',
@@ -48,7 +49,7 @@ export class CanvasComponent implements OnInit {
     const clicked: Point = this.cursorPosition.coordinates$.getValue();
     if (this.selected) {
       this.drawer.drawLine(this.selected, clicked);
-      this.history.add([this.selected, clicked]);
+      this.history.add([this.selected, clicked], SupportedLineType.Line);
       this.selection.set(clicked)
     } else {
       this.selection.set(this.cursorPosition.coordinates$.getValue())

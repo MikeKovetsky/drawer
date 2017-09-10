@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HistoryService} from "./history.service";
 import {Point} from "../models/point.model";
 import {DrawerCanvas} from "../models/canvas.model";
+import {SupportedLineType} from "../configs/supported-lines";
 
 @Injectable()
 export class DrawerService {
@@ -71,7 +72,6 @@ export class DrawerService {
   }
 
   drawCircle(p: Point, radius: number) {
-    this.history.add([p]);
     if (this.yAxisInverted) {
       p = new Point(p.x, -p.y) ;
     }

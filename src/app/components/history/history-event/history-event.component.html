@@ -1,9 +1,20 @@
 <section class="event">
   <div>
-    <div>
-      Points:
-      <div *ngFor="let point of event.points; let i = index;">
-       Point #{{i}}: ({{point.x}}, {{point.y}})
+    <div [ngSwitch]="event.lineType">
+      <div *ngSwitchCase="lineTypes.Line">
+        <div>Line:</div>
+        <div>Start: ({{event.points[0].x}}, {{event.points[0].y}})</div>
+        <div>End: ({{event.points[1].x}}, {{event.points[1].y}})</div>
+      </div>
+      <div *ngSwitchCase="lineTypes.QuadraticCurve">
+        <div>Curve:</div>
+        <div>Start: ({{event.points[0].x}}, {{event.points[0].y}})</div>
+        <div>End: ({{event.points[1].x}}, {{event.points[1].y}})</div>
+        <div>Control Point: ({{event.points[2].x}}, {{event.points[2].y}})</div>
+      </div>
+      <div *ngSwitchCase="lineTypes.Circle">
+        <div>Circle:</div>
+        <div>Center: ({{event.points[0].x}}, {{event.points[0].y}})</div>
       </div>
     </div>
   </div>
