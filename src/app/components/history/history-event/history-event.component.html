@@ -10,12 +10,24 @@
       <div formGroupName="p1">
         Start point:
         <input type="number" placeholder="P1 X" formControlName="x" name="p1x">
+        <div class="error" *ngIf="newEvent.get('p1').get('x').invalid && newEvent.get('p1').get('x').touched">
+          Your value is out of bounds
+        </div>
         <input type="number" placeholder="P1 Y" formControlName="y" name="p1y">
+        <div class="error" *ngIf="newEvent.get('p1').get('y').invalid && newEvent.get('p1').get('y').touched">
+          Your value is out of bounds
+        </div>
       </div>
       <div formGroupName="p2">
         End point:
         <input type="number" placeholder="P2 X" formControlName="x" name="p2x">
+        <div class="error" *ngIf="newEvent.get('p2').get('x').invalid && newEvent.get('p2').get('x').touched">
+          Your value is out of bounds
+        </div>
         <input type="number" placeholder="P2 Y" formControlName="y" name="p2y">
+        <div class="error" *ngIf="newEvent.get('p2').get('y').invalid && newEvent.get('p2').get('y').touched">
+          Your value is out of bounds
+        </div>
         <button [disabled]="!newEvent.valid">Add line</button>
       </div>
     </form>

@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {GRID_CONFIG} from "../../../configs/canvas-config";
 
 import {HistoryEvent} from "../../../models/history-event.model";
 import {DrawerService} from "../../../services/drawer.service";
@@ -24,12 +25,12 @@ export class HistoryEventComponent implements OnInit {
 
     this.newEvent = this.fb.group({
       p1: this.fb.group({
-        x: [null, Validators.required],
-        y: [null, Validators.required],
+        x: [null, [Validators.required, Validators.min(GRID_CONFIG.minX), Validators.max(GRID_CONFIG.maxX)]],
+        y: [null, [Validators.required, Validators.min(GRID_CONFIG.minX), Validators.max(GRID_CONFIG.maxX)]],
       }),
       p2: this.fb.group({
-        x: [null, Validators.required],
-        y: [null, Validators.required],
+        x: [null, [Validators.required, Validators.min(GRID_CONFIG.minX), Validators.max(GRID_CONFIG.maxX)]],
+        y: [null, [Validators.required, Validators.min(GRID_CONFIG.minY), Validators.max(GRID_CONFIG.maxY)]],
       })
     });
 

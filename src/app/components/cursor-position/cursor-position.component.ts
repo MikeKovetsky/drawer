@@ -31,6 +31,7 @@ export class CursorPositionComponent implements OnInit {
         }
         return closeEnough ? newDistance : distance;
       }, Number.MAX_SAFE_INTEGER);
+
       if (distance === Number.MAX_SAFE_INTEGER) {
         this.nearestPoint = null;
       }
