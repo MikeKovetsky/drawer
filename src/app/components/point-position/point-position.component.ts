@@ -5,7 +5,7 @@ import {HelpersService} from "../../services/helpers.service";
 import {Point} from "../../models/point.model";
 
 @Component({
-  selector: 'app-point-position',
+  selector: 'drawer-point-position',
   templateUrl: './point-position.component.html',
   styleUrls: ['./point-position.component.css']
 })

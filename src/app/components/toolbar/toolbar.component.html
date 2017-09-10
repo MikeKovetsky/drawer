@@ -7,12 +7,12 @@
       <md-option [value]="lineTypes.Circle">Circle</md-option>
     </md-select>
 
-    <app-cursor-position></app-cursor-position>
+    <drawer-cursor-position></drawer-cursor-position>
   </header>
 
-  <app-new-line (newEvent)="add($event, lineType)" *ngIf="lineType === lineTypes.Line"></app-new-line>
-  <app-new-curve (newEvent)="add($event, lineType)" *ngIf="lineType === lineTypes.QuadraticCurve"></app-new-curve>
-  <app-new-circle (newEvent)="add($event, lineType)" *ngIf="lineType === lineTypes.Circle"></app-new-circle>
+  <drawer-new-line (newEvent)="add($event, lineType)" *ngIf="lineType === lineTypes.Line"></drawer-new-line>
+  <drawer-new-curve (newEvent)="add($event, lineType)" *ngIf="lineType === lineTypes.QuadraticCurve"></drawer-new-curve>
+  <drawer-new-circle (newEvent)="add($event, lineType)" *ngIf="lineType === lineTypes.Circle"></drawer-new-circle>
 
 
 </section>

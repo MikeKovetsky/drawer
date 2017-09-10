@@ -4,7 +4,7 @@ import {GRID_CONFIG} from "../../../configs/canvas-config";
 import {SelectionService} from "../../../services/selection.service";
 
 @Component({
-  selector: 'app-new-line',
+  selector: 'drawer-new-line',
   templateUrl: './new-line.component.html'
 })
 export class NewLineComponent implements OnInit {

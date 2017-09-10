@@ -7,7 +7,7 @@ import {SelectionService} from "../../services/selection.service";
 import {HistoryService} from "../../services/history.service";
 
 @Component({
-  selector: 'app-toolbar',
+  selector: 'drawer-toolbar',
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.css']
 })

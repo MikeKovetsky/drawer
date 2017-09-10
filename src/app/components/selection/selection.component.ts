@@ -3,7 +3,7 @@ import {Point} from "../../models/point.model";
 import {HelpersService} from "../../services/helpers.service";
 
 @Component({
-  selector: 'app-selection',
+  selector: 'drawer-selection',
   templateUrl: './selection.component.html',
   styleUrls: ['./selection.component.css']
 })

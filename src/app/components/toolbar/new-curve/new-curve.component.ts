@@ -4,7 +4,7 @@ import {SelectionService} from "../../../services/selection.service";
 import {GRID_CONFIG} from "../../../configs/canvas-config";
 
 @Component({
-  selector: 'app-new-curve',
+  selector: 'drawer-new-curve',
   templateUrl: './new-curve.component.html'
 })
 export class NewCurveComponent implements OnInit {

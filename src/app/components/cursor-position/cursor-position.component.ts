@@ -3,7 +3,7 @@ import {CursorPositionService} from "../../services/cursor-position.service";
 import {Point} from "../../models/point.model";
 
 @Component({
-  selector: 'app-cursor-position',
+  selector: 'drawer-cursor-position',
   templateUrl: './cursor-position.component.html',
   styleUrls: ['./cursor-position.component.css'],
 })

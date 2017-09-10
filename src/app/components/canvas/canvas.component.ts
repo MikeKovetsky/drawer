@@ -11,7 +11,7 @@ import {SelectionService} from "../../services/selection.service";
 import {SupportedLineType} from "../../configs/supported-lines";
 
 @Component({
-  selector: 'app-canvas',
+  selector: 'drawer-canvas',
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.css']
 })

@@ -4,7 +4,7 @@ import {GRID_CONFIG} from "../../../configs/canvas-config";
 import {SelectionService} from "../../../services/selection.service";
 
 @Component({
-  selector: 'app-new-circle',
+  selector: 'drawer-new-circle',
   templateUrl: './new-circle.component.html'
 })
 export class NewCircleComponent implements OnInit {
