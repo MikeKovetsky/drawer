@@ -35,7 +35,7 @@ export class HistoryEventComponent implements OnInit {
       })
     });
 
-    let selection = new Point(0, 0);
+    let selection = new Point();
 
     this.newEvent.valueChanges.subscribe(val => {
       if (!(['', null].includes(val.p1.x) || ['', null].includes(val.p1.y) || selection === val.p1)) {
