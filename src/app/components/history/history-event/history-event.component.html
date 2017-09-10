@@ -36,8 +36,22 @@
             Your value is out of bounds
           </md-error>
         </md-form-field>
-        <button md-raised-button [disabled]="!newEvent.valid">Add line</button>
       </div>
+
+      <div>
+        <md-checkbox formControlName="arc">Arc</md-checkbox>
+      </div>
+
+      <div formGroupName="controlPoint" *ngIf="newEvent.get('arc').value === true">
+        <md-form-field>
+          <input mdInput type="number" placeholder="Control Point X" formControlName="x" name="cpx">
+        </md-form-field>
+        <md-form-field>
+          <input mdInput type="number" placeholder="Control Point Y" formControlName="y" name="cpy">
+        </md-form-field>
+      </div>
+
+      <button md-raised-button [disabled]="!newEvent.valid">Add line</button>
     </form>
   </div>
 </section>

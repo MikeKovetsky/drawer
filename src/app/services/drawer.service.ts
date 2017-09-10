@@ -53,10 +53,17 @@ export class DrawerService {
     this.context.translate(canvas.width / 2, canvas.height / 2);
   }
 
-  drawLine(p1: Point, p2: Point) {
+  drawLine(p1: Point, p2: Point, controlPoint: Point = null) {
     this.context.beginPath();
     this.context.moveTo(p1.x, this.yAxisInverted ? -p1.y : p1.y);
-    this.context.lineTo(p2.x, this.yAxisInverted ? -p2.y : p2.y);
+    if (controlPoint === null) {
+      this.context.lineTo(p2.x, this.yAxisInverted ? -p2.y : p2.y);
+    } else {
+      this.context.quadraticCurveTo(controlPoint.x,
+        this.yAxisInverted ? -controlPoint.y : controlPoint.y,
+        p2.x,
+        this.yAxisInverted ? -p2.y : p2.y)
+    }
     this.context.stroke();
     this.history.add(p1, p2);
   }

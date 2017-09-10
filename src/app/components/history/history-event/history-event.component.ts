@@ -26,12 +26,17 @@ export class HistoryEventComponent implements OnInit {
     this.newEvent = this.fb.group({
       p1: this.fb.group({
         x: [null, [Validators.required, Validators.min(GRID_CONFIG.minX), Validators.max(GRID_CONFIG.maxX)]],
-        y: [null, [Validators.required, Validators.min(GRID_CONFIG.minX), Validators.max(GRID_CONFIG.maxX)]],
+        y: [null, [Validators.required, Validators.min(GRID_CONFIG.minY), Validators.max(GRID_CONFIG.maxY)]],
       }),
       p2: this.fb.group({
         x: [null, [Validators.required, Validators.min(GRID_CONFIG.minX), Validators.max(GRID_CONFIG.maxX)]],
         y: [null, [Validators.required, Validators.min(GRID_CONFIG.minY), Validators.max(GRID_CONFIG.maxY)]],
-      })
+      }),
+      controlPoint: this.fb.group({
+        x: [null, [Validators.min(GRID_CONFIG.minX), Validators.max(GRID_CONFIG.maxX)]],
+        y: [null, [Validators.min(GRID_CONFIG.minY), Validators.max(GRID_CONFIG.maxY)]],
+      }),
+      arc: false
     });
 
     // let selection = new Point();
@@ -55,7 +60,8 @@ export class HistoryEventComponent implements OnInit {
   }
 
   add(event: FormGroup) {
-    this.drawer.drawLine(event.value.p1, event.value.p2);
+    const points = event.value;
+    this.drawer.drawLine(points.p1, points.p2, points.controlPoint);
     this.selection.set(event.value.p2);
     this.newEvent.reset();
   }
