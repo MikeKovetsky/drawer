@@ -3,7 +3,7 @@ import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {HistoryEvent} from "../models/history-event.model";
 import {Point} from "../models/point.model";
 
-const blankEvent = new HistoryEvent(new Point(0,0), new Point(0,0), false);
+const blankEvent = new HistoryEvent(new Point(), new Point(), false);
 
 @Injectable()
 export class HistoryService {

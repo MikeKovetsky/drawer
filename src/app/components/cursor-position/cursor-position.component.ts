@@ -8,7 +8,7 @@ import {Point} from "../../models/point.model";
   styleUrls: ['./cursor-position.component.css'],
 })
 export class CursorPositionComponent implements OnInit {
-  position = new Point(0, 0);
+  position = new Point();
 
   constructor(private cursorPosition: CursorPositionService) { }
 

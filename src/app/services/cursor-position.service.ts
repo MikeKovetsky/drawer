@@ -9,7 +9,7 @@ export class CursorPositionService {
   coordinates$ = new BehaviorSubject<Point>(null);
 
   constructor() {
-    this.coordinates$.next(new Point(0, 0));
+    this.coordinates$.next(new Point());
   }
 
   updatePosition(clientPosition: Point, canvas: DrawerCanvas, rect) {
