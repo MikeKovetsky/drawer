@@ -18,6 +18,7 @@ import {HistoryService} from "./services/history.service";
 import {SelectionService} from "./services/selection.service";
 import {HelpersService} from "./services/helpers.service";
 import {ToolbarComponent} from './components/toolbar/toolbar.component';
+import { PointPositionComponent } from './components/point-position/point-position.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {ToolbarComponent} from './components/toolbar/toolbar.component';
     HistoryEventComponent,
     CursorPositionComponent,
     SelectionComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    PointPositionComponent
   ],
   imports: [
     BrowserModule,
