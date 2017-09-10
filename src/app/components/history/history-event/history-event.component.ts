@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
-import {HistoryEvent} from "../../models/history-event.model";
-import {HistoryService} from "../../services/history.service";
-import {DrawerService} from "../../services/drawer.service";
+import {HistoryEvent} from "../../../models/history-event.model";
+import {HistoryService} from "../../../services/history.service";
+import {DrawerService} from "../../../services/drawer.service";
 
 @Component({
   selector: 'app-history-event',

@@ -1,12 +1,12 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 
-import {DrawerService} from "../services/drawer.service";
-import {CursorPositionService} from "../services/cursor-position.service";
-import {HistoryService} from "../services/history.service";
-import {CANVAS_CONFIG} from "../configs/canvas-config";
+import {DrawerService} from "../../services/drawer.service";
+import {CursorPositionService} from "../../services/cursor-position.service";
+import {HistoryService} from "../../services/history.service";
+import {CANVAS_CONFIG} from "../../configs/canvas-config";
 
-import {DrawerCanvas} from "../models/canvas.model";
-import {Point} from "../models/point.model";
+import {DrawerCanvas} from "../../models/canvas.model";
+import {Point} from "../../models/point.model";
 
 @Component({
   selector: 'app-canvas',

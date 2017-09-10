@@ -4,15 +4,15 @@ import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 import {AppComponent} from './app.component';
-import {CanvasComponent} from './canvas/canvas.component';
-import {HistoryComponent} from './history/history.component';
-import {HistoryEventComponent} from './history/history-event/history-event.component';
-import {CursorPositionComponent} from './cursor-position/cursor-position.component';
+import {CanvasComponent} from './components/canvas/canvas.component';
+import {HistoryComponent} from './components/history/history.component';
+import {HistoryEventComponent} from './components/history/history-event/history-event.component';
+import {CursorPositionComponent} from './components/cursor-position/cursor-position.component';
 
 import {DrawerService} from "./services/drawer.service";
 import {CursorPositionService} from "./services/cursor-position.service";
 import {HistoryService} from "./services/history.service";
-import { SelectionComponent } from './selection/selection.component';
+import {SelectionComponent} from './components/selection/selection.component';
 
 @NgModule({
   declarations: [
