@@ -61,6 +61,5 @@ export class DrawerService {
     this.context.lineTo(p2.x, this.yAxisInverted ? -p2.y : p2.y);
     this.context.stroke();
     this.history.add(p1, p2);
-    this.selection.set(p2);
   }
 }

@@ -47,6 +47,7 @@ export class HistoryEventComponent implements OnInit {
 
   add(event: FormGroup) {
     this.drawer.drawLine(event.value.p1, event.value.p2);
+    this.selection.set(event.value.p2);
     this.newEvent.reset();
   }
 
