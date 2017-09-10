@@ -1,7 +1,9 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+
 import {DrawerService} from "../services/drawer.service";
 import {CursorPositionService} from "../services/cursor-position.service";
 import {HistoryService} from "../services/history.service";
+import {CANVAS_CONFIG} from "../configs/canvas-config";
 
 import {DrawerCanvas} from "../models/canvas.model";
 import {Point} from "../models/point.model";
@@ -14,12 +16,7 @@ import {Point} from "../models/point.model";
 export class CanvasComponent implements OnInit {
   @ViewChild('canvas') domCanvas: ElementRef;
   canvas: DrawerCanvas;
-
-  private readonly CANVAS_CONFIG = {
-    width: 1000,
-    height: 600,
-    vectorLength: 20
-  };
+  selected: Point;
 
   constructor(
     private drawer: DrawerService,
@@ -27,7 +24,7 @@ export class CanvasComponent implements OnInit {
     private cursorPosition: CursorPositionService) { }
 
   ngOnInit() {
-    this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, this.CANVAS_CONFIG.width, this.CANVAS_CONFIG.height, this.CANVAS_CONFIG.vectorLength);
+    this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG.width, CANVAS_CONFIG.height, CANVAS_CONFIG.vectorLength);
     this.drawer.setContext(this.canvas);
     this.drawer.initGrid(this.canvas);
     this.drawer.initAxis(this.canvas);
@@ -40,6 +37,20 @@ export class CanvasComponent implements OnInit {
     const rect = this.domCanvas.nativeElement.getBoundingClientRect();
     const clientPos = new Point(ev.clientX, ev.clientY);
     this.cursorPosition.updatePosition(clientPos, this.canvas, rect);
+  }
+
+  selectPoint() {
+    const clicked: Point = this.cursorPosition.coordinates$.getValue();
+    if (this.selected) {
+      this.drawer.drawLine(this.selected, clicked);
+      this.setSelection(clicked)
+    } else {
+      this.setSelection(this.cursorPosition.coordinates$.getValue())
+    }
+  }
+
+  private setSelection(point: Point) {
+    this.selected = point;
   }
 
 }

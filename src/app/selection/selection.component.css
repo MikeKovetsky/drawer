@@ -1,0 +1,29 @@
+.selection {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #eec600;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: fadeInFromNone 2s linear infinite;
+}
+.selection-inner {
+  width: 4px;
+  height: 4px;
+  background: #073db4;
+  transform: translate(3px, 3px);
+  border-radius: 50%;
+}
+
+
+@keyframes fadeInFromNone {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}

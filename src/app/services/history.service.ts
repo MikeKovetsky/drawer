@@ -19,4 +19,8 @@ export class HistoryService {
     this.history$.next(history);
   }
 
+  clear() {
+    this.history$.next([]);
+  }
+
 }

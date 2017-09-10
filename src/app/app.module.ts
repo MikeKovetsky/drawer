@@ -12,6 +12,7 @@ import {CursorPositionComponent} from './cursor-position/cursor-position.compone
 import {DrawerService} from "./services/drawer.service";
 import {CursorPositionService} from "./services/cursor-position.service";
 import {HistoryService} from "./services/history.service";
+import { SelectionComponent } from './selection/selection.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {HistoryService} from "./services/history.service";
     CanvasComponent,
     HistoryComponent,
     HistoryEventComponent,
-    CursorPositionComponent
+    CursorPositionComponent,
+    SelectionComponent
   ],
   imports: [
     BrowserModule,
