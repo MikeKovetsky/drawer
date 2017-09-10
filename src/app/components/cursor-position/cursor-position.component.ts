@@ -23,14 +23,14 @@ export class CursorPositionComponent implements OnInit {
     this.cursorPosition.coordinates$.asObservable().subscribe(pos => {
       this.position = pos;
       const allPoints = this.history.getPoints();
-      let distance = Number.MAX_SAFE_INTEGER;
-      allPoints.forEach(point => {
+      const distance = allPoints.reduce((distance, point) => {
         const newDistance = this.getDistance(point, this.position);
-        if (newDistance < this.minDistanceToPoint && newDistance < distance) {
+        const closeEnough = newDistance < this.minDistanceToPoint && newDistance < distance;
+        if (closeEnough) {
           this.nearestPoint = point;
-          distance = newDistance;
         }
-      });
+        return closeEnough ? newDistance : distance;
+      }, Number.MAX_SAFE_INTEGER);
       if (distance === Number.MAX_SAFE_INTEGER) {
         this.nearestPoint = null;
       }
