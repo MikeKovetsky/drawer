@@ -55,11 +55,12 @@ export class DrawerService {
 
   drawLine(p1: Point, p2: Point, controlPoint: Point = null) {
     this.history.add(p1, p2);
-    this.context.beginPath();
     if (this.yAxisInverted) {
       p1 = new Point(p1.x, -p1.y) ;
       p2 = new Point(p2.x, -p2.y) ;
     }
+
+    this.context.beginPath();
     this.context.moveTo(p1.x, p1.y);
     if (controlPoint === null || controlPoint.x === null || controlPoint.y === null) {
       this.context.lineTo(p2.x, p2.y);
