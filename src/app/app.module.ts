@@ -2,6 +2,8 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {MdButtonModule, MdCheckboxModule, MdFormFieldModule, MdInputModule} from "@angular/material";
 
 import {AppComponent} from './app.component';
 import {CanvasComponent} from './components/canvas/canvas.component';
@@ -29,7 +31,13 @@ import {HelpersService} from "./services/helpers.service";
     BrowserModule,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NoopAnimationsModule,
+    // MATERIAL
+    MdFormFieldModule,
+    MdInputModule,
+    MdButtonModule,
+    MdCheckboxModule
   ],
   providers: [
     DrawerService,
