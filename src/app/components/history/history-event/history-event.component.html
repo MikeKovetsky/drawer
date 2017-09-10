@@ -1,10 +1,10 @@
 <section class="event">
   <div>
     <div>
-      Start point:
-      ({{event.start.x}},{{event.start.y}});<br>
-      End point:
-      ({{event.end.x}},{{event.end.y}});
+      Points:
+      <div *ngFor="let point of event.points; let i = index;">
+       Point #{{i}}: ({{point.x}}, {{point.y}})
+      </div>
     </div>
   </div>
 </section>

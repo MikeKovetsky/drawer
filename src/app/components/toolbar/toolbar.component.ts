@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
 import {FormGroup} from "@angular/forms";
+import {SupportedLineType} from "../../configs/supported-lines";
 
 import {DrawerService} from "../../services/drawer.service";
 import {SelectionService} from "../../services/selection.service";
-import {SupportedLineType} from "../../configs/supported-lines";
+import {HistoryService} from "../../services/history.service";
 
 @Component({
   selector: 'app-toolbar',
@@ -15,6 +16,7 @@ export class ToolbarComponent {
   lineType = this.lineTypes.Line;
 
   constructor(private drawer: DrawerService,
+              private history: HistoryService,
               private selection: SelectionService) {
   }
 
@@ -23,14 +25,17 @@ export class ToolbarComponent {
     switch (lineType) {
       case (this.lineTypes.Line):
         this.drawer.drawLine(points.p1, points.p2);
+        this.history.add([points.p1, points.p2]);
         this.selection.set(points.p2);
         break;
       case (this.lineTypes.QuadraticCurve):
         this.drawer.drawLine(points.p1, points.p2, points.controlPoint);
+        this.history.add([points.p1, points.p2, points.controlPoint]);
         this.selection.set(points.p2);
         break;
       case (this.lineTypes.Circle):
         this.drawer.drawCircle(points.circleCenter, points.radius);
+        this.history.add([points.circleCenter]);
         this.selection.set(points.circleCenter);
         break;
     }

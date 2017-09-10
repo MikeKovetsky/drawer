@@ -1,11 +1,9 @@
 import {Point} from "./point.model";
 
 export class HistoryEvent {
-  start: Point;
-  end: Point;
+  points: Point[];
 
-  constructor(start: Point, end: Point) {
-    this.start = start;
-    this.end = end;
+  constructor(points: Point[] = []) {
+    this.points = points;
   }
 }

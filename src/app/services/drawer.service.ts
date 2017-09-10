@@ -54,7 +54,6 @@ export class DrawerService {
   }
 
   drawLine(p1: Point, p2: Point, controlPoint: Point = null) {
-    this.history.add(p1, p2);
     if (this.yAxisInverted) {
       p1 = new Point(p1.x, -p1.y) ;
       p2 = new Point(p2.x, -p2.y) ;
@@ -72,7 +71,7 @@ export class DrawerService {
   }
 
   drawCircle(p: Point, radius: number) {
-    this.history.add(p, p);
+    this.history.add([p]);
     if (this.yAxisInverted) {
       p = new Point(p.x, -p.y) ;
     }

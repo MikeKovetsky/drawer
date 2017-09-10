@@ -11,20 +11,22 @@ export class HistoryService {
   constructor() {
   }
 
-  add(p1: Point, p2: Point) {
+  add(points: Point[]) {
     if (!this.isRecording) return;
     const history = this.history$.getValue();
-    history.push(new HistoryEvent(p1, p2));
+    history.push(new HistoryEvent(points));
     this.history$.next(history);
   }
 
   getPoints(): Point[] {
     const history = this.history$.getValue();
     if (!history.length) return [];
-    let points = history.map(event => {
-      return event.start;
+    let points = [];
+    history.forEach(event => {
+      event.points.forEach(point => {
+        points.push(point);
+      })
     });
-    points.push(history[history.length - 1].end);
     return points;
   }
 
