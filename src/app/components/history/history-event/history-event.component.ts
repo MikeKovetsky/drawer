@@ -12,7 +12,6 @@ import {DrawerService} from "../../../services/drawer.service";
 })
 export class HistoryEventComponent implements OnInit {
   @Input() event: HistoryEvent;
-  @Output() eventAdded = new EventEmitter();
   newEvent: FormGroup;
 
   constructor(private fb: FormBuilder,
@@ -36,7 +35,7 @@ export class HistoryEventComponent implements OnInit {
 
   add(event: FormGroup) {
     this.drawer.drawLine(event.value.p1 , event.value.p2);
-    this.eventAdded.emit(true);
+    this.newEvent.reset();
   }
 
 }
