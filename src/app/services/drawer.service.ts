@@ -47,24 +47,27 @@ export class DrawerService {
 
   invertYAxis(canvas) {
     // set the canvas origin (0,0) to center canvas
-    // All coordinates$ to the left of center canvas are negative
-    // All coordinates$ below center canvas are negative
+    // All coordinates to the left of center canvas are negative
+    // All coordinates below center canvas are negative
     this.yAxisInverted = true;
     this.context.translate(canvas.width / 2, canvas.height / 2);
   }
 
   drawLine(p1: Point, p2: Point, controlPoint: Point = null) {
+    this.history.add(p1, p2);
     this.context.beginPath();
-    this.context.moveTo(p1.x, this.yAxisInverted ? -p1.y : p1.y);
-    if (controlPoint === null) {
-      this.context.lineTo(p2.x, this.yAxisInverted ? -p2.y : p2.y);
+    if (this.yAxisInverted) {
+      p1 = new Point(p1.x, -p1.y) ;
+      p2 = new Point(p2.x, -p2.y) ;
+    }
+    this.context.moveTo(p1.x, p1.y);
+    if (controlPoint === null || controlPoint.x === null || controlPoint.y === null) {
+      this.context.lineTo(p2.x, p2.y);
     } else {
-      this.context.quadraticCurveTo(controlPoint.x,
-        this.yAxisInverted ? -controlPoint.y : controlPoint.y,
-        p2.x,
-        this.yAxisInverted ? -p2.y : p2.y)
+      controlPoint = new Point(controlPoint.x, -controlPoint.y)
+      this.context.quadraticCurveTo(controlPoint.x, controlPoint.y, p2.x, p2.y)
     }
     this.context.stroke();
-    this.history.add(p1, p2);
   }
+
 }
