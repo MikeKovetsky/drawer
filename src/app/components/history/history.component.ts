@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HistoryEvent} from "../../models/history-event.model";
 import {HistoryService} from "../../services/history.service";
+import {Point} from "../../models/point.model";
 
 @Component({
   selector: 'app-history',

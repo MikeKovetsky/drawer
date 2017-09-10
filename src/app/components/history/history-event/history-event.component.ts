@@ -16,8 +16,7 @@ export class HistoryEventComponent implements OnInit {
   newEvent: FormGroup;
 
   constructor(private fb: FormBuilder,
-              private drawer: DrawerService,
-              private history: HistoryService) {
+              private drawer: DrawerService) {
   }
 
   ngOnInit() {
