@@ -30,7 +30,6 @@ export class CanvasComponent implements OnInit {
     this.drawer.initAxis(this.canvas);
     this.drawer.invertYAxis(this.canvas);
     this.history.isRecording = true;
-    this.drawer.drawLine(new Point(0,0), new Point(200, 200));
   }
 
   updateCursorPosition(ev: MouseEvent) {
