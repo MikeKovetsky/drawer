@@ -20,9 +20,12 @@ export class HistoryService {
 
   getPoints(): Point[] {
     const history = this.history$.getValue();
-    return history.map(event => {
+    if (!history.length) return [];
+    let points = history.map(event => {
       return event.start;
     });
+    points.push(history[history.length - 1].end);
+    return points;
   }
 
   clear() {
