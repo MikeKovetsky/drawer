@@ -33,7 +33,7 @@ export class CanvasComponent implements OnInit {
     this.drawer.invertYAxis(this.canvas);
     this.history.isRecording = true;
 
-    this.selection.position$.asObservable().subscribe(pos => {
+    this.selection.get().subscribe((pos) => {
       this.selected = pos;
     })
   }
