@@ -1,57 +1,10 @@
 <section class="event">
   <div>
-    <div *ngIf="event.completed">
+    <div>
       Start point:
       ({{event.start.x}},{{event.start.y}});<br>
       End point:
       ({{event.end.x}},{{event.end.y}});
     </div>
-    <form *ngIf="!event.completed" [formGroup]="newEvent" (ngSubmit)="add(newEvent)">
-      <div formGroupName="p1">
-        Start point:
-        <md-form-field>
-          <input mdInput type="number" placeholder="P1 X" formControlName="x" name="p1x">
-          <md-error *ngIf="newEvent.get('p1').get('x').invalid && newEvent.get('p1').get('x').touched">
-            Your value is out of bounds
-          </md-error>
-        </md-form-field>
-        <md-form-field>
-          <input mdInput type="number" placeholder="P1 Y" formControlName="y" name="p1y">
-          <md-error class="error" *ngIf="newEvent.get('p1').get('y').invalid && newEvent.get('p1').get('y').touched">
-            Your value is out of bounds
-          </md-error>
-        </md-form-field>
-      </div>
-      <div formGroupName="p2">
-        End point:
-        <md-form-field>
-          <input mdInput type="number" placeholder="P2 X" formControlName="x" name="p2x">
-          <md-error class="error" *ngIf="newEvent.get('p2').get('x').invalid && newEvent.get('p2').get('x').touched">
-            Your value is out of bounds
-          </md-error>
-        </md-form-field>
-        <md-form-field>
-          <input mdInput type="number" placeholder="P2 Y" formControlName="y" name="p2y">
-          <md-error class="error" *ngIf="newEvent.get('p2').get('y').invalid && newEvent.get('p2').get('y').touched">
-            Your value is out of bounds
-          </md-error>
-        </md-form-field>
-      </div>
-
-      <div>
-        <md-checkbox formControlName="arc">Arc</md-checkbox>
-      </div>
-
-      <div formGroupName="controlPoint" *ngIf="newEvent.get('arc').value === true">
-        <md-form-field>
-          <input mdInput type="number" placeholder="Control Point X" formControlName="x" name="cpx">
-        </md-form-field>
-        <md-form-field>
-          <input mdInput type="number" placeholder="Control Point Y" formControlName="y" name="cpy">
-        </md-form-field>
-      </div>
-
-      <button md-raised-button [disabled]="!newEvent.valid">Add line</button>
-    </form>
   </div>
 </section>

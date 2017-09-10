@@ -9,7 +9,7 @@ import {HelpersService} from "../../services/helpers.service";
 })
 export class SelectionComponent implements OnChanges {
   @Input() position: Point;
-  absolutePosition: Point = new Point(0,0);
+  absolutePosition: Point = new Point();
 
   constructor(private helpersService: HelpersService) { }
 

@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
-import {MdButtonModule, MdCheckboxModule, MdFormFieldModule, MdInputModule} from "@angular/material";
+import {MdButtonModule, MdCheckboxModule, MdFormFieldModule, MdInputModule, MdSelectModule} from "@angular/material";
 
 import {AppComponent} from './app.component';
 import {CanvasComponent} from './components/canvas/canvas.component';
@@ -17,6 +17,7 @@ import {CursorPositionService} from "./services/cursor-position.service";
 import {HistoryService} from "./services/history.service";
 import {SelectionService} from "./services/selection.service";
 import {HelpersService} from "./services/helpers.service";
+import {ToolbarComponent} from './components/toolbar/toolbar.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {HelpersService} from "./services/helpers.service";
     HistoryComponent,
     HistoryEventComponent,
     CursorPositionComponent,
-    SelectionComponent
+    SelectionComponent,
+    ToolbarComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +39,8 @@ import {HelpersService} from "./services/helpers.service";
     MdFormFieldModule,
     MdInputModule,
     MdButtonModule,
-    MdCheckboxModule
+    MdCheckboxModule,
+    MdSelectModule
   ],
   providers: [
     DrawerService,
