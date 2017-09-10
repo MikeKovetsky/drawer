@@ -19,4 +19,8 @@ export class HistoryComponent implements OnInit {
     })
   }
 
+  clear() {
+    this.historyService.clear();
+  }
+
 }

@@ -1,5 +1,8 @@
 <section class="history">
-  <h3>History:</h3>
+  <div class="history__header">
+    <h3>History:</h3>
+    <div (click)="clear()">(clear)</div>
+  </div>
   <div>
     <drawer-history-event *ngFor="let event of history;" [event]="event">
     </drawer-history-event>
