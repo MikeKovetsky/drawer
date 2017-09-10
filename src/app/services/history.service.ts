@@ -22,6 +22,13 @@ export class HistoryService {
     this.history$.next(history);
   }
 
+  getPoints(): Point[] {
+    const history = this.history$.getValue();
+    return history.map(event => {
+      return event.start;
+    });
+  }
+
   clear() {
     this.history$.next([]);
   }

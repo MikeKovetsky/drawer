@@ -6,3 +6,15 @@
     y: {{position.y}}
   </div>
 </section>
+
+<div class="box nearest"
+     *ngIf="nearestPoint"
+     [style.left.px]="toAbs(nearestPoint).x"
+     [style.top.px]="toAbs(nearestPoint).y">
+  <div class="box-input">
+    x: {{nearestPoint.x}}
+  </div>
+  <div class="box-input">
+    y: {{nearestPoint.y}}
+  </div>
+</div>

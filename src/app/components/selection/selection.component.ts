@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {Point} from "../../models/point.model";
-import {CANVAS_CONFIG} from "../../configs/canvas-config";
+import {HelpersService} from "../../services/helpers.service";
 
 @Component({
   selector: 'app-selection',
@@ -11,12 +11,12 @@ export class SelectionComponent implements OnChanges {
   @Input() position: Point;
   absolutePosition: Point = new Point(0,0);
 
-  constructor() { }
+  constructor(private helpersService: HelpersService) { }
 
   ngOnChanges() {
     if (this.position) {
-      this.absolutePosition.x = this.position.x + CANVAS_CONFIG.width / 2;
-      this.absolutePosition.y = -this.position.y + CANVAS_CONFIG.height / 2;
+      this.absolutePosition =
+        this.helpersService.toAbsoluteCoordinates(this.position);
     }
   }
 

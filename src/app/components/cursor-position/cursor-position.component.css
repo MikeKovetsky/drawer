@@ -8,3 +8,8 @@
   width: 50px;
   padding: 6px;
 }
+
+.nearest {
+  position: absolute;
+  color: #073db4;
+}

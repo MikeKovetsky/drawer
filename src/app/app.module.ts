@@ -14,6 +14,7 @@ import {DrawerService} from "./services/drawer.service";
 import {CursorPositionService} from "./services/cursor-position.service";
 import {HistoryService} from "./services/history.service";
 import {SelectionService} from "./services/selection.service";
+import {HelpersService} from "./services/helpers.service";
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {SelectionService} from "./services/selection.service";
     DrawerService,
     HistoryService,
     CursorPositionService,
-    SelectionService
+    SelectionService,
+    HelpersService
   ],
   bootstrap: [AppComponent]
 })
