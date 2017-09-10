@@ -26,19 +26,19 @@ export class HistoryEventComponent implements OnInit {
 
     this.newEvent = this.fb.group({
       p1: this.fb.group({
-        x: ['', Validators.required],
-        y: ['', Validators.required],
+        x: [null, Validators.required],
+        y: [null, Validators.required],
       }),
       p2: this.fb.group({
-        x: ['', Validators.required],
-        y: ['', Validators.required],
+        x: [null, Validators.required],
+        y: [null, Validators.required],
       })
     });
 
     let selection = new Point();
 
-    this.newEvent.valueChanges.subscribe(val => {
-      if (!(['', null].includes(val.p1.x) || ['', null].includes(val.p1.y) || selection === val.p1)) {
+    this.newEvent.valueChanges.subscribe((val) => {
+      if (val.p1.x !== null && val.p1.y !== null && selection !== val.p1) {
         selection = val.p1;
         this.selection.set(selection);
       }
