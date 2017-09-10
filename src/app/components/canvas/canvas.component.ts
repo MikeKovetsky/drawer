@@ -27,12 +27,11 @@ export class CanvasComponent implements OnInit {
     private cursorPosition: CursorPositionService) { }
 
   ngOnInit() {
-    this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG.width, CANVAS_CONFIG.height, CANVAS_CONFIG.vectorLength);
-    this.drawer.setContext(this.canvas);
-    this.drawer.initGrid(this.canvas);
-    this.drawer.initAxis(this.canvas);
-    this.drawer.invertYAxis(this.canvas);
-    this.history.isRecording = true;
+    this.canvas = this.drawer.render(this.domCanvas);
+
+    // this.history.history$.asObservable().subscribe(() => {
+    //   this.canvas = this.drawer.render();
+    // });
 
     this.selection.get().subscribe((pos) => {
       this.selected = pos;

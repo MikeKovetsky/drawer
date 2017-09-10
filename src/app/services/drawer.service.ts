@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
+import {ElementRef, Injectable} from '@angular/core';
 import {HistoryService} from "./history.service";
-import {Point} from "../models/point.model";
+import {CANVAS_CONFIG} from "../configs/canvas-config";
 import {DrawerCanvas} from "../models/canvas.model";
-import {SupportedLineType} from "../configs/supported-lines";
+import {Point} from "../models/point.model";
 
 @Injectable()
 export class DrawerService {
@@ -10,6 +10,17 @@ export class DrawerService {
   context: CanvasRenderingContext2D;
 
   constructor(private history: HistoryService) {
+  }
+
+  render(domCanvas: ElementRef): DrawerCanvas {
+    this.history.isRecording = false;
+    const canvas = new DrawerCanvas(domCanvas.nativeElement, CANVAS_CONFIG.width, CANVAS_CONFIG.height, CANVAS_CONFIG.vectorLength);
+    this.setContext(canvas);
+    this.initGrid(canvas);
+    this.initAxis(canvas);
+    this.invertYAxis(canvas);
+    this.history.isRecording = true;
+    return canvas;
   }
 
   setContext(canvas: DrawerCanvas) {
