@@ -1,6 +1,5 @@
-import {ElementRef, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HistoryService} from "./history.service";
-import {CANVAS_CONFIG} from "../configs/canvas-config";
 import {DrawerCanvas} from "../models/canvas.model";
 import {Point} from "../models/point.model";
 
@@ -12,9 +11,8 @@ export class DrawerService {
   constructor(private history: HistoryService) {
   }
 
-  render(domCanvas: ElementRef): DrawerCanvas {
+  render(canvas: DrawerCanvas): DrawerCanvas {
     this.history.isRecording = false;
-    const canvas = new DrawerCanvas(domCanvas.nativeElement, CANVAS_CONFIG.width, CANVAS_CONFIG.height, CANVAS_CONFIG.vectorLength);
     this.setContext(canvas);
     this.initGrid(canvas);
     this.initAxis(canvas);
@@ -82,13 +80,13 @@ export class DrawerService {
     this.context.stroke();
   }
 
-  drawCircle(p: Point, radius: number) {
+  drawCircle(p: Point, radius: number, start: number = 0, end: number = 2) {
     if (this.yAxisInverted) {
       p = new Point(p.x, -p.y) ;
     }
 
     this.context.beginPath();
-    this.context.arc(p.x, p.y, radius,0,2*Math.PI);
+    this.context.arc(p.x, p.y, radius,start*Math.PI,end*Math.PI);
     this.context.stroke();
   }
 }

@@ -9,6 +9,7 @@ import {DrawerCanvas} from "../../models/canvas.model";
 import {Point} from "../../models/point.model";
 import {SelectionService} from "../../services/selection.service";
 import {SupportedLineType} from "../../configs/supported-lines";
+import {ShapesService} from "../../services/shapes.service";
 
 @Component({
   selector: 'drawer-canvas',
@@ -24,14 +25,21 @@ export class CanvasComponent implements OnInit {
     private drawer: DrawerService,
     private history: HistoryService,
     private selection: SelectionService,
+    private shapes: ShapesService,
     private cursorPosition: CursorPositionService) { }
 
   ngOnInit() {
-    this.canvas = this.drawer.render(this.domCanvas);
+    this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG.width, CANVAS_CONFIG.height, CANVAS_CONFIG.vectorLength);
+    this.canvas = this.drawer.render(this.canvas);
 
-    // this.history.history$.asObservable().subscribe(() => {
-    //   this.canvas = this.drawer.render();
-    // });
+    this.history.needsRendering$.asObservable().subscribe((bool: Boolean) => {
+      if (bool) {
+        this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG.width, CANVAS_CONFIG.height, CANVAS_CONFIG.vectorLength);
+        this.canvas = this.drawer.render(this.canvas);
+      }
+    });
+
+    this.shapes.drawTenth();
 
     this.selection.get().subscribe((pos) => {
       this.selected = pos;

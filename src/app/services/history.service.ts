@@ -7,6 +7,7 @@ import {Point} from "../models/point.model";
 @Injectable()
 export class HistoryService {
   history$ = new BehaviorSubject<HistoryEvent[]>([]);
+  needsRendering$ = new BehaviorSubject<boolean>(false);
   isRecording = false;
 
   constructor() {
@@ -33,6 +34,8 @@ export class HistoryService {
 
   clear() {
     this.history$.next([]);
+    this.needsRendering$.next(true);
+    this.needsRendering$.next(false);
   }
 
 }
