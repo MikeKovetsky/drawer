@@ -2,11 +2,13 @@ import {Injectable} from '@angular/core';
 import {HistoryService} from "./history.service";
 import {DrawerCanvas} from "../models/canvas.model";
 import {Point} from "../models/point.model";
+import {CircleDrawingMethod} from "../configs/canvas-config";
 
 @Injectable()
 export class DrawerService {
   yAxisInverted = false;
   context: CanvasRenderingContext2D;
+  circleDrawingMethod = CircleDrawingMethod.Custom;
 
   constructor(private history: HistoryService) {
   }
@@ -81,12 +83,35 @@ export class DrawerService {
   }
 
   drawCircle(p: Point, radius: number, start: number = 0, end: number = 2) {
-    if (this.yAxisInverted) {
-      p = new Point(p.x, -p.y) ;
+    if (this.circleDrawingMethod === CircleDrawingMethod.Native) {
+      if (this.yAxisInverted) {
+        p = new Point(p.x, -p.y) ;
+      }
+      this.context.beginPath();
+      this.context.arc(p.x, p.y, radius,start * Math.PI,end * Math.PI);
+      this.context.stroke();
     }
 
-    this.context.beginPath();
-    this.context.arc(p.x, p.y, radius,start*Math.PI,end*Math.PI);
-    this.context.stroke();
+    if (this.circleDrawingMethod === CircleDrawingMethod.Custom) {
+      this.customCircleDraw(p, radius, start * Math.PI - Math.PI / 2, end * Math.PI - Math.PI / 2);
+    }
+  }
+
+  private customCircleDraw(center: Point, radius: number, start: number = 0, end: number = 2, clockwise = true) {
+    const stepSize = (end - start) / 50;
+    let angle = start;
+    let startPoint = this.getCirclePoint(center, angle, radius, clockwise);
+    while (angle <= end) {
+      angle = angle + stepSize;
+      const endPoint = this.getCirclePoint(center, angle, radius, clockwise);
+      this.drawLine(startPoint, endPoint);
+      startPoint = endPoint;
+    }
+  }
+
+  private getCirclePoint(center, angle, radius, clockwise = true): Point {
+    const x = (Math.sin(angle) * radius) + (clockwise ? -center.x : center.x);
+    const y = (-Math.cos(angle) * radius) + center.y;
+    return new Point(x, y)
   }
 }

@@ -10,3 +10,8 @@ export const GRID_CONFIG = {
   minY: -CANVAS_CONFIG.height / 2,
   maxY: CANVAS_CONFIG.width / 2
 };
+
+
+export enum CircleDrawingMethod {
+  Custom, Native
+}
