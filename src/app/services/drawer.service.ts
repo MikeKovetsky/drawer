@@ -3,6 +3,7 @@ import {HistoryService} from "./history.service";
 import {DrawerCanvas} from "../models/canvas.model";
 import {Point} from "../models/point.model";
 import {CircleDrawingMethod} from "../configs/canvas-config";
+import {SupportedLineType} from "../configs/supported-lines";
 
 @Injectable()
 export class DrawerService {
@@ -75,9 +76,11 @@ export class DrawerService {
     this.context.moveTo(p1.x, p1.y);
     if (controlPoint === null) {
       this.context.lineTo(p2.x, p2.y);
+      this.history.add([p1, p2], SupportedLineType.Line);
     } else {
       controlPoint = new Point(controlPoint.x, -controlPoint.y);
-      this.context.quadraticCurveTo(controlPoint.x, controlPoint.y, p2.x, p2.y)
+      this.context.quadraticCurveTo(controlPoint.x, controlPoint.y, p2.x, p2.y);
+      this.history.add([p1, p2, controlPoint], SupportedLineType.QuadraticCurve);
     }
     this.context.stroke();
   }
@@ -95,6 +98,7 @@ export class DrawerService {
     if (this.circleDrawingMethod === CircleDrawingMethod.Custom) {
       this.customCircleDraw(p, radius, start * Math.PI - Math.PI / 2, end * Math.PI - Math.PI / 2);
     }
+    this.history.add([p], SupportedLineType.Circle);
   }
 
   private customCircleDraw(center: Point, radius: number, start: number = 0, end: number = 2, clockwise = true) {
