@@ -56,7 +56,6 @@ export class CanvasComponent implements OnInit {
     const clicked: Point = this.cursorPosition.coordinates$.getValue();
     if (this.selected) {
       this.drawer.drawLine(this.selected, clicked);
-      this.history.add([this.selected, clicked], SupportedLineType.Line);
       this.selection.set(clicked)
     } else {
       this.selection.set(this.cursorPosition.coordinates$.getValue())
