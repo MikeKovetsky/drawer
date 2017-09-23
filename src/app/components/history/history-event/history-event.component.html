@@ -3,18 +3,37 @@
     <div [ngSwitch]="event.lineType">
       <div *ngSwitchCase="lineTypes.Line">
         <div>Line:</div>
-        <div>Start: ({{event.points[0].x}}, {{event.points[0].y}})</div>
-        <div>End: ({{event.points[1].x}}, {{event.points[1].y}})</div>
+        <div>Start:(
+          {{event.points[0].x | number:'1.2-2'}},
+          {{event.points[0].y | number:'1.2-2'}})
+        </div>
+        <div>End: (
+          {{event.points[1].x | number:'1.2-2'}},
+          {{event.points[1].y | number:'1.2-2'}})
+        </div>
       </div>
       <div *ngSwitchCase="lineTypes.QuadraticCurve">
         <div>Curve:</div>
-        <div>Start: ({{event.points[0].x}}, {{event.points[0].y}})</div>
-        <div>End: ({{event.points[1].x}}, {{event.points[1].y}})</div>
-        <div>Control Point: ({{event.points[2].x}}, {{event.points[2].y}})</div>
+        <div>
+          Start:(
+          {{event.points[0].x | number:'1.2-2'}},
+          {{event.points[0].y | number:'1.2-2'}})
+        </div>
+        <div>End:(
+          {{event.points[1].x | number:'1.2-2'}},
+          {{event.points[1].y | number:'1.2-2'}})
+        </div>
+        <div>Control Point: (
+          {{event.points[2].x | number:'1.2-2'}},
+          {{event.points[2].y | number:'1.2-2'}})
+        </div>
       </div>
       <div *ngSwitchCase="lineTypes.Circle">
         <div>Circle:</div>
-        <div>Center: ({{event.points[0].x}}, {{event.points[0].y}})</div>
+        <div>Center: (
+          {{event.points[0].x | number:'1.2-2'}},
+          {{event.points[0].y | number:'1.2-2'}})
+        </div>
       </div>
     </div>
   </div>
