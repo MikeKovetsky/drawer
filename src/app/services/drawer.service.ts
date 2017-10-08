@@ -1,17 +1,19 @@
 import {Injectable} from '@angular/core';
-import {HistoryService} from "./history.service";
+import {SupportedLineType} from "../configs/supported-lines";
+import {CircleDrawingMethod} from "../configs/canvas-config";
 import {DrawerCanvas} from "../models/canvas.model";
 import {Point} from "../models/point.model";
-import {CircleDrawingMethod} from "../configs/canvas-config";
-import {SupportedLineType} from "../configs/supported-lines";
+import {HistoryService} from "./history.service";
+import {HelpersService} from "./helpers.service";
 
 @Injectable()
 export class DrawerService {
   yAxisInverted = false;
   context: CanvasRenderingContext2D;
   circleDrawingMethod = CircleDrawingMethod.Custom;
+  enableSizeLines = false;
 
-  constructor(private history: HistoryService) {
+  constructor(private history: HistoryService, private helpers: HelpersService) {
   }
 
   render(canvas: DrawerCanvas): DrawerCanvas {
@@ -19,7 +21,8 @@ export class DrawerService {
     this.setContext(canvas);
     this.initGrid(canvas);
     this.initAxis(canvas);
-    this.invertYAxis(canvas);
+    this.invertYAxis(canvas)
+    this.enableSizeLines = true;
     this.history.isRecording = true;
     return canvas;
   }
@@ -81,6 +84,7 @@ export class DrawerService {
         p2.invertY();
       }
       this.history.add([p1, p2], SupportedLineType.Line);
+      this.drawLineSize(p1, p2);
     } else {
       controlPoint = new Point(controlPoint.x, -controlPoint.y);
       this.context.quadraticCurveTo(controlPoint.x, controlPoint.y, p2.x, p2.y);
@@ -110,6 +114,8 @@ export class DrawerService {
   }
 
   private customCircleDraw(center: Point, radius: number, start: number = 0, end: number = 2, clockwise = true) {
+    const prevSizeLineStatus = this.enableSizeLines;
+    this.enableSizeLines = false;
     const stepSize = (end - start) / 50;
     let angle = start;
     let startPoint = this.getCirclePoint(center, angle, radius, clockwise);
@@ -119,11 +125,20 @@ export class DrawerService {
       this.drawLine(startPoint, endPoint);
       startPoint = endPoint;
     }
+    this.enableSizeLines = prevSizeLineStatus;
   }
 
   private getCirclePoint(center, angle, radius, clockwise = true): Point {
     const x = (Math.sin(angle) * radius) + (clockwise ? -center.x : center.x);
     const y = (-Math.cos(angle) * radius) + center.y;
     return new Point(x, y)
+  }
+
+  private drawLineSize(p1: Point, p2: Point) {
+    if (!this.enableSizeLines) return;
+    const distance = Math.round(this.helpers.getDistance(p1, p2));
+    const lineCenter = this.helpers.getLineCenter(p1, p2);
+    this.context.font = "16px Arial";
+    this.context.fillText(distance.toString(),lineCenter.x, -lineCenter.y);
   }
 }

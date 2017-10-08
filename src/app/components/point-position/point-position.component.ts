@@ -15,7 +15,7 @@ export class PointPositionComponent implements OnInit {
 
   constructor(private cursorPosition: CursorPositionService,
               private history: HistoryService,
-              private helpersService: HelpersService) {
+              private helpers: HelpersService) {
   }
 
   ngOnInit() {
@@ -23,7 +23,7 @@ export class PointPositionComponent implements OnInit {
       const position = pos;
       const allPoints = this.history.getPoints();
       const distance = allPoints.reduce((distance, point) => {
-        const newDistance = this.getDistance(point, position);
+        const newDistance = this.helpers.getDistance(point, position);
         const closeEnough = newDistance < this.minDistanceToPoint && newDistance < distance;
         if (closeEnough) {
           this.nearestPoint = point;
@@ -39,13 +39,7 @@ export class PointPositionComponent implements OnInit {
 
 
   toAbs(p: Point): Point {
-    return this.helpersService.toAbsoluteCoordinates(p);
-  }
-
-  private getDistance(p1: Point, p2: Point): number {
-    const a = p1.x - p2.x;
-    const b = p1.y - p2.y;
-    return Math.sqrt(a * a + b * b);
+    return this.helpers.toAbsoluteCoordinates(p);
   }
 
 }
