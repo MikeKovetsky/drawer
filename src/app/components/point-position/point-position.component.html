@@ -3,9 +3,9 @@
      [style.left.px]="toAbs(nearestPoint).x"
      [style.top.px]="toAbs(nearestPoint).y">
   <div class="box-input">
-    x: {{nearestPoint.x}}
+    x: {{nearestPoint.x | number:'2.1-1'}}
   </div>
   <div class="box-input">
-    y: {{nearestPoint.y}}
+    y: {{nearestPoint.y | number:'2.1-1'}}
   </div>
 </div>
