@@ -21,7 +21,7 @@ export class DrawerService {
     this.setContext(canvas);
     this.initGrid(canvas);
     this.initAxis(canvas);
-    this.invertYAxis(canvas)
+    this.invertYAxis(canvas);
     this.enableSizeLines = true;
     this.history.isRecording = true;
     return canvas;
@@ -42,6 +42,8 @@ export class DrawerService {
       this.drawLine(new Point(0, i), new Point(canvas.width, i));
     }
     this.context.globalAlpha = 1;
+    this.context.font = "16px Arial";
+    this.context.textAlign = "center";
     return canvas;
   }
 
@@ -138,7 +140,6 @@ export class DrawerService {
     if (!this.enableSizeLines) return;
     const distance = Math.round(this.helpers.getDistance(p1, p2));
     const lineCenter = this.helpers.getLineCenter(p1, p2);
-    this.context.font = "16px Arial";
     this.context.fillText(distance.toString(),lineCenter.x, -lineCenter.y);
   }
 }
