@@ -3,7 +3,9 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
-import {MdButtonModule, MdCheckboxModule, MdFormFieldModule, MdInputModule, MdSelectModule} from "@angular/material";
+import {
+  MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule, MatSelectModule
+} from "@angular/material";
 
 import {AppComponent} from './app.component';
 import {CanvasComponent} from './components/canvas/canvas.component';
@@ -23,6 +25,7 @@ import {HistoryService} from "./services/history.service";
 import {SelectionService} from "./services/selection.service";
 import {HelpersService} from "./services/helpers.service";
 import {ShapesService} from "./services/shapes.service";
+
 
 @NgModule({
   declarations: [
@@ -45,11 +48,11 @@ import {ShapesService} from "./services/shapes.service";
     ReactiveFormsModule,
     NoopAnimationsModule,
     // MATERIAL
-    MdFormFieldModule,
-    MdInputModule,
-    MdButtonModule,
-    MdCheckboxModule,
-    MdSelectModule
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatSelectModule
   ],
   providers: [
     DrawerService,

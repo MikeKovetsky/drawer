@@ -1,11 +1,13 @@
 <section class="toolbar">
 
   <header class="toolbar__header">
-    <md-select placeholder="Line type" [(ngModel)]="lineType">
-      <md-option [value]="lineTypes.Line">Default line</md-option>
-      <md-option [value]="lineTypes.QuadraticCurve">QuadraticCurve</md-option>
-      <md-option [value]="lineTypes.Circle">Circle</md-option>
-    </md-select>
+    <mat-form-field>
+      <mat-select placeholder="Line type" [(ngModel)]="lineType">
+        <mat-option [value]="lineTypes.Line">Default line</mat-option>
+        <mat-option [value]="lineTypes.QuadraticCurve">QuadraticCurve</mat-option>
+        <mat-option [value]="lineTypes.Circle">Circle</mat-option>
+      </mat-select>
+    </mat-form-field>
 
     <drawer-cursor-position></drawer-cursor-position>
   </header>

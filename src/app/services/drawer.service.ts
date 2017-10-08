@@ -68,18 +68,26 @@ export class DrawerService {
 
   drawLine(p1: Point, p2: Point, controlPoint: Point = null) {
     if (this.yAxisInverted) {
-      p1 = new Point(p1.x, -p1.y) ;
-      p2 = new Point(p2.x, -p2.y) ;
+      p1.invertY();
+      p2.invertY();
     }
 
     this.context.beginPath();
     this.context.moveTo(p1.x, p1.y);
     if (controlPoint === null) {
       this.context.lineTo(p2.x, p2.y);
+      if (this.yAxisInverted) {
+        p1.invertY();
+        p2.invertY();
+      }
       this.history.add([p1, p2], SupportedLineType.Line);
     } else {
       controlPoint = new Point(controlPoint.x, -controlPoint.y);
       this.context.quadraticCurveTo(controlPoint.x, controlPoint.y, p2.x, p2.y);
+      if (this.yAxisInverted) {
+        p1.invertY();
+        p2.invertY();
+      }
       this.history.add([p1, p2, controlPoint], SupportedLineType.QuadraticCurve);
     }
     this.context.stroke();
