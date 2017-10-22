@@ -5,7 +5,7 @@ import {Point} from "../models/point.model";
 
 @Injectable()
 export class SelectionService {
-  position$ = new BehaviorSubject<Point>(null);
+  private position$ = new BehaviorSubject<Point>(null);
 
   constructor() { }
 

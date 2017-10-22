@@ -15,8 +15,9 @@ export class SelectionComponent implements OnChanges {
 
   ngOnChanges() {
     if (this.position) {
-      this.absolutePosition =
-        this.helpersService.toAbsoluteCoordinates(this.position);
+      this.absolutePosition = this.helpersService.toAbsoluteCoordinates(this.position);
+    } else {
+      this.absolutePosition = null;
     }
   }
 

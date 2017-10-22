@@ -3,6 +3,7 @@ import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {SupportedLineType} from "../configs/supported-lines";
 import {HistoryEvent} from "../models/history-event.model";
 import {Point} from "../models/point.model";
+import {SelectionService} from "./selection.service";
 
 @Injectable()
 export class HistoryService {
@@ -10,7 +11,7 @@ export class HistoryService {
   needsRendering$ = new BehaviorSubject<boolean>(false);
   isRecording = false;
 
-  constructor() {
+  constructor(private selection: SelectionService) {
   }
 
   add(points: Point[], lineType: SupportedLineType) {
@@ -33,9 +34,9 @@ export class HistoryService {
   }
 
   clear() {
+    this.selection.set(null);
     this.history$.next([]);
     this.needsRendering$.next(true);
-    this.needsRendering$.next(false);
   }
 
 }
