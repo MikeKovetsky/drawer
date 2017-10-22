@@ -5,6 +5,7 @@ import {SupportedLineType} from "../../configs/supported-lines";
 import {DrawerService} from "../../services/drawer.service";
 import {SelectionService} from "../../services/selection.service";
 import {HistoryService} from "../../services/history.service";
+import {ShapesService} from "../../services/shapes.service";
 
 @Component({
   selector: 'drawer-toolbar',
@@ -16,7 +17,7 @@ export class ToolbarComponent {
   lineType = this.lineTypes.Line;
 
   constructor(private drawer: DrawerService,
-              private history: HistoryService,
+              private shapesService: ShapesService,
               private selection: SelectionService) {
   }
 
@@ -37,4 +38,5 @@ export class ToolbarComponent {
         break;
     }
   }
+
 }

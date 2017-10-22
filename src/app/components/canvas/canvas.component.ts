@@ -8,7 +8,6 @@ import {CANVAS_CONFIG} from "../../configs/canvas-config";
 import {DrawerCanvas} from "../../models/canvas.model";
 import {Point} from "../../models/point.model";
 import {SelectionService} from "../../services/selection.service";
-import {SupportedLineType} from "../../configs/supported-lines";
 import {ShapesService} from "../../services/shapes.service";
 
 @Component({
@@ -39,8 +38,6 @@ export class CanvasComponent implements OnInit {
       }
     });
 
-    this.shapes.drawTenth();
-
     this.selection.get().subscribe((pos) => {
       this.selected = pos;
     })
@@ -60,6 +57,11 @@ export class CanvasComponent implements OnInit {
     } else {
       this.selection.set(this.cursorPosition.coordinates$.getValue())
     }
+  }
+
+
+  drawTenth() {
+    this.shapes.drawTenth();
   }
 
 }
