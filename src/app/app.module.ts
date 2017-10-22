@@ -25,6 +25,7 @@ import {HistoryService} from "./services/history.service";
 import {SelectionService} from "./services/selection.service";
 import {HelpersService} from "./services/helpers.service";
 import {ShapesService} from "./services/shapes.service";
+import { TransformationsComponent } from './components/transformations/transformations.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import {ShapesService} from "./services/shapes.service";
     PointPositionComponent,
     NewCircleComponent,
     NewLineComponent,
-    NewCurveComponent
+    NewCurveComponent,
+    TransformationsComponent
   ],
   imports: [
     BrowserModule,

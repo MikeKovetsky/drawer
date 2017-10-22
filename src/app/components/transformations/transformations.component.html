@@ -1,0 +1,30 @@
+<div class="transformations">
+  <form [formGroup]="moveGroup" (ngSubmit)="move(moveGroup)">
+    <input type="number" placeholder="move X" formControlName="x" name="moveX">
+    <input type="number" placeholder="move Y" formControlName="y" name="moveY">
+    <button [disabled]="moveGroup.invalid">Move</button>
+  </form>
+  <form [formGroup]="rotationGroup">
+    <input type="number" placeholder="X" formControlName="x" name="moveX">
+    <input type="number" placeholder="Y" formControlName="y" name="moveY">
+    <input type="number" placeholder="Angle" formControlName="angle" name="moveY">
+    <button>Rotate</button>
+  </form>
+  <form [formGroup]="affineGroup">
+    <input type="number" placeholder="r0 X" formControlName="r0x" name="r0x">
+    <input type="number" placeholder="ro Y" formControlName="r0y" name="r0y">
+    <input type="number" placeholder="r1 X" formControlName="r1x" name="r1x">
+    <input type="number" placeholder="r1 Y" formControlName="r1y" name="r1y">
+    <input type="number" placeholder="r2 X" formControlName="r2x" name="r2x">
+    <input type="number" placeholder="r2 Y" formControlName="r2y" name="r2y">
+    <button>Affine transform</button>
+  </form>
+  <form [formGroup]="homographyGroup">
+    <input type="number" placeholder="w0" formControlName="w0" name="w0">
+    <input type="number" placeholder="wx" formControlName="wx" name="wx">
+    <input type="number" placeholder="wy" formControlName="wy" name="wy">
+    <button>Homography transform</button>
+  </form>
+  <button mat-raised-button>Scale +</button>
+  <button mat-raised-button>Scale -</button>
+</div>

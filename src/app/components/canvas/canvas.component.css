@@ -3,3 +3,14 @@
   top: 60px;
   left: 0px;
 }
+
+.transformations-toggler {
+  position: absolute;
+  left: 120px;
+  top: 0;
+  width: 20px;
+  text-align: center;
+  background: #333;
+  color: white;
+  cursor: pointer;
+}
