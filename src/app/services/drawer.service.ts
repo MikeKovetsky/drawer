@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
-import {SupportedLineType} from "../configs/supported-lines";
-import {CircleDrawingMethod} from "../configs/canvas-config";
-import {DrawerCanvas} from "../models/canvas.model";
-import {Point} from "../models/point.model";
-import {HistoryService} from "./history.service";
-import {HelpersService} from "./helpers.service";
+import { Injectable } from '@angular/core';
+import { SupportedLineType } from "../configs/supported-lines";
+import { CircleDrawingMethod } from "../configs/canvas-config";
+import { DrawerCanvas } from "../models/canvas.model";
+import { Point } from "../models/point.model";
+import { HistoryService } from "./history.service";
+import { HelpersService } from "./helpers.service";
 
 @Injectable()
 export class DrawerService {
@@ -18,10 +18,12 @@ export class DrawerService {
 
   render(canvas: DrawerCanvas): DrawerCanvas {
     this.history.isRecording = false;
+    this.enableSizeLines = false;
+    // this.invertYAxis(canvas, true);
     this.setContext(canvas);
+    this.invertYAxis(canvas, false);
     this.initGrid(canvas);
     this.initAxis(canvas);
-    this.invertYAxis(canvas);
     this.enableSizeLines = true;
     this.history.isRecording = true;
     return canvas;
@@ -33,13 +35,13 @@ export class DrawerService {
 
   initGrid(canvas: DrawerCanvas) {
     this.context.globalAlpha = 0.2;
-    for (let i = 0; i < canvas.width; i += canvas.vectorLength) {
+    for (let i = -canvas.width / 2; i < canvas.width / 2; i += canvas.vectorLength) {
       //vertical lines
-      this.drawLine(new Point(i, 0), new Point(i, canvas.height));
+      this.drawLine(new Point(i, -canvas.height / 2), new Point(i, canvas.height / 2));
     }
-    for (let i = 0; i < canvas.height; i += canvas.vectorLength) {
+    for (let i = -canvas.height / 2; i < canvas.height / 2; i += canvas.vectorLength) {
       //horizontal lines
-      this.drawLine(new Point(0, i), new Point(canvas.width, i));
+      this.drawLine(new Point(-canvas.width / 2, i), new Point(canvas.width / 2, i));
     }
     this.context.globalAlpha = 1;
     this.context.font = "16px Arial";
@@ -49,26 +51,28 @@ export class DrawerService {
 
   initAxis(canvas: DrawerCanvas) {
     //x and y axis
-    this.drawLine(new Point(0, canvas.height / 2), new Point(canvas.width, canvas.height / 2));
-    this.drawLine(new Point(canvas.width / 2, 0), new Point(canvas.width / 2, canvas.height));
-    for (let i = 0; i < canvas.height; i += canvas.vectorLength) {
-      const helperStrokeStart = new Point(canvas.width / 2 - canvas.vectorLength / 2, i);
-      const helperStrokeEnd = new Point(canvas.width / 2 + canvas.vectorLength / 2, i);
+    this.drawLine(new Point(-canvas.width / 2, 0), new Point(canvas.width / 2, 0));
+    this.drawLine(new Point(0, -canvas.height / 2), new Point(0, canvas.height));
+    for (let i = -canvas.height / 2; i < canvas.height / 2; i += canvas.vectorLength) {
+      const helperStrokeStart = new Point(-canvas.vectorLength / 2, i);
+      const helperStrokeEnd = new Point(canvas.vectorLength / 2, i);
       this.drawLine(helperStrokeStart, helperStrokeEnd);
     }
-    for (let i = 0; i < canvas.width; i += canvas.vectorLength) {
-      const helperStrokeStart = new Point(i, canvas.height / 2 - canvas.vectorLength / 2);
-      const helperStrokeEnd = new Point(i, canvas.height / 2 + canvas.vectorLength / 2);
+    for (let i = -canvas.width / 2; i < canvas.width / 2; i += canvas.vectorLength) {
+      const helperStrokeStart = new Point(i, -canvas.vectorLength / 2);
+      const helperStrokeEnd = new Point(i, canvas.vectorLength / 2);
       this.drawLine(helperStrokeStart, helperStrokeEnd);
     }
   }
 
-  invertYAxis(canvas) {
+  invertYAxis(canvas, initial: boolean) {
     // set the canvas origin (0,0) to center canvas
     // All coordinates to the left of center canvas are negative
     // All coordinates below center canvas are negative
-    this.yAxisInverted = true;
-    this.context.translate(canvas.width / 2, canvas.height / 2);
+    this.yAxisInverted = !initial;
+    const x = canvas.width / 2;
+    const y = canvas.height / 2;
+    this.context.translate(x, y);
   }
 
   drawLine(p1: Point, p2: Point, controlPoint: Point = null) {
@@ -102,10 +106,10 @@ export class DrawerService {
   drawCircle(p: Point, radius: number, start: number = 0, end: number = 2) {
     if (this.circleDrawingMethod === CircleDrawingMethod.Native) {
       if (this.yAxisInverted) {
-        p = new Point(p.x, -p.y) ;
+        p = new Point(p.x, -p.y);
       }
       this.context.beginPath();
-      this.context.arc(p.x, p.y, radius,start * Math.PI,end * Math.PI);
+      this.context.arc(p.x, p.y, radius, start * Math.PI, end * Math.PI);
       this.context.stroke();
     }
 
@@ -140,6 +144,6 @@ export class DrawerService {
     if (!this.enableSizeLines) return;
     const distance = Math.round(this.helpers.getDistance(p1, p2));
     const lineCenter = this.helpers.getLineCenter(p1, p2);
-    this.context.fillText(distance.toString(),lineCenter.x, -lineCenter.y);
+    this.context.fillText(distance.toString(), lineCenter.x, -lineCenter.y);
   }
 }

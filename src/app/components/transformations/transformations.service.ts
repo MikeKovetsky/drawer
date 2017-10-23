@@ -11,6 +11,7 @@ export class TransformationsService {
 
   move(deltaX: number, deltaY: number) {
     const points = this.history.getPoints();
+    this.history.clear();
     points.forEach((point, index, points) => {
       if (index === 0) return;
       const newStart = new Point(points[index-1].x + deltaX, points[index-1].y + deltaY);

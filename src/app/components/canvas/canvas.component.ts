@@ -40,7 +40,7 @@ export class CanvasComponent implements OnInit {
 
     this.selection.get().subscribe((pos) => {
       this.selected = pos;
-    })
+    });
   }
 
   updateCursorPosition(ev: MouseEvent) {
