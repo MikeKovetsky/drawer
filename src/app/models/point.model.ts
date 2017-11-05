@@ -6,8 +6,4 @@ export class Point {
     this.x = x;
     this.y = y;
   }
-
-  invertY() {
-    this.y = -this.y;
-  }
 }

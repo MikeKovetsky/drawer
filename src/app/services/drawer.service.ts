@@ -24,6 +24,7 @@ export class DrawerService {
     this.invertYAxis(canvas, false);
     this.initGrid(canvas);
     this.initAxis(canvas);
+    this.drawVectorLength(canvas);
     this.enableSizeLines = true;
     this.history.isRecording = true;
     return canvas;
@@ -44,7 +45,6 @@ export class DrawerService {
       this.drawLine(new Point(-canvas.width / 2, i), new Point(canvas.width / 2, i));
     }
     this.context.globalAlpha = 1;
-    this.context.font = "16px Arial";
     this.context.textAlign = "center";
     return canvas;
   }
@@ -76,31 +76,28 @@ export class DrawerService {
   }
 
   drawLine(p1: Point, p2: Point, controlPoint: Point = null) {
-    if (this.yAxisInverted) {
-      p1.invertY();
-      p2.invertY();
-    }
-
+    this.invertPointsY(p1, p2);
     this.context.beginPath();
     this.context.moveTo(p1.x, p1.y);
     if (controlPoint === null) {
       this.context.lineTo(p2.x, p2.y);
-      if (this.yAxisInverted) {
-        p1.invertY();
-        p2.invertY();
-      }
+      this.invertPointsY(p1, p2);
       this.history.add([p1, p2], SupportedLineType.Line);
       this.drawLineSize(p1, p2);
     } else {
       controlPoint = new Point(controlPoint.x, -controlPoint.y);
       this.context.quadraticCurveTo(controlPoint.x, controlPoint.y, p2.x, p2.y);
-      if (this.yAxisInverted) {
-        p1.invertY();
-        p2.invertY();
-      }
+      this.invertPointsY(p1, p2);
       this.history.add([p1, p2, controlPoint], SupportedLineType.QuadraticCurve);
     }
     this.context.stroke();
+  }
+
+  invertPointsY(p1: Point, p2: Point) {
+    if (this.yAxisInverted) {
+      p1.y = -p1.y;
+      p2.y = -p2.y;
+    }
   }
 
   drawCircle(p: Point, radius: number, start: number = 0, end: number = 2) {
@@ -132,6 +129,12 @@ export class DrawerService {
       startPoint = endPoint;
     }
     this.enableSizeLines = prevSizeLineStatus;
+  }
+
+  private drawVectorLength(canvas) {
+    this.context.font = "10px Arial";
+    this.context.fillText(canvas.vectorLength.toString(), canvas.vectorLength, -canvas.vectorLength);
+    this.context.fillText(canvas.vectorLength.toString(), canvas.vectorLength, canvas.vectorLength);
   }
 
   private getCirclePoint(center, angle, radius, clockwise = true): Point {
