@@ -12,7 +12,7 @@ export class TransformationsComponent implements OnInit {
   moveGroup: FormGroup;
   rotationGroup: FormGroup;
   affineGroup: FormGroup;
-  homographyGroup: FormGroup;
+  projectiveGroup: FormGroup;
 
   constructor(private fb: FormBuilder, private transformations: TransformationsService) { }
 
@@ -34,7 +34,7 @@ export class TransformationsComponent implements OnInit {
       r2x: ['', Validators.required],
       r2y: ['', Validators.required]
     });
-    this.homographyGroup = this.fb.group({
+    this.projectiveGroup = this.fb.group({
       w0: ['', Validators.required],
       wx: ['', Validators.required],
       wy: ['', Validators.required]
@@ -45,4 +45,15 @@ export class TransformationsComponent implements OnInit {
     this.transformations.move(delta.value.x, delta.value.y);
   }
 
+  rotate(rotation: FormGroup) {
+
+  }
+
+  toAffine(affine: FormGroup) {
+
+  }
+
+  toProjective(projective: FormGroup) {
+
+  }
 }
