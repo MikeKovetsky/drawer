@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TransformationsService} from "./transformations.service";
+import {Point} from "../../models/point.model";
 
 @Component({
   selector: 'drawer-transformations',
@@ -46,7 +47,8 @@ export class TransformationsComponent implements OnInit {
   }
 
   rotate(rotation: FormGroup) {
-
+    const controlPoint = new Point(rotation.value.x, rotation.value.y);
+    this.transformations.rotate(controlPoint, rotation.value.angle)
   }
 
   toAffine(affine: FormGroup) {
