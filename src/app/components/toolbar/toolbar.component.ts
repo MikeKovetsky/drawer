@@ -17,7 +17,6 @@ export class ToolbarComponent {
   lineType = this.lineTypes.Line;
 
   constructor(private drawer: DrawerService,
-              private shapesService: ShapesService,
               private selection: SelectionService) {
   }
 
@@ -29,9 +28,7 @@ export class ToolbarComponent {
         this.selection.set(points.p2);
         break;
       case (this.lineTypes.QuadraticCurve):
-        this.drawer.drawLine(points.p1, points.p2, points.controlPoint);
-        this.selection.set(points.p2);
-        break;
+        throw new Error('Not implemented');
       case (this.lineTypes.Circle):
         this.drawer.drawCircle(points.circleCenter, points.radius);
         this.selection.set(points.circleCenter);

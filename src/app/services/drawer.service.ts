@@ -80,17 +80,10 @@ export class DrawerService {
     this.invertPointsY(p1, p2);
     this.context.beginPath();
     this.context.moveTo(p1.x, p1.y);
-    if (controlPoint === null) {
-      this.context.lineTo(p2.x, p2.y);
-      this.invertPointsY(p1, p2);
-      this.history.add([p1, p2], SupportedLineType.Line);
-      this.drawLineSize(p1, p2);
-    } else {
-      controlPoint = new Point(controlPoint.x, -controlPoint.y);
-      this.context.quadraticCurveTo(controlPoint.x, controlPoint.y, p2.x, p2.y);
-      this.invertPointsY(p1, p2);
-      this.history.add([p1, p2, controlPoint], SupportedLineType.QuadraticCurve);
-    }
+    this.context.lineTo(p2.x, p2.y);
+    this.invertPointsY(p1, p2);
+    this.history.add([p1, p2], SupportedLineType.Line);
+    this.drawLineSize(p1, p2);
     this.context.stroke();
   }
 
