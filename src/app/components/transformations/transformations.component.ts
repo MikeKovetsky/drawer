@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TransformationsService} from "./transformations.service";
 import {Point} from "../../models/point.model";
+import {DrawerService} from "../../services/drawer.service";
 
 @Component({
   selector: 'drawer-transformations',
@@ -15,7 +16,9 @@ export class TransformationsComponent implements OnInit {
   affineGroup: FormGroup;
   projectiveGroup: FormGroup;
 
-  constructor(private fb: FormBuilder, private transformations: TransformationsService) { }
+  constructor(private fb: FormBuilder,
+              private transformations: TransformationsService,
+              private drawer: DrawerService) { }
 
   ngOnInit() {
     this.moveGroup = this.fb.group({
@@ -43,12 +46,14 @@ export class TransformationsComponent implements OnInit {
   }
 
   move(delta: FormGroup) {
-    this.transformations.move(delta.value.x, delta.value.y);
+    const movedLines = this.transformations.move(delta.value.x, delta.value.y);
+    this.drawer.drawLines(movedLines);
   }
 
   rotate(rotation: FormGroup) {
     const controlPoint = new Point(rotation.value.x, rotation.value.y);
-    this.transformations.rotate(controlPoint, rotation.value.angle)
+    const rotatedLines = this.transformations.rotate(controlPoint, rotation.value.angle)
+    this.drawer.drawLines(rotatedLines);
   }
 
   toAffine(affine: FormGroup) {
@@ -56,7 +61,8 @@ export class TransformationsComponent implements OnInit {
     const r0 = new Point(points.r0x, points.r0y);
     const rx = new Point(points.r1x, points.r1y);
     const ry = new Point(points.r2x, points.r2y);
-    this.transformations.toAffine(r0, rx, ry)
+    const affineLines = this.transformations.toAffine(r0, rx, ry)
+    this.drawer.drawLines(affineLines);
   }
 
   toProjective(projective: FormGroup) {

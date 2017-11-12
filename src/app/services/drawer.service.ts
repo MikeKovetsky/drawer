@@ -5,6 +5,7 @@ import { DrawerCanvas } from "../models/canvas.model";
 import { Point } from "../models/point.model";
 import { HistoryService } from "./history.service";
 import { HelpersService } from "./helpers.service";
+import {Line} from "../models/line.model";
 
 @Injectable()
 export class DrawerService {
@@ -91,6 +92,12 @@ export class DrawerService {
       this.history.add([p1, p2, controlPoint], SupportedLineType.QuadraticCurve);
     }
     this.context.stroke();
+  }
+
+  drawLines(lines: Line[]) {
+    lines.forEach((line) => {
+      this.drawLine(line.start, line.end);
+    })
   }
 
   invertPointsY(p1: Point, p2: Point) {
