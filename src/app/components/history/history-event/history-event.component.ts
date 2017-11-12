@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {HistoryEvent} from "../../../models/history-event.model";
 import {SupportedLineType} from "../../../configs/supported-lines";
+import {HistoryEvent} from "../../../models/history-event.model";
 
 @Component({
   selector: 'drawer-history-event',

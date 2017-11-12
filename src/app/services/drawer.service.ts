@@ -82,7 +82,7 @@ export class DrawerService {
     this.context.moveTo(p1.x, p1.y);
     this.context.lineTo(p2.x, p2.y);
     this.invertPointsY(p1, p2);
-    this.history.add([p1, p2], SupportedLineType.Line);
+    this.history.add(new Line(p1, p2), SupportedLineType.Line);
     this.drawLineSize(p1, p2);
     this.context.stroke();
   }
@@ -113,7 +113,8 @@ export class DrawerService {
     if (this.circleDrawingMethod === CircleDrawingMethod.Custom) {
       this.customCircleDraw(p, radius, start * Math.PI - Math.PI / 2, end * Math.PI - Math.PI / 2);
     }
-    this.history.add([p], SupportedLineType.Circle);
+    // TODO: resolve circle history trouble
+    // this.history.add([p], SupportedLineType.Circle);
   }
 
   private customCircleDraw(center: Point, radius: number, start: number = 0, end: number = 2, clockwise = true) {

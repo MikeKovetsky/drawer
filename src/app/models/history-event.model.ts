@@ -1,12 +1,7 @@
-import {Point} from "./point.model";
 import {SupportedLineType} from "../configs/supported-lines";
+import {Line} from "./line.model";
 
-export class HistoryEvent {
-  points: Point[];
+export interface HistoryEvent {
   lineType: SupportedLineType;
-
-  constructor(lineType, points: Point[] = []) {
-    this.points = points;
-    this.lineType = lineType;
-  }
+  line: Line;
 }

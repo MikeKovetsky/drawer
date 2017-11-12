@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {SupportedLineType} from "../configs/supported-lines";
-import {HistoryEvent} from "../models/history-event.model";
 import {Point} from "../models/point.model";
 import {SelectionService} from "./selection.service";
+import {Line} from "../models/line.model";
+import {HistoryEvent} from "../models/history-event.model";
 
 @Injectable()
 export class HistoryService {
@@ -14,21 +15,19 @@ export class HistoryService {
   constructor(private selection: SelectionService) {
   }
 
-  add(points: Point[], lineType: SupportedLineType) {
+  add(line: Line, lineType: SupportedLineType) {
     if (!this.isRecording) return;
-    const history = this.history$.getValue();
-    history.push(new HistoryEvent(lineType, points));
+    const history = this.history$.value;
+    history.push({line, lineType});
     this.history$.next(history);
   }
 
   getPoints(): Point[] {
-    const history = this.history$.getValue();
+    const history = this.history$.value;
     if (!history.length) return [];
-    let points = [];
-    history.forEach(event => {
-      event.points.forEach(point => {
-        points.push(point);
-      })
+    const points = [this.history$.value[0].line.start];
+    history.forEach((event, index) => {
+      points.push(event.line.end);
     });
     return points;
   }
