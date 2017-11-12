@@ -15,6 +15,10 @@ export class TransformationsComponent implements OnInit {
   rotationGroup: FormGroup;
   affineGroup: FormGroup;
   projectiveGroup: FormGroup;
+  zoomDelta = .1;
+
+  private center = new Point(0,0);
+  private readonly initialZoom = 1;
 
   constructor(private fb: FormBuilder,
               private transformations: TransformationsService,
@@ -58,7 +62,7 @@ export class TransformationsComponent implements OnInit {
 
   rotate(rotation: FormGroup) {
     const controlPoint = new Point(rotation.value.x, rotation.value.y);
-    const rotatedLines = this.transformations.rotate(controlPoint, rotation.value.angle)
+    const rotatedLines = this.transformations.rotate(controlPoint, rotation.value.angle);
     this.drawer.drawLines(rotatedLines);
   }
 
@@ -67,7 +71,8 @@ export class TransformationsComponent implements OnInit {
     const r0 = new Point(points.r0x, points.r0y);
     const rx = new Point(points.r1x, points.r1y);
     const ry = new Point(points.r2x, points.r2y);
-    const affineLines = this.transformations.toAffine(r0, rx, ry)
+    this.center = r0;
+    const affineLines = this.transformations.toAffine(r0, rx, ry);
     this.drawer.drawLines(affineLines);
   }
 
@@ -77,7 +82,13 @@ export class TransformationsComponent implements OnInit {
     const rx = new Point(points.r1x, points.r1y);
     const ry = new Point(points.r2x, points.r2y);
     const w = new Point(points.wx, points.wy);
-    const projectiveLines = this.transformations.toProjective(r0, rx, ry, w, projective.value.w0)
+    this.center = r0;
+    const projectiveLines = this.transformations.toProjective(r0, rx, ry, w, projective.value.w0);
     this.drawer.drawLines(projectiveLines);
+  }
+
+  scale(zoom: number) {
+    const scaledLines = this.transformations.scale(this.initialZoom + zoom);
+    this.drawer.drawLines(scaledLines);
   }
 }

@@ -32,7 +32,7 @@
       <input type="number" placeholder="wy" formControlName="wy" name="wy">
       <button [disabled]="projectiveGroup.invalid">Projective transform</button>
     </form>
-    <button mat-raised-button>Scale +</button>
-    <button mat-raised-button>Scale -</button>
+    <button mat-raised-button (click)="scale(zoomDelta)">Scale +</button>
+    <button mat-raised-button (click)="scale(-zoomDelta)">Scale -</button>
   </div>
 </div>

@@ -39,4 +39,10 @@ export class HistoryService {
     this.needsRendering$.next(true);
   }
 
+  reset(): Point[] {
+    const removedPoints = this.getPoints();
+    this.clear();
+    return removedPoints;
+  }
+
 }
