@@ -39,9 +39,15 @@ export class TransformationsComponent implements OnInit {
       r2y: ['', Validators.required]
     });
     this.projectiveGroup = this.fb.group({
-      w0: ['', Validators.required],
+      r0x: ['', Validators.required],
+      r0y: ['', Validators.required],
+      r1x: ['', Validators.required],
+      r1y: ['', Validators.required],
+      r2x: ['', Validators.required],
+      r2y: ['', Validators.required],
       wx: ['', Validators.required],
-      wy: ['', Validators.required]
+      wy: ['', Validators.required],
+      w0: ['', Validators.required]
     })
   }
 
@@ -66,6 +72,12 @@ export class TransformationsComponent implements OnInit {
   }
 
   toProjective(projective: FormGroup) {
-
+    const points = projective.value;
+    const r0 = new Point(points.r0x, points.r0y);
+    const rx = new Point(points.r1x, points.r1y);
+    const ry = new Point(points.r2x, points.r2y);
+    const w = new Point(points.wx, points.wy);
+    const projectiveLines = this.transformations.toProjective(r0, rx, ry, w, projective.value.w0)
+    this.drawer.drawLines(projectiveLines);
   }
 }
