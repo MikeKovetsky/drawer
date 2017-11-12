@@ -52,7 +52,11 @@ export class TransformationsComponent implements OnInit {
   }
 
   toAffine(affine: FormGroup) {
-
+    const points = affine.value;
+    const r0 = new Point(points.r0x, points.r0y);
+    const rx = new Point(points.r1x, points.r1y);
+    const ry = new Point(points.r2x, points.r2y);
+    this.transformations.toAffine(r0, rx, ry)
   }
 
   toProjective(projective: FormGroup) {

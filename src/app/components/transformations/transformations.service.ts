@@ -47,6 +47,22 @@ export class TransformationsService {
     })
   }
 
+  toAffine(r0: Point, rx: Point, ry: Point) {
+    const points = this.history.getPoints();
+    this.history.clear();
+    this.toLines(points).forEach((line: Line) => {
+      const start = new Point(
+        r0.x + rx.x * line.start.x + rx.y * line.start.y,
+        r0.y + ry.x * line.start.x + ry.y * line.start.y
+      );
+      const end = new Point(
+        r0.x + rx.x * line.end.x + rx.y * line.end.y,
+        r0.y + ry.x * line.end.x + ry.y * line.end.y
+      );
+      this.drawer.drawLine(start, end);
+    });
+  }
+
   private toLines(points: Point[]): Line[] {
     const lines = [];
     points.forEach((point, index, points) => {
