@@ -1,6 +1,8 @@
 <drawer-transformations *ngIf="showTransformations">
 </drawer-transformations>
-<div class="transformations-toggler" (click)="showTransformations = !showTransformations">+</div>
+<div class="transformations-toggler" (click)="showTransformations = !showTransformations">
+  Transform
+</div>
 <canvas #canvas id="canvas"
         (click)="selectPoint()"
         (mousemove)="updateCursorPosition($event)">

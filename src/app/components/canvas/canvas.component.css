@@ -8,9 +8,12 @@
   position: absolute;
   left: 120px;
   top: 0;
-  width: 20px;
+  width: 70px;
   text-align: center;
   background: #333;
   color: white;
   cursor: pointer;
+  font-size: 12px;
+  height: 20px;
+  line-height: 1.8;
 }
