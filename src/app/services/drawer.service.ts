@@ -147,7 +147,9 @@ export class DrawerService {
   private drawLineSize(p1: Point, p2: Point) {
     if (!this.enableSizeLines) return;
     const distance = Math.round(this.helpers.getDistance(p1, p2));
-    const lineCenter = this.helpers.getLineCenter(p1, p2);
-    this.context.fillText(distance.toString(), lineCenter.x, -lineCenter.y);
+    if (distance > 10) {
+      const lineCenter = this.helpers.getLineCenter(p1, p2);
+      this.context.fillText(distance.toString(), lineCenter.x, -lineCenter.y);
+    }
   }
 }
