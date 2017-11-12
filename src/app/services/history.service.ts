@@ -32,16 +32,21 @@ export class HistoryService {
     return points;
   }
 
+  getLines(): Line[] {
+    const events: HistoryEvent[] = this.history$.value;
+    return events.map(event => event.line);
+  }
+
   clear() {
     this.selection.set(null);
     this.history$.next([]);
     this.needsRendering$.next(true);
   }
 
-  reset(): Point[] {
-    const removedPoints = this.getPoints();
+  reset(): Line[] {
+    const removedLines = this.getLines();
     this.clear();
-    return removedPoints;
+    return removedLines;
   }
 
 }

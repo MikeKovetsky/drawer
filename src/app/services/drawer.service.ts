@@ -76,15 +76,15 @@ export class DrawerService {
     this.context.translate(x, y);
   }
 
-  drawLine(p1: Point, p2: Point, controlPoint: Point = null) {
+  drawLine(p1: Point, p2: Point) {
     this.invertPointsY(p1, p2);
     this.context.beginPath();
     this.context.moveTo(p1.x, p1.y);
     this.context.lineTo(p2.x, p2.y);
     this.invertPointsY(p1, p2);
-    this.history.add(new Line(p1, p2), SupportedLineType.Line);
-    this.drawLineSize(p1, p2);
     this.context.stroke();
+    this.drawLineSize(p1, p2);
+    this.history.add(new Line(p1, p2), SupportedLineType.Line);
   }
 
   drawLines(lines: Line[]) {
@@ -111,13 +111,13 @@ export class DrawerService {
     }
 
     if (this.circleDrawingMethod === CircleDrawingMethod.Custom) {
-      this.customCircleDraw(p, radius, start * Math.PI - Math.PI / 2, end * Math.PI - Math.PI / 2);
+      this.drawCustomCircle(p, radius, start * Math.PI - Math.PI / 2, end * Math.PI - Math.PI / 2);
     }
     // TODO: resolve circle history trouble
     // this.history.add([p], SupportedLineType.Circle);
   }
 
-  private customCircleDraw(center: Point, radius: number, start: number = 0, end: number = 2, clockwise = true) {
+  private drawCustomCircle(center: Point, radius: number, start: number = 0, end: number = 2, clockwise = true) {
     const prevSizeLineStatus = this.enableSizeLines;
     this.enableSizeLines = false;
     const stepSize = (end - start) / 50;
@@ -139,7 +139,7 @@ export class DrawerService {
   }
 
   private getCirclePoint(center, angle, radius, clockwise = true): Point {
-    const x = (Math.sin(angle) * radius) + (clockwise ? -center.x : center.x);
+    const x = -((Math.sin(angle) * radius) + (clockwise ? -center.x : center.x));
     const y = (-Math.cos(angle) * radius) + center.y;
     return new Point(x, y)
   }
