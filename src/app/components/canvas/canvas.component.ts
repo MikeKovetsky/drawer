@@ -64,4 +64,9 @@ export class CanvasComponent implements OnInit {
     this.shapes.drawTenth();
   }
 
+  drawOvals() {
+    const center = new Point(0, 0);
+    this.shapes.drawOvals(center);
+  }
+
 }

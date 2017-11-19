@@ -1,11 +1,13 @@
 import {Injectable} from '@angular/core';
 import {DrawerService} from "./drawer.service";
 import {Point} from "../models/point.model";
+import {HelpersService} from "./helpers.service";
 
 @Injectable()
 export class ShapesService {
 
-  constructor(private drawer: DrawerService) {
+  constructor(private drawer: DrawerService,
+              private helpers: HelpersService) {
   }
 
   drawTenth() {
@@ -46,6 +48,25 @@ export class ShapesService {
 
     this.drawer.drawCircle(new Point(80, 120), 20);
     this.drawer.drawCircle(new Point(-80, 120), 20);
+  }
+
+  drawOvals(center: Point) {
+    const a = 100;
+    const b = 100;
+    const points = [];
+    for (let i = 0; i < 2 * Math.PI; i += 0.01){
+      const r = Math.sqrt(Math.pow(b, 2) * Math.cos(2 * i) + Math.sqrt(Math.pow(b, 4) * Math.pow(Math.cos(2 * i), 2) + Math.pow(a, 4) - Math.pow(b, 4)));
+      const x = r * Math.cos(i);
+      const y = r * Math.sin(i);
+      points.push(new Point(center.x + x, center.y + y));
+    }
+    this.drawer.enableSizeLines = false;
+    points.forEach((point, index) => {
+      if (index === 0) return;
+      this.drawer.drawLine(points[index - 1], point);
+    });
+    this.drawer.enableSizeLines = true;
+    // this.drawer.drawTangent(new Point(122.74, 37.97));
   }
 
 }

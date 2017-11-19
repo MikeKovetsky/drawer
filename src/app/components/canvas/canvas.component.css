@@ -4,6 +4,12 @@
   left: 0px;
 }
 
+.draw-ovals {
+  position: absolute;
+  top: 100px;
+  left: 0px;
+}
+
 .transformations-toggler {
   position: absolute;
   left: 120px;

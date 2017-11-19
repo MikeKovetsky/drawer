@@ -87,6 +87,11 @@ export class DrawerService {
     this.history.add(new Line(p1, p2), SupportedLineType.Line);
   }
 
+  drawPoint(point: Point) {
+    this.context.fillRect(point.x,point.y,1,1)
+    this.history.add(new Line(point, point), SupportedLineType.Line);
+  }
+
   drawLines(lines: Line[]) {
     lines.forEach((line) => {
       this.drawLine(line.start, line.end);
@@ -102,6 +107,7 @@ export class DrawerService {
 
   drawCircle(p: Point, radius: number, start: number = 0, end: number = 2) {
     if (this.circleDrawingMethod === CircleDrawingMethod.Native) {
+      // deprecation
       if (this.yAxisInverted) {
         p = new Point(p.x, -p.y);
       }
@@ -113,8 +119,6 @@ export class DrawerService {
     if (this.circleDrawingMethod === CircleDrawingMethod.Custom) {
       this.drawCustomCircle(p, radius, start * Math.PI - Math.PI / 2, end * Math.PI - Math.PI / 2);
     }
-    // TODO: resolve circle history trouble
-    // this.history.add([p], SupportedLineType.Circle);
   }
 
   private drawCustomCircle(center: Point, radius: number, start: number = 0, end: number = 2, clockwise = true) {
@@ -139,8 +143,8 @@ export class DrawerService {
   }
 
   private getCirclePoint(center, angle, radius, clockwise = true): Point {
-    const x = -((Math.sin(angle) * radius) + (clockwise ? -center.x : center.x));
-    const y = (-Math.cos(angle) * radius) + center.y;
+    const x = -Math.sin(angle) * radius - (clockwise ? -center.x : center.x);
+    const y = -Math.cos(angle) * radius + center.y;
     return new Point(x, y)
   }
 
@@ -151,5 +155,20 @@ export class DrawerService {
       const lineCenter = this.helpers.getLineCenter(p1, p2);
       this.context.fillText(distance.toString(), lineCenter.x, -lineCenter.y);
     }
+  }
+
+  private drawLineByFunction(x: number, k: number, offset: number) {
+    const lineLength = 300;
+    const start = new Point(x - lineLength, k * (x - lineLength) + offset);
+    const end = new Point(x + lineLength, k * (x + lineLength) + offset);
+    this.drawLine(start, end);
+  }
+
+  public drawTangent(controlPoint: Point){
+    const a = 100;
+    const sdf = Math.sqrt(Math.pow(controlPoint.x, 2) / 2 * Math.pow(a, 2));
+    const t = Math.atan(sdf);
+    const yp_t = Math.tan(Math.PI / 2 + 2 * t);
+    this.drawLineByFunction(controlPoint.x, yp_t, - yp_t * controlPoint.x + controlPoint.y);
   }
 }
