@@ -5,7 +5,11 @@
   bottom: 0;
   width: 230px;
   background: #555;
-  padding: 140px 10px 0;
+  padding: 60px 10px 0;
+}
+
+.specific__section {
+  margin-bottom: 20px;
 }
 
 .specific__inner {

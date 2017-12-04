@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {HistoryService} from "../../services/history.service";
 import {Point} from "../../models/point.model";
 import {DrawerService} from "../../services/drawer.service";
+import {ShapesService} from "../../services/shapes.service";
 
 @Component({
   selector: 'drawer-specific',
@@ -11,12 +12,22 @@ import {DrawerService} from "../../services/drawer.service";
 })
 export class SpecificComponent implements OnInit {
   tangentGroup: FormGroup;
+  cassiniGroup: FormGroup;
 
   constructor(private fb: FormBuilder,
               private drawer: DrawerService,
-              private history: HistoryService) { }
+              private shapes: ShapesService,
+              private history: HistoryService) {
+  }
 
   ngOnInit() {
+    this.cassiniGroup = this.fb.group({
+      x: [0, Validators.required],
+      y: [0, Validators.required],
+      a: [100, Validators.required],
+      b: [100, Validators.required],
+    });
+
     this.tangentGroup = this.fb.group({
       x: ['', Validators.required],
       y: ['', Validators.required],
@@ -25,7 +36,7 @@ export class SpecificComponent implements OnInit {
   }
 
   drawTangent(tangentGroup: FormGroup) {
-    const control: Point  = new Point(tangentGroup.value.x, tangentGroup.value.y);
+    const control: Point = new Point(tangentGroup.value.x, tangentGroup.value.y);
     const length = tangentGroup.value.length;
     const history = this.history.getPoints();
     const belongsToShape = history.some(point => point.x === control.x && point.y === control.y);
@@ -39,7 +50,7 @@ export class SpecificComponent implements OnInit {
   }
 
   drawNormal(tangentGroup: FormGroup) {
-    const control: Point  = new Point(tangentGroup.value.x, tangentGroup.value.y);
+    const control: Point = new Point(tangentGroup.value.x, tangentGroup.value.y);
     const length = tangentGroup.value.length;
     const history = this.history.getPoints();
     const belongsToShape = history.some(point => point.x === control.x && point.y === control.y);
@@ -54,6 +65,15 @@ export class SpecificComponent implements OnInit {
     } else {
       alert('Point on the figure was the found.');
     }
+  }
+
+  drawTenth() {
+    this.shapes.drawTenth();
+  }
+
+  drawOvals(cassiniGroup: FormGroup) {
+    const center = new Point(cassiniGroup.value.x, cassiniGroup.value.y);
+    this.shapes.drawOvals(center, cassiniGroup.value.a, cassiniGroup.value.b);
   }
 
 }

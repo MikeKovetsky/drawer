@@ -51,6 +51,16 @@ export class CanvasComponent implements OnInit {
     this.specificShown = false;
   }
 
+  selectPoint() {
+    const clicked: Point = this.cursorPosition.coordinates$.getValue();
+    if (this.selected) {
+      this.drawer.drawLine(this.selected, clicked);
+      this.selection.set(clicked);
+    } else {
+      this.selection.set(this.cursorPosition.coordinates$.getValue())
+    }
+  }
+
   showSpecific() {
     this.specificShown = !this.specificShown;
     this.transformationsShown = false;
@@ -60,15 +70,6 @@ export class CanvasComponent implements OnInit {
     const rect = this.domCanvas.nativeElement.getBoundingClientRect();
     const clientPos = new Point(ev.clientX, ev.clientY);
     this.cursorPosition.updatePosition(clientPos, this.canvas, rect);
-  }
-
-  drawTenth() {
-    this.shapes.drawTenth();
-  }
-
-  drawOvals() {
-    const center = new Point(0, 0);
-    this.shapes.drawOvals(center);
   }
 
 }
