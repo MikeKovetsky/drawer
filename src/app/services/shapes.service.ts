@@ -5,9 +5,10 @@ import {HelpersService} from "./helpers.service";
 
 @Injectable()
 export class ShapesService {
+  private readonly FLOAT_PRECISION = 2;
 
-  constructor(private drawer: DrawerService,
-              private helpers: HelpersService) {
+
+  constructor(private drawer: DrawerService) {
   }
 
   drawTenth() {
@@ -56,8 +57,8 @@ export class ShapesService {
     const points = [];
     for (let i = 0; i < 2 * Math.PI; i += 0.01){
       const r = Math.sqrt(Math.pow(b, 2) * Math.cos(2 * i) + Math.sqrt(Math.pow(b, 4) * Math.pow(Math.cos(2 * i), 2) + Math.pow(a, 4) - Math.pow(b, 4)));
-      const x = r * Math.cos(i);
-      const y = r * Math.sin(i);
+      const x = +(r * Math.cos(i)).toFixed(this.FLOAT_PRECISION);
+      const y = +(r * Math.sin(i)).toFixed(this.FLOAT_PRECISION);
       points.push(new Point(center.x + x, center.y + y));
     }
     this.drawer.enableSizeLines = false;
@@ -66,7 +67,6 @@ export class ShapesService {
       this.drawer.drawLine(points[index - 1], point);
     });
     this.drawer.enableSizeLines = true;
-    // this.drawer.drawTangent(new Point(122.74, 37.97));
   }
 
 }

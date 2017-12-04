@@ -23,3 +23,17 @@
   height: 20px;
   line-height: 1.8;
 }
+
+.specific-toggler {
+  position: absolute;
+  left: 220px;
+  top: 0;
+  width: 130px;
+  text-align: center;
+  background: #333;
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  height: 20px;
+  line-height: 1.8;
+}

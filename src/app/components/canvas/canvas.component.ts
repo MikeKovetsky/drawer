@@ -20,6 +20,9 @@ export class CanvasComponent implements OnInit {
   canvas: DrawerCanvas;
   selected: Point;
 
+  transformationsShown = false;
+  specificShown = false;
+
   constructor(
     private drawer: DrawerService,
     private history: HistoryService,
@@ -43,6 +46,16 @@ export class CanvasComponent implements OnInit {
     });
   }
 
+  showTransformations() {
+    this.transformationsShown = !this.transformationsShown;
+    this.specificShown = false;
+  }
+
+  showSpecific() {
+    this.specificShown = !this.specificShown;
+    this.transformationsShown = false;
+  }
+
   updateCursorPosition(ev: MouseEvent) {
     const rect = this.domCanvas.nativeElement.getBoundingClientRect();
     const clientPos = new Point(ev.clientX, ev.clientY);
@@ -51,6 +64,16 @@ export class CanvasComponent implements OnInit {
 
   selectPoint() {
     const clicked: Point = this.cursorPosition.coordinates$.getValue();
+
+    const belongsToShape = this.history.getPoints().some(point => {
+      return point.x === clicked.x && point.y === clicked.y;
+    });
+
+    if (belongsToShape) {
+      this.drawer.drawTangent(clicked);
+      return;
+    }
+
     if (this.selected) {
       this.drawer.drawLine(this.selected, clicked);
       this.selection.set(clicked)

@@ -1,7 +1,13 @@
-<drawer-transformations *ngIf="showTransformations">
+<drawer-transformations *ngIf="transformationsShown">
 </drawer-transformations>
-<div class="transformations-toggler" (click)="showTransformations = !showTransformations">
+
+<drawer-specific *ngIf="specificShown"></drawer-specific>
+
+<div class="transformations-toggler" (click)="showTransformations()">
   Transform
+</div>
+<div class="specific-toggler" (click)="showSpecific()">
+  Draw specific lines
 </div>
 <canvas #canvas id="canvas"
         (click)="selectPoint()"

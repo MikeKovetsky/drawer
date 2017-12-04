@@ -87,6 +87,15 @@ export class DrawerService {
     this.history.add(new Line(p1, p2), SupportedLineType.Line);
   }
 
+  drawEndlessLine(p1: Point, p2: Point, pixels: number) {
+    const d = new Point(p2.x - p1.x, p2.y - p2.x);
+    const length = Math.sqrt(d.x * d.x + d.y * d.y);
+    const delta = pixels / length;
+    const a = new Point(p1.x + (p2.x - p1.x) * -delta, p1.y + (p2.y - p1.y) * -delta);
+    const b = new Point(p1.x + (p2.x - p1.x) * (1 + delta), p1.y + (p2.y - p1.y) * (1 + delta));
+    this.drawLine(a, b);
+  }
+
   drawPoint(point: Point) {
     this.context.fillRect(point.x,point.y,1,1)
     this.history.add(new Line(point, point), SupportedLineType.Line);
@@ -165,10 +174,9 @@ export class DrawerService {
   }
 
   public drawTangent(controlPoint: Point){
-    const a = 100;
-    const sdf = Math.sqrt(Math.pow(controlPoint.x, 2) / 2 * Math.pow(a, 2));
-    const t = Math.atan(sdf);
-    const yp_t = Math.tan(Math.PI / 2 + 2 * t);
-    this.drawLineByFunction(controlPoint.x, yp_t, - yp_t * controlPoint.x + controlPoint.y);
+    const shapePoints = this.history.getPoints();
+    if (shapePoints.indexOf(controlPoint)) {
+      console.log(shapePoints.indexOf(controlPoint));
+    }
   }
 }
