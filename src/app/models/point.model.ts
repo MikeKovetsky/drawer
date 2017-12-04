@@ -6,4 +6,9 @@ export class Point {
     this.x = x;
     this.y = y;
   }
+
+  round() {
+    this.x = +(this.x).toFixed(2);
+    this.y = +(this.y).toFixed(2);
+  }
 }

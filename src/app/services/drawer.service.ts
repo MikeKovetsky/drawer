@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { SupportedLineType } from "../configs/supported-lines";
-import { CircleDrawingMethod } from "../configs/canvas-config";
-import { DrawerCanvas } from "../models/canvas.model";
-import { Point } from "../models/point.model";
-import { HistoryService } from "./history.service";
-import { HelpersService } from "./helpers.service";
+import {Injectable} from '@angular/core';
+import {SupportedLineType} from "../configs/supported-lines";
+import {CircleDrawingMethod} from "../configs/canvas-config";
+import {DrawerCanvas} from "../models/canvas.model";
+import {Point} from "../models/point.model";
+import {HistoryService} from "./history.service";
+import {HelpersService} from "./helpers.service";
 import {Line} from "../models/line.model";
 
 @Injectable()
@@ -77,6 +77,8 @@ export class DrawerService {
   }
 
   drawLine(p1: Point, p2: Point) {
+    p1.round();
+    p2.round();
     this.invertPointsY(p1, p2);
     this.context.beginPath();
     this.context.moveTo(p1.x, p1.y);
@@ -96,15 +98,10 @@ export class DrawerService {
     this.drawLine(a, b);
   }
 
-  drawPoint(point: Point) {
-    this.context.fillRect(point.x,point.y,1,1)
-    this.history.add(new Line(point, point), SupportedLineType.Line);
-  }
-
   drawLines(lines: Line[]) {
     lines.forEach((line) => {
       this.drawLine(line.start, line.end);
-    })
+    });
   }
 
   invertPointsY(p1: Point, p2: Point) {
@@ -154,7 +151,7 @@ export class DrawerService {
   private getCirclePoint(center, angle, radius, clockwise = true): Point {
     const x = -Math.sin(angle) * radius - (clockwise ? -center.x : center.x);
     const y = -Math.cos(angle) * radius + center.y;
-    return new Point(x, y)
+    return new Point(x, y);
   }
 
   private drawLineSize(p1: Point, p2: Point) {
@@ -163,20 +160,6 @@ export class DrawerService {
     if (distance > 10) {
       const lineCenter = this.helpers.getLineCenter(p1, p2);
       this.context.fillText(distance.toString(), lineCenter.x, -lineCenter.y);
-    }
-  }
-
-  private drawLineByFunction(x: number, k: number, offset: number) {
-    const lineLength = 300;
-    const start = new Point(x - lineLength, k * (x - lineLength) + offset);
-    const end = new Point(x + lineLength, k * (x + lineLength) + offset);
-    this.drawLine(start, end);
-  }
-
-  public drawTangent(controlPoint: Point){
-    const shapePoints = this.history.getPoints();
-    if (shapePoints.indexOf(controlPoint)) {
-      console.log(shapePoints.indexOf(controlPoint));
     }
   }
 }

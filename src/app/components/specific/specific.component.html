@@ -1,9 +1,10 @@
 <div class="specific">
   Tangent
-  <form [formGroup]="tangentGroup" (ngSubmit)="draw(tangentGroup)">
+  <form [formGroup]="tangentGroup">
     <input type="number" placeholder="X" formControlName="x" name="controlX">
     <input type="number" placeholder="Y" formControlName="y" name="controlY">
     <input type="number" placeholder="Length" formControlName="length" name="length">
-    <button [disabled]="tangentGroup.invalid">Draw Tangent</button>
+    <button [disabled]="tangentGroup.invalid" (click)="drawTangent(tangentGroup)">Draw Tangent</button>
+    <button [disabled]="tangentGroup.invalid" (click)="drawNormal(tangentGroup)">Draw Normal</button>
   </form>
 </div>

@@ -24,15 +24,33 @@ export class SpecificComponent implements OnInit {
     });
   }
 
-  draw() {
-    const control: Point  = new Point(this.tangentGroup.value.x, this.tangentGroup.value.y);
-    const length = this.tangentGroup.value.length;
+  drawTangent(tangentGroup: FormGroup) {
+    const control: Point  = new Point(tangentGroup.value.x, tangentGroup.value.y);
+    const length = tangentGroup.value.length;
     const history = this.history.getPoints();
     const belongsToShape = history.some(point => point.x === control.x && point.y === control.y);
     if (belongsToShape) {
       const controlIndex = history.findIndex(point => point.x === control.x && point.y === control.y);
       const nextIndex = controlIndex ? controlIndex - 1 : controlIndex + 1;
       this.drawer.drawEndlessLine(history[controlIndex], history[nextIndex], length);
+    } else {
+      alert('Point on the figure was the found.');
+    }
+  }
+
+  drawNormal(tangentGroup: FormGroup) {
+    const control: Point  = new Point(tangentGroup.value.x, tangentGroup.value.y);
+    const length = tangentGroup.value.length;
+    const history = this.history.getPoints();
+    const belongsToShape = history.some(point => point.x === control.x && point.y === control.y);
+    if (belongsToShape) {
+      const controlIndex = history.findIndex(point => point.x === control.x && point.y === control.y);
+      const p1 = history[controlIndex - 1];
+      const p2 = history[controlIndex];
+      const p3 = history[controlIndex + 1];
+      const k = ((p2.y - p1.y) * (p3.x - p1.x) - (p2.x - p1.x) * (p3.y - p1.y)) / (Math.pow(p2.y - p1.y, 2) + Math.pow(p2.x - p1.x, 2));
+      const p4 = new Point(p3.x - k * (p2.y - p1.y), p3.y + k * (p2.x - p1.x));
+      this.drawer.drawEndlessLine(p3, p4, length * 100);
     } else {
       alert('Point on the figure was the found.');
     }

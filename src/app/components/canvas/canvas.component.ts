@@ -62,27 +62,6 @@ export class CanvasComponent implements OnInit {
     this.cursorPosition.updatePosition(clientPos, this.canvas, rect);
   }
 
-  selectPoint() {
-    const clicked: Point = this.cursorPosition.coordinates$.getValue();
-
-    const belongsToShape = this.history.getPoints().some(point => {
-      return point.x === clicked.x && point.y === clicked.y;
-    });
-
-    if (belongsToShape) {
-      this.drawer.drawTangent(clicked);
-      return;
-    }
-
-    if (this.selected) {
-      this.drawer.drawLine(this.selected, clicked);
-      this.selection.set(clicked)
-    } else {
-      this.selection.set(this.cursorPosition.coordinates$.getValue())
-    }
-  }
-
-
   drawTenth() {
     this.shapes.drawTenth();
   }
