@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {HistoryService} from "../../services/history.service";
-import {Point} from "../../models/point.model";
-import {DrawerService} from "../../services/drawer.service";
-import {ShapesService} from "../../services/shapes.service";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HistoryService } from '../../services/history.service';
+import { Point } from '../../models/point.model';
+import { DrawerService } from '../../services/drawer.service';
+import { ShapesService } from '../../services/shapes.service';
 
 @Component({
   selector: 'drawer-specific',
@@ -13,6 +13,7 @@ import {ShapesService} from "../../services/shapes.service";
 export class SpecificComponent implements OnInit {
   tangentGroup: FormGroup;
   cassiniGroup: FormGroup;
+  cassiniPrevState: any;
 
   constructor(private fb: FormBuilder,
               private drawer: DrawerService,
@@ -24,7 +25,7 @@ export class SpecificComponent implements OnInit {
     this.cassiniGroup = this.fb.group({
       x: [0, Validators.required],
       y: [0, Validators.required],
-      a: [100, Validators.required],
+      a: [105, Validators.required],
       b: [100, Validators.required],
     });
 
@@ -72,8 +73,36 @@ export class SpecificComponent implements OnInit {
   }
 
   drawOvals(cassiniGroup: FormGroup) {
+    this.cassiniPrevState = this.cassiniGroup.value;
     const center = new Point(cassiniGroup.value.x, cassiniGroup.value.y);
     this.shapes.drawOvals(center, cassiniGroup.value.a, cassiniGroup.value.b);
+  }
+
+  changeOvals(cassiniGroup: FormGroup) {
+    const animationFrames = 10;
+    let frame = 1;
+    const animation = setInterval(() => {
+      this.history.clear();
+      if (frame === animationFrames) {
+        clearTimeout(animation);
+        this.drawOvals(cassiniGroup);
+      } else {
+        const xChanged = cassiniGroup.value.x - this.cassiniPrevState.x;
+        const yChanged = cassiniGroup.value.y - this.cassiniPrevState.y;
+        const newCenter = new Point(
+          this.cassiniPrevState.x + xChanged / (animationFrames - frame),
+          this.cassiniPrevState.y + yChanged / (animationFrames - frame)
+        );
+        const aChanged = cassiniGroup.value.a - this.cassiniPrevState.a;
+        const bChanged = cassiniGroup.value.b - this.cassiniPrevState.b;
+        this.shapes.drawOvals(
+          newCenter,
+          this.cassiniPrevState.a + aChanged / (animationFrames - frame),
+          this.cassiniPrevState.b + bChanged / (animationFrames - frame),
+          0.1);
+        frame++;
+      }
+    }, 100);
   }
 
 }

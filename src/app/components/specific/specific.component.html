@@ -4,12 +4,13 @@
   </div>
   <div class="specific__section">
     Cassini Ovals
-    <form [formGroup]="cassiniGroup" (submit)="drawOvals(cassiniGroup)">
+    <form [formGroup]="cassiniGroup">
       <input type="number" placeholder="X" formControlName="x" name="controlX">
       <input type="number" placeholder="Y" formControlName="y" name="controlY">
       <input type="number" placeholder="A" formControlName="a" name="a">
       <input type="number" placeholder="B" formControlName="b" name="b">
-      <button [disabled]="cassiniGroup.invalid">Draw Ovals</button>
+      <button [disabled]="cassiniGroup.invalid" (click)="drawOvals(cassiniGroup)">Draw Ovals</button>
+      <button [disabled]="cassiniGroup.invalid" (click)="changeOvals(cassiniGroup)">Change Ovals</button>
     </form>
   </div>
   <div class="specific__section">
