@@ -118,7 +118,8 @@ export class SpecificComponent implements OnInit {
     const a = cassiniGroup.value.a;
     const b = cassiniGroup.value.b;
     const ro = Math.pow((Math.pow(a,4) - Math.pow(b,4)) / 3, 0.25);
-    return (2 * a * a * ro * ro * ro) / (Math.pow(b, 4) - Math.pow(a, 4) + 3 * Math.pow(ro, 4));
+    // return (2 * a * a * ro * ro * ro) / (Math.pow(b, 4) - Math.pow(a, 4) + 3 * Math.pow(ro, 4));
+    return 2 * b * b / 3 * ro;
   }
 
   getArea(cassiniGroup: FormGroup): number {
