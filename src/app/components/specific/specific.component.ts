@@ -15,6 +15,11 @@ export class SpecificComponent implements OnInit {
   cassiniGroup: FormGroup;
   cassiniPrevState: any;
 
+  cassiniProperties = {
+    curvatureRadius: 0,
+    area: 0
+  };
+
   constructor(private fb: FormBuilder,
               private drawer: DrawerService,
               private shapes: ShapesService,
@@ -76,6 +81,8 @@ export class SpecificComponent implements OnInit {
     this.cassiniPrevState = this.cassiniGroup.value;
     const center = new Point(cassiniGroup.value.x, cassiniGroup.value.y);
     this.shapes.drawOvals(center, cassiniGroup.value.a, cassiniGroup.value.b);
+    this.cassiniProperties.curvatureRadius = this.getCurvatureRadius(cassiniGroup);
+    this.cassiniProperties.area = this.getArea(cassiniGroup);
   }
 
   changeOvals(cassiniGroup: FormGroup) {
@@ -103,6 +110,17 @@ export class SpecificComponent implements OnInit {
         frame++;
       }
     }, 100);
+  }
+
+  getCurvatureRadius(cassiniGroup: FormGroup): number {
+    const a = cassiniGroup.value.a;
+    const b = cassiniGroup.value.b;
+    const ro = Math.pow((Math.pow(a,4) - Math.pow(b,4)) / 3, 0.25);
+    return (2 * a * a * ro * ro * ro) / (Math.pow(b, 4) - Math.pow(a, 4) + 3 * Math.pow(ro, 4));
+  }
+
+  getArea(cassiniGroup: FormGroup): number {
+    return cassiniGroup.value.a * cassiniGroup.value.a;
   }
 
 }
