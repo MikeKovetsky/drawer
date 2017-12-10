@@ -17,7 +17,8 @@ export class SpecificComponent implements OnInit {
 
   cassiniProperties = {
     curvatureRadius: 0,
-    area: 0
+    area: 0,
+    inflectionPoint: 0
   };
 
   constructor(private fb: FormBuilder,
@@ -83,6 +84,7 @@ export class SpecificComponent implements OnInit {
     this.shapes.drawOvals(center, cassiniGroup.value.a, cassiniGroup.value.b);
     this.cassiniProperties.curvatureRadius = this.getCurvatureRadius(cassiniGroup);
     this.cassiniProperties.area = this.getArea(cassiniGroup);
+    this.cassiniProperties.inflectionPoint = this.getInflectionPoint(cassiniGroup);
   }
 
   changeOvals(cassiniGroup: FormGroup) {
@@ -123,4 +125,10 @@ export class SpecificComponent implements OnInit {
     return cassiniGroup.value.a * cassiniGroup.value.a;
   }
 
+  getInflectionPoint(cassiniGroup: FormGroup): number {
+    const a = cassiniGroup.value.a;
+    const b = cassiniGroup.value.b;
+    const cos2phi = -(Math.sqrt(1 / 3 * (Math.pow(a, 4) / Math.pow(b, 4) - 1)));
+    return Math.sqrt(- a * a * cos2phi);
+  }
 }
