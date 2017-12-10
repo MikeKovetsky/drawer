@@ -18,7 +18,8 @@ export class SpecificComponent implements OnInit {
   cassiniProperties = {
     curvatureRadius: 0,
     area: 0,
-    inflectionPoint: 0
+    inflectionPoint: 0,
+    arcLength: 0
   };
 
   constructor(private fb: FormBuilder,
@@ -84,6 +85,7 @@ export class SpecificComponent implements OnInit {
     this.shapes.drawOvals(center, cassiniGroup.value.a, cassiniGroup.value.b);
     this.cassiniProperties.curvatureRadius = this.getCurvatureRadius(cassiniGroup);
     this.cassiniProperties.area = this.getArea(cassiniGroup);
+    this.cassiniProperties.arcLength = this.getArcLength(cassiniGroup);
     this.cassiniProperties.inflectionPoint = this.getInflectionPoint(cassiniGroup);
   }
 
@@ -124,6 +126,10 @@ export class SpecificComponent implements OnInit {
 
   getArea(cassiniGroup: FormGroup): number {
     return cassiniGroup.value.a * cassiniGroup.value.a;
+  }
+
+  getArcLength(cassiniGroup: FormGroup): number {
+    return 5.9 * this.cassiniGroup.value.b;
   }
 
   getInflectionPoint(cassiniGroup: FormGroup): number {
