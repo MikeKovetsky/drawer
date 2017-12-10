@@ -1,0 +1,18 @@
+.anchor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 230px;
+  background: #555;
+  padding: 60px 10px 0;
+}
+
+.anchor__section {
+  margin-bottom: 20px;
+}
+
+.anchor__inner {
+  max-height: 400px;
+  overflow-y: auto;
+}

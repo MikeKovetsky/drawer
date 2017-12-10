@@ -1,14 +1,14 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
-import {DrawerService} from "../../services/drawer.service";
-import {CursorPositionService} from "../../services/cursor-position.service";
-import {HistoryService} from "../../services/history.service";
-import {CANVAS_CONFIG} from "../../configs/canvas-config";
+import { DrawerService } from "../../services/drawer.service";
+import { CursorPositionService } from "../../services/cursor-position.service";
+import { HistoryService } from "../../services/history.service";
+import { CANVAS_CONFIG } from "../../configs/canvas-config";
 
-import {DrawerCanvas} from "../../models/canvas.model";
-import {Point} from "../../models/point.model";
-import {SelectionService} from "../../services/selection.service";
-import {ShapesService} from "../../services/shapes.service";
+import { DrawerCanvas } from "../../models/canvas.model";
+import { Point } from "../../models/point.model";
+import { SelectionService } from "../../services/selection.service";
+import { ShapesService } from "../../services/shapes.service";
 
 @Component({
   selector: 'drawer-canvas',
@@ -22,13 +22,14 @@ export class CanvasComponent implements OnInit {
 
   transformationsShown = false;
   specificShown = false;
+  anchorShown = false;
 
-  constructor(
-    private drawer: DrawerService,
-    private history: HistoryService,
-    private selection: SelectionService,
-    private shapes: ShapesService,
-    private cursorPosition: CursorPositionService) { }
+  constructor(private drawer: DrawerService,
+              private history: HistoryService,
+              private selection: SelectionService,
+              private shapes: ShapesService,
+              private cursorPosition: CursorPositionService) {
+  }
 
   ngOnInit() {
     this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG.width, CANVAS_CONFIG.height, CANVAS_CONFIG.vectorLength);
@@ -46,11 +47,6 @@ export class CanvasComponent implements OnInit {
     });
   }
 
-  showTransformations() {
-    this.transformationsShown = !this.transformationsShown;
-    this.specificShown = false;
-  }
-
   selectPoint() {
     const clicked: Point = this.cursorPosition.coordinates$.getValue();
     if (this.selected) {
@@ -64,6 +60,19 @@ export class CanvasComponent implements OnInit {
   showSpecific() {
     this.specificShown = !this.specificShown;
     this.transformationsShown = false;
+    this.anchorShown = false;
+  }
+
+  showAnchor() {
+    this.anchorShown = !this.anchorShown;
+    this.transformationsShown = false;
+    this.specificShown = false;
+  }
+
+  showTransformations() {
+    this.transformationsShown = !this.transformationsShown;
+    this.specificShown = false;
+    this.anchorShown = false;
   }
 
   updateCursorPosition(ev: MouseEvent) {

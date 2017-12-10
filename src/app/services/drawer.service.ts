@@ -1,11 +1,12 @@
-import {Injectable} from '@angular/core';
-import {SupportedLineType} from "../configs/supported-lines";
-import {CircleDrawingMethod} from "../configs/canvas-config";
-import {DrawerCanvas} from "../models/canvas.model";
-import {Point} from "../models/point.model";
-import {HistoryService} from "./history.service";
-import {HelpersService} from "./helpers.service";
-import {Line} from "../models/line.model";
+import { Injectable } from '@angular/core';
+import { SupportedLineType } from "../configs/supported-lines";
+import { CircleDrawingMethod } from "../configs/canvas-config";
+import { DrawerCanvas } from "../models/canvas.model";
+import { Point } from "../models/point.model";
+import { HistoryService } from "./history.service";
+import { HelpersService } from "./helpers.service";
+import { Line } from "../models/line.model";
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Injectable()
 export class DrawerService {
@@ -125,6 +126,40 @@ export class DrawerService {
     if (this.circleDrawingMethod === CircleDrawingMethod.Custom) {
       this.drawCustomCircle(p, radius, start * Math.PI - Math.PI / 2, end * Math.PI - Math.PI / 2);
     }
+  }
+
+  private getBezierPoint(n1: number, n2:number, perc: number): number {
+    const diff = n2 - n1;
+    return n1 + ( diff * perc );
+  }
+
+  drawCubicCurve(start: Point, end: Point, c1: Point, c2: Point) {
+    const prevSizeLineStatus = this.enableSizeLines;
+    this.enableSizeLines = false;
+    const points: Point[] = [];
+    for (let i = 0; i < 1; i += 0.01) {
+      const xa = this.getBezierPoint(start.x, end.x, i);
+      const ya = this.getBezierPoint(end.y, end.y, i);
+      const xb = this.getBezierPoint(end.x, c1.x, i);
+      const yb = this.getBezierPoint(end.y, c1.y, i);
+      const xc = this.getBezierPoint(c1.x, c2.x, i);
+      const yc = this.getBezierPoint(c1.y, c2.y, i);
+
+      const xm = this.getBezierPoint(xa, xb, i);
+      const ym = this.getBezierPoint(ya, yb, i);
+      const xn = this.getBezierPoint(xb, xc, i);
+      const yn = this.getBezierPoint(yb, yc, i);
+
+      const p = new Point(this.getBezierPoint(xm, xn, i), this.getBezierPoint(ym, yn, i));
+      points.push(p);
+    }
+
+    points.forEach((point, index) => {
+      if (index !== 0) {
+        this.drawLine(points[index - 1], point);
+      }
+    });
+    this.enableSizeLines = prevSizeLineStatus;
   }
 
   private drawCustomCircle(center: Point, radius: number, start: number = 0, end: number = 2, clockwise = true) {

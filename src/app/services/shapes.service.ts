@@ -54,8 +54,10 @@ export class ShapesService {
   drawOvals(center: Point, a: number, b: number, precision = 0.01) {
     const points = [];
     for (let i = 0; i < 2 * Math.PI; i += precision) {
-      const r = Math.sqrt(Math.pow(b, 2) * Math.cos(2 * i) + Math.sqrt(Math.pow(b, 4) *
-        Math.pow(Math.cos(2 * i), 2) + Math.pow(a, 4) - Math.pow(b, 4)));
+      const r = Math.sqrt(
+        Math.pow(b, 2) * Math.cos(2 * i) + Math.sqrt(Math.pow(b, 4) *
+        Math.pow(Math.cos(2 * i), 2) + Math.pow(a, 4) - Math.pow(b, 4))
+      );
       const x = +(r * Math.cos(i)).toFixed(this.FLOAT_PRECISION);
       const y = +(r * Math.sin(i)).toFixed(this.FLOAT_PRECISION);
       points.push(new Point(center.x + x, center.y + y));

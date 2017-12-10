@@ -27,6 +27,7 @@ import {HelpersService} from "./services/helpers.service";
 import {ShapesService} from "./services/shapes.service";
 import { TransformationsComponent } from './components/transformations/transformations.component';
 import { SpecificComponent } from './components/specific/specific.component';
+import { AnchorComponent } from './components/anchor/anchor.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { SpecificComponent } from './components/specific/specific.component';
     NewLineComponent,
     NewCurveComponent,
     TransformationsComponent,
-    SpecificComponent
+    SpecificComponent,
+    AnchorComponent
   ],
   imports: [
     BrowserModule,
