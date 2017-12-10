@@ -139,7 +139,7 @@ export class DrawerService {
     const points: Point[] = [];
     for (let i = 0; i < 1; i += 0.01) {
       const xa = this.getBezierPoint(start.x, end.x, i);
-      const ya = this.getBezierPoint(end.y, end.y, i);
+      const ya = this.getBezierPoint(start.y, end.y, i);
       const xb = this.getBezierPoint(end.x, c1.x, i);
       const yb = this.getBezierPoint(end.y, c1.y, i);
       const xc = this.getBezierPoint(c1.x, c2.x, i);
