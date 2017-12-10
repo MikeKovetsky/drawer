@@ -22,7 +22,7 @@ export class CanvasComponent implements OnInit {
 
   transformationsShown = false;
   specificShown = false;
-  anchorShown = false;
+  anchorShown = true;
 
   constructor(private drawer: DrawerService,
               private history: HistoryService,
