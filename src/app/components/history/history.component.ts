@@ -9,6 +9,7 @@ import {HistoryEvent} from "../../models/history-event.model";
 })
 export class HistoryComponent implements OnInit {
   history: HistoryEvent[] = [];
+  maxItems = 50;
 
   constructor(private historyService: HistoryService) {
   }
@@ -16,7 +17,7 @@ export class HistoryComponent implements OnInit {
   ngOnInit() {
     this.historyService.history$.asObservable().subscribe((updated) => {
       this.history = updated;
-    })
+    });
   }
 
   clear() {

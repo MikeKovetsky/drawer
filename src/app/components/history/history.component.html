@@ -3,8 +3,12 @@
     <h3>History:</h3>
     <div (click)="clear()">(clear)</div>
   </div>
+  <div class="history__header">
+    <label for="limit">Items: </label>
+    <input id="limit" type="text" [(ngModel)]="maxItems">
+  </div>
   <div>
-    <drawer-history-event *ngFor="let event of history;" [event]="event">
+    <drawer-history-event *ngFor="let event of history.slice(-maxItems)" [event]="event">
     </drawer-history-event>
   </div>
 </section>
