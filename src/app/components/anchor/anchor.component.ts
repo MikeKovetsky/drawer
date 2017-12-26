@@ -5,6 +5,7 @@ import {HistoryService} from "../../services/history.service";
 import {SHARK} from "./shark";
 import {ANCHOR} from "./anchor";
 import {ControlPointsService} from "../../services/control-points.service";
+import {FractalsService} from "../../services/fractals.service";
 
 @Component({
   selector: 'drawer-anchor',
@@ -14,6 +15,7 @@ import {ControlPointsService} from "../../services/control-points.service";
 export class AnchorComponent implements OnInit {
 
   constructor(private drawer: DrawerService,
+              private fractals: FractalsService,
               private controlPoints: ControlPointsService,
               private history: HistoryService) {
   }
@@ -87,4 +89,14 @@ export class AnchorComponent implements OnInit {
     return points;
   }
 
+  drawFractal(iteration: number) {
+    if (iteration < 1 || iteration > this.fractals.MAX_ITERATION) {
+      alert('Invalid iteration!');
+      return;
+    }
+    const prevSizeLinesMode = this.drawer.enableSizeLines;
+    this.drawer.enableSizeLines = false;
+    this.fractals.systemL(iteration);
+    this.drawer.enableSizeLines = prevSizeLinesMode;
+  }
 }
