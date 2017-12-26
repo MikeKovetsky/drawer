@@ -50,12 +50,12 @@ export class AnchorComponent implements OnInit {
           intermediateValues[i + 3]
         );
       }
-      t += 0.1;
+      t += 0.05;
 
-      if (t > 1) {
+      if (t >= 1.05) {
         clearInterval(interval);
       }
-    }, 300);
+    }, 100);
   }
 
   drawFigure(figure) {
