@@ -10,7 +10,7 @@ export class FractalsService {
     ['Y', 'YFXFY-F-XFYFX+F+YFXFY']
   ];
   private readonly angle = 90;
-  private start = new Point(10, 10);
+  private readonly start = new Point(10, 10);
 
   constructor(private drawer: DrawerService) {
   }
