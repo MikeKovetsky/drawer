@@ -8,8 +8,8 @@ import {CANVAS_CONFIG} from "../../configs/canvas-config";
 import {DrawerCanvas} from "../../models/canvas.model";
 import {Point} from "../../models/point.model";
 import {SelectionService} from "../../services/selection.service";
-import {ShapesService} from "../../services/shapes.service";
 import {HelpersService} from "../../services/helpers.service";
+import {ControlPointsService} from "../../services/control-points.service";
 
 @Component({
   selector: 'drawer-canvas',
@@ -18,7 +18,7 @@ import {HelpersService} from "../../services/helpers.service";
 })
 export class CanvasComponent implements OnInit {
   @ViewChild('canvas') domCanvas: ElementRef;
-  controlPoints: Point[] = [];
+  controls: Point[] = [];
   canvas: DrawerCanvas;
   selected: Point;
 
@@ -29,7 +29,7 @@ export class CanvasComponent implements OnInit {
   constructor(private drawer: DrawerService,
               private history: HistoryService,
               private selection: SelectionService,
-              private shapes: ShapesService,
+              private controlPoints: ControlPointsService,
               private helpers: HelpersService,
               private cursorPosition: CursorPositionService) {
   }
@@ -38,8 +38,8 @@ export class CanvasComponent implements OnInit {
     this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG.width, CANVAS_CONFIG.height, CANVAS_CONFIG.vectorLength);
     this.canvas = this.drawer.render(this.canvas);
 
-    this.shapes.controlPoints.subscribe((points) => {
-      this.controlPoints = points;
+    this.controlPoints.controls$.subscribe((points) => {
+      this.controls = points;
     });
 
     this.history.needsRendering$.asObservable().subscribe((bool: Boolean) => {

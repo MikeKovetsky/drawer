@@ -28,6 +28,7 @@ import {ShapesService} from "./services/shapes.service";
 import { TransformationsComponent } from './components/transformations/transformations.component';
 import { SpecificComponent } from './components/specific/specific.component';
 import { AnchorComponent } from './components/anchor/anchor.component';
+import {ControlPointsService} from "./services/control-points.service";
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import { AnchorComponent } from './components/anchor/anchor.component';
     CursorPositionService,
     SelectionService,
     HelpersService,
-    ShapesService
+    ShapesService,
+    ControlPointsService
   ],
   bootstrap: [AppComponent]
 })

@@ -4,7 +4,7 @@ import {Point} from '../../models/point.model';
 import {HistoryService} from "../../services/history.service";
 import {SHARK} from "./shark";
 import {ANCHOR} from "./anchor";
-import {ShapesService} from "../../services/shapes.service";
+import {ControlPointsService} from "../../services/control-points.service";
 
 @Component({
   selector: 'drawer-anchor',
@@ -12,10 +12,9 @@ import {ShapesService} from "../../services/shapes.service";
   styleUrls: ['./anchor.component.css']
 })
 export class AnchorComponent implements OnInit {
-  controlPoints: Point[] = [];
 
   constructor(private drawer: DrawerService,
-              private shapes: ShapesService,
+              private controlPoints: ControlPointsService,
               private history: HistoryService) {
   }
 
@@ -64,9 +63,9 @@ export class AnchorComponent implements OnInit {
       const points = curve.map((point: Point) => new Point(point.x, point.y));
       this.drawer.drawCubicCurve(points[0], points[1], points[2], points[3]);
       for (let i = 0; i < points.length; i++) {
-        const ctrls = this.shapes.controlPoints.value;
+        const ctrls = this.controlPoints.controls$.value;
         ctrls.push(points[i]);
-        this.shapes.controlPoints.next(ctrls);
+        this.controlPoints.controls$.next(ctrls);
         if (i) {
           const prevSizeLinesMode = this.drawer.enableSizeLines;
           this.drawer.enableSizeLines = false;
