@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { SupportedLineType } from "../configs/supported-lines";
-import { CircleDrawingMethod } from "../configs/canvas-config";
-import { DrawerCanvas } from "../models/canvas.model";
-import { Point } from "../models/point.model";
-import { HistoryService } from "./history.service";
-import { HelpersService } from "./helpers.service";
-import { Line } from "../models/line.model";
-import { forEach } from '@angular/router/src/utils/collection';
+import {Injectable} from '@angular/core';
+import {SupportedLineType} from "../configs/supported-lines";
+import {CircleDrawingMethod} from "../configs/canvas-config";
+import {DrawerCanvas} from "../models/canvas.model";
+import {Point} from "../models/point.model";
+import {HistoryService} from "./history.service";
+import {HelpersService} from "./helpers.service";
+import {Line} from "../models/line.model";
+import {forEach} from '@angular/router/src/utils/collection';
 
 @Injectable()
 export class DrawerService {
@@ -105,6 +105,14 @@ export class DrawerService {
     });
   }
 
+  drawPoints(points: Point[]) {
+    const lines: Line[] = [];
+    for (let i = 1; i < points.length; i += 2) {
+      lines.push(new Line(points[i - 1], points[i]));
+    }
+    this.drawLines(lines);
+  }
+
   invertPointsY(p1: Point, p2: Point) {
     if (this.yAxisInverted) {
       p1.y = -p1.y;
@@ -128,7 +136,7 @@ export class DrawerService {
     }
   }
 
-  private getBezierPoint(n1: number, n2:number, perc: number): number {
+  private getBezierPoint(n1: number, n2: number, perc: number): number {
     const diff = n2 - n1;
     return n1 + ( diff * perc );
   }
@@ -136,8 +144,18 @@ export class DrawerService {
   drawCubicCurve(start: Point, end: Point, c1: Point, c2: Point) {
     const prevSizeLineStatus = this.enableSizeLines;
     this.enableSizeLines = false;
+    const points = this.calculateCubicCurvePoints(start, end, c1, c2);
+    points.forEach((point, index) => {
+      if (index !== 0) {
+        this.drawLine(points[index - 1], point);
+      }
+    });
+    this.enableSizeLines = prevSizeLineStatus;
+  }
+
+  calculateCubicCurvePoints(start: Point, end: Point, c1: Point, c2: Point): Point[] {
     const points: Point[] = [];
-    for (let i = 0; i < 1; i += 0.01) {
+    for (let i = 0; i < 1; i += 0.1) {
       const xa = this.getBezierPoint(start.x, end.x, i);
       const ya = this.getBezierPoint(start.y, end.y, i);
       const xb = this.getBezierPoint(end.x, c1.x, i);
@@ -153,13 +171,7 @@ export class DrawerService {
       const p = new Point(this.getBezierPoint(xm, xn, i), this.getBezierPoint(ym, yn, i));
       points.push(p);
     }
-
-    points.forEach((point, index) => {
-      if (index !== 0) {
-        this.drawLine(points[index - 1], point);
-      }
-    });
-    this.enableSizeLines = prevSizeLineStatus;
+    return points;
   }
 
   private drawCustomCircle(center: Point, radius: number, start: number = 0, end: number = 2, clockwise = true) {
