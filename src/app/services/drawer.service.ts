@@ -77,9 +77,10 @@ export class DrawerService {
     this.context.translate(x, y);
   }
 
-  drawLine(p1: Point, p2: Point) {
+  drawLine(p1: Point, p2: Point, color = 'black') {
     p1.round();
     p2.round();
+    this.context.strokeStyle = color;
     this.invertPointsY(p1, p2);
     this.context.beginPath();
     this.context.moveTo(p1.x, p1.y);

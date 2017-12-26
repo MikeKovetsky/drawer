@@ -40,3 +40,15 @@
   height: 20px;
   line-height: 1.8;
 }
+
+.control {
+  height: 6px;
+  width: 6px;
+  cursor: pointer;
+  background: #444;
+  margin-left: -3px;
+  margin-top: -3px;
+  border-radius: 50%;
+  border: 1px solid green;
+  position: absolute;
+}

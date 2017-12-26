@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
-import { DrawerService } from "./drawer.service";
-import { Point } from "../models/point.model";
-import { HelpersService } from "./helpers.service";
+import {Injectable} from '@angular/core';
+import {DrawerService} from "./drawer.service";
+import {Point} from "../models/point.model";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 @Injectable()
 export class ShapesService {
+  controlPoints = new BehaviorSubject<Point[]>([]);
+
   private readonly FLOAT_PRECISION = 2;
 
 

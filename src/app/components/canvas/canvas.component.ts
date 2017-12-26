@@ -1,14 +1,15 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 
-import { DrawerService } from "../../services/drawer.service";
-import { CursorPositionService } from "../../services/cursor-position.service";
-import { HistoryService } from "../../services/history.service";
-import { CANVAS_CONFIG } from "../../configs/canvas-config";
+import {DrawerService} from "../../services/drawer.service";
+import {CursorPositionService} from "../../services/cursor-position.service";
+import {HistoryService} from "../../services/history.service";
+import {CANVAS_CONFIG} from "../../configs/canvas-config";
 
-import { DrawerCanvas } from "../../models/canvas.model";
-import { Point } from "../../models/point.model";
-import { SelectionService } from "../../services/selection.service";
-import { ShapesService } from "../../services/shapes.service";
+import {DrawerCanvas} from "../../models/canvas.model";
+import {Point} from "../../models/point.model";
+import {SelectionService} from "../../services/selection.service";
+import {ShapesService} from "../../services/shapes.service";
+import {HelpersService} from "../../services/helpers.service";
 
 @Component({
   selector: 'drawer-canvas',
@@ -17,6 +18,7 @@ import { ShapesService } from "../../services/shapes.service";
 })
 export class CanvasComponent implements OnInit {
   @ViewChild('canvas') domCanvas: ElementRef;
+  controlPoints: Point[] = [];
   canvas: DrawerCanvas;
   selected: Point;
 
@@ -28,12 +30,17 @@ export class CanvasComponent implements OnInit {
               private history: HistoryService,
               private selection: SelectionService,
               private shapes: ShapesService,
+              private helpers: HelpersService,
               private cursorPosition: CursorPositionService) {
   }
 
   ngOnInit() {
     this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG.width, CANVAS_CONFIG.height, CANVAS_CONFIG.vectorLength);
     this.canvas = this.drawer.render(this.canvas);
+
+    this.shapes.controlPoints.subscribe((points) => {
+      this.controlPoints = points;
+    });
 
     this.history.needsRendering$.asObservable().subscribe((bool: Boolean) => {
       if (bool) {
@@ -45,6 +52,10 @@ export class CanvasComponent implements OnInit {
     this.selection.get().subscribe((pos) => {
       this.selected = pos;
     });
+  }
+
+  toAbs(p: Point): Point {
+    return this.helpers.toAbsoluteCoordinates(p);
   }
 
   selectPoint() {
