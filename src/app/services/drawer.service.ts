@@ -154,6 +154,25 @@ export class DrawerService {
     this.enableSizeLines = prevSizeLineStatus;
   }
 
+  drawFigure(figure: Point[][]): Point[] {
+    const ctrls = [];
+    figure.forEach((curve) => {
+      const points = curve.map((point: Point) => new Point(point.x, point.y));
+      this.drawCubicCurve(points[0], points[1], points[2], points[3]);
+      for (let i = 0; i < points.length; i++) {
+        // const ctrls = this.controlPoints.controls$.value;
+        ctrls.push(points[i]);
+        if (i) {
+          const prevSizeLinesMode = this.enableSizeLines;
+          this.enableSizeLines = false;
+          this.drawLine(points[i - 1], points[i], 'rgba(255, 0, 0, 0.4)');
+          this.enableSizeLines = prevSizeLinesMode;
+        }
+      }
+    });
+    return ctrls;
+  }
+
   calculateCubicCurvePoints(start: Point, end: Point, c1: Point, c2: Point): Point[] {
     const points: Point[] = [];
     for (let i = 0; i < 1; i += 0.1) {

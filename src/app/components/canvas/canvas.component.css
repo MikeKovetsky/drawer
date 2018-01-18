@@ -42,13 +42,18 @@
 }
 
 .control {
+  cursor: move;
   height: 6px;
   width: 6px;
-  cursor: pointer;
   background: #444;
   margin-left: -3px;
   margin-top: -3px;
   border-radius: 50%;
   border: 1px solid green;
   position: absolute;
+}
+
+.control.active {
+  background: white;
+  border-color: red;
 }

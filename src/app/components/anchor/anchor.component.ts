@@ -61,21 +61,10 @@ export class AnchorComponent implements OnInit {
   }
 
   drawFigure(figure) {
-    figure.forEach((curve) => {
-      const points = curve.map((point: Point) => new Point(point.x, point.y));
-      this.drawer.drawCubicCurve(points[0], points[1], points[2], points[3]);
-      for (let i = 0; i < points.length; i++) {
-        const ctrls = this.controlPoints.controls$.value;
-        ctrls.push(points[i]);
-        this.controlPoints.controls$.next(ctrls);
-        if (i) {
-          const prevSizeLinesMode = this.drawer.enableSizeLines;
-          this.drawer.enableSizeLines = false;
-          this.drawer.drawLine(points[i - 1], points[i], 'rgba(255, 0, 0, 0.4)');
-          this.drawer.enableSizeLines = prevSizeLinesMode;
-        }
-      }
-    })
+    this.history.clear();
+    this.history.currentFigure = figure;
+    const controlPoints = this.drawer.drawFigure(figure);
+    this.controlPoints.controls$.next(controlPoints);
   }
 
   getFigurePoints(figure) {

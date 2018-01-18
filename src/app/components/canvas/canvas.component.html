@@ -4,7 +4,12 @@
 
 <drawer-anchor *ngIf="anchorShown"></drawer-anchor>
 
-<div class="control" *ngFor="let p of controls" [style.top.px]="toAbs(p).y" [style.left.px]="toAbs(p).x"></div>
+<div class="control"
+     [class.active]="activeControl === p"
+     (click)="startMovingControl(p)"
+     *ngFor="let p of controls"
+     [style.top.px]="toAbs(p).y"
+     [style.left.px]="toAbs(p).x"></div>
 
 <div class="transformations-toggler" (click)="showTransformations()">
   Transform

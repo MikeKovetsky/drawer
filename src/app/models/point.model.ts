@@ -11,4 +11,8 @@ export class Point {
     this.x = +(this.x).toFixed(2);
     this.y = +(this.y).toFixed(2);
   }
+
+  equals(p: Point) {
+    return p.x === this.x && p.y === this.y;
+  }
 }

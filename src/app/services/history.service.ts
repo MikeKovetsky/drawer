@@ -12,6 +12,7 @@ export class HistoryService {
   history$ = new BehaviorSubject<HistoryEvent[]>([]);
   needsRendering$ = new BehaviorSubject<boolean>(false);
   isRecording = false;
+  currentFigure: Point[][];
 
   constructor(private selection: SelectionService, private controls: ControlPointsService) {
   }
