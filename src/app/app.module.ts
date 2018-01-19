@@ -11,25 +11,11 @@ import {AppComponent} from './app.component';
 import {CanvasComponent} from './components/canvas/canvas.component';
 import {HistoryComponent} from './components/history/history.component';
 import {HistoryEventComponent} from './components/history/history-event/history-event.component';
-import {CursorPositionComponent} from './components/cursor-position/cursor-position.component';
-import {SelectionComponent} from './components/selection/selection.component';
-import {ToolbarComponent} from './components/toolbar/toolbar.component';
-import {PointPositionComponent} from './components/point-position/point-position.component';
-import {NewCircleComponent} from './components/toolbar/new-circle/new-circle.component';
-import {NewLineComponent} from './components/toolbar/new-line/new-line.component';
-import {NewCurveComponent} from './components/toolbar/new-curve/new-curve.component';
-
 import {DrawerService} from "./services/drawer.service";
-import {CursorPositionService} from "./services/cursor-position.service";
 import {HistoryService} from "./services/history.service";
-import {SelectionService} from "./services/selection.service";
 import {HelpersService} from "./services/helpers.service";
-import {ShapesService} from "./services/shapes.service";
-import {TransformationsComponent} from './components/transformations/transformations.component';
-import {SpecificComponent} from './components/specific/specific.component';
-import {AnchorComponent} from './components/anchor/anchor.component';
-import {ControlPointsService} from "./services/control-points.service";
 import {FractalsService} from "./services/fractals.service";
+import { TransformationsComponent } from './components/transformations/transformations.component';
 
 
 @NgModule({
@@ -38,16 +24,7 @@ import {FractalsService} from "./services/fractals.service";
     CanvasComponent,
     HistoryComponent,
     HistoryEventComponent,
-    CursorPositionComponent,
-    SelectionComponent,
-    ToolbarComponent,
-    PointPositionComponent,
-    NewCircleComponent,
-    NewLineComponent,
-    NewCurveComponent,
-    TransformationsComponent,
-    SpecificComponent,
-    AnchorComponent
+    TransformationsComponent
   ],
   imports: [
     BrowserModule,
@@ -65,11 +42,7 @@ import {FractalsService} from "./services/fractals.service";
   providers: [
     DrawerService,
     HistoryService,
-    CursorPositionService,
-    SelectionService,
     HelpersService,
-    ShapesService,
-    ControlPointsService,
     FractalsService
   ],
   bootstrap: [AppComponent]
