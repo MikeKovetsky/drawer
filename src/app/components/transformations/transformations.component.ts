@@ -30,6 +30,7 @@ export class TransformationsComponent implements OnInit {
       x: ['', Validators.required],
       y: ['', Validators.required],
       z: ['', Validators.required],
+      axis: ['x', Validators.required],
       angle: ['', Validators.required]
     });
   }
@@ -42,10 +43,11 @@ export class TransformationsComponent implements OnInit {
     this.drawer3d.drawLines(movedLines);
   }
 
-  // rotate(rotation: FormGroup) {
-  //   const controlPoint = new Point3d(rotation.value.x, rotation.value.y, rotation.value.z);
-  //   const rotatedLines = this.transformations.rotate(controlPoint, rotation.value.angle);
-  //   const projectedVertices = rotatedLines.map(this.drawer.projectPointByCabinet);
-  //   this.drawer.drawLines(projectedVertices);
-  // }
+  rotate(rotation: FormGroup) {
+    const lines = this.history.history3d$.value;
+    const controlPoint = new Point3d(rotation.value.x, rotation.value.y, rotation.value.z);
+    const rotatedLines = this.transformations.rotate(lines, controlPoint, rotation.value.axis, rotation.value.angle);
+    this.history.clear();
+    this.drawer3d.drawLines(rotatedLines);
+  }
 }

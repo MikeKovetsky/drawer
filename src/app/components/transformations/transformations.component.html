@@ -10,6 +10,12 @@
       <input type="number" placeholder="X" formControlName="x" name="moveX">
       <input type="number" placeholder="Y" formControlName="y" name="moveY">
       <input type="number" placeholder="Z" formControlName="z" name="moveZ">
+      <label for="axis">Base Axis: </label>
+      <select name="axis" id="axis" formControlName="axis">
+        <option value="x">X</option>
+        <option value="y">Y</option>
+        <option value="z">Z</option>
+      </select>
       <input type="number" placeholder="Angle" formControlName="angle" name="angle">
       <button [disabled]="rotationGroup.invalid">Rotate</button>
     </form>
