@@ -16,6 +16,7 @@ import {HistoryService} from "./services/history.service";
 import {HelpersService} from "./services/helpers.service";
 import {FractalsService} from "./services/fractals.service";
 import { TransformationsComponent } from './components/transformations/transformations.component';
+import { Drawer3dService } from './services/drawer3d.service';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { TransformationsComponent } from './components/transformations/transform
   ],
   providers: [
     DrawerService,
+    Drawer3dService,
     HistoryService,
     HelpersService,
     FractalsService

@@ -1,12 +1,14 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {SupportedLineType} from "../configs/supported-lines";
-import {Point} from "../models/point.model";
-import {Line} from "../models/line.model";
-import {HistoryEvent} from "../models/history-event.model";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { SupportedLineType } from "../configs/supported-lines";
+import { Point } from "../models/point.model";
+import { Line } from "../models/line.model";
+import { HistoryEvent } from "../models/history-event.model";
+import { Line3d } from '../models/line3d.model';
 
 @Injectable()
 export class HistoryService {
+  history3d$ = new BehaviorSubject<Line3d[]>([]);
   history$ = new BehaviorSubject<HistoryEvent[]>([]);
   needsRendering$ = new BehaviorSubject<boolean>(false);
   isRecording = false;
@@ -37,6 +39,7 @@ export class HistoryService {
   }
 
   clear() {
+    this.history3d$.next([]);
     this.history$.next([]);
     this.needsRendering$.next(true);
   }

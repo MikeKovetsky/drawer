@@ -7,6 +7,7 @@ import {HistoryService} from "./history.service";
 import {HelpersService} from "./helpers.service";
 import {Line} from "../models/line.model";
 import {forEach} from '@angular/router/src/utils/collection';
+import { Point3d } from '../models/point3d.model';
 
 @Injectable()
 export class DrawerService {
@@ -111,5 +112,4 @@ export class DrawerService {
       p2.y = -p2.y;
     }
   }
-
 }

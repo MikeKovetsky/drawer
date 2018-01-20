@@ -6,9 +6,8 @@ import { CANVAS_CONFIG } from "../../configs/canvas-config";
 
 import { DrawerCanvas } from "../../models/canvas.model";
 import { HelpersService } from "../../services/helpers.service";
-import { Point3d } from '../../models/point3d.model';
-import { Point } from '../../models/point.model';
 import { CUBE } from '../../configs/cube';
+import { Drawer3dService } from '../../services/drawer3d.service';
 
 @Component({
   selector: 'drawer-canvas',
@@ -21,14 +20,14 @@ export class CanvasComponent implements OnInit {
   transformationsShown = false;
 
   constructor(private drawer: DrawerService,
-              private history: HistoryService,
-              private helpers: HelpersService) {
+              private drawer3d: Drawer3dService,
+              private history: HistoryService) {
   }
 
   ngOnInit() {
     this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG.width, CANVAS_CONFIG.height, CANVAS_CONFIG.vectorLength);
     this.canvas = this.drawer.render(this.canvas);
-    this.drawDodeca();
+    this.drawCube();
 
     this.history.needsRendering$.asObservable().subscribe((bool: Boolean) => {
       if (bool) {
@@ -38,14 +37,7 @@ export class CanvasComponent implements OnInit {
     });
   }
 
-  drawDodeca() {
-    const projectedVertices: Point[] = CUBE.map(this.projectPointByCabinet);
-    this.drawer.drawPoints(projectedVertices);
-  }
-
-  projectPointByCabinet(point: Point3d): Point {
-    const x = point.x + point.z * 0.5 * Math.cos(Math.PI / 4);
-    const y = point.y + point.z * 0.5 * Math.sin(Math.PI / 4);
-    return new Point(x * 100, y * 100);
+  drawCube() {
+    this.drawer3d.drawPoints(CUBE);
   }
 }
