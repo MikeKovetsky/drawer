@@ -3,20 +3,12 @@
     <form [formGroup]="moveGroup" (ngSubmit)="move(moveGroup)">
       <input type="number" placeholder="move X" formControlName="x" name="moveX">
       <input type="number" placeholder="move Y" formControlName="y" name="moveY">
-      <input type="number" placeholder="move Z" formControlName="z" name="moveZ">
       <button [disabled]="moveGroup.invalid">Move</button>
     </form>
     <form [formGroup]="rotationGroup" (ngSubmit)="rotate(rotationGroup)">
       <input type="number" placeholder="X" formControlName="x" name="moveX">
       <input type="number" placeholder="Y" formControlName="y" name="moveY">
-      <input type="number" placeholder="Z" formControlName="z" name="moveZ">
-      <label for="axis">Base Axis: </label>
-      <select name="axis" id="axis" formControlName="axis">
-        <option value="x">X</option>
-        <option value="y">Y</option>
-        <option value="z">Z</option>
-      </select>
-      <input type="number" placeholder="Angle" formControlName="angle" name="angle">
+      <input type="number" placeholder="Angle" formControlName="angle" name="moveY">
       <button [disabled]="rotationGroup.invalid">Rotate</button>
     </form>
   </div>

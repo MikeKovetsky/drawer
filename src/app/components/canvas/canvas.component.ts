@@ -13,6 +13,7 @@ import { Point3d } from '../../models/point3d.model';
 import { Line } from '../../models/line.model';
 import { Line3d } from '../../models/line3d.model';
 import { SHARK } from './shark';
+import { TransformationsService } from '../transformations/transformations.service';
 
 @Component({
   selector: 'drawer-canvas',
@@ -32,69 +33,50 @@ export class CanvasComponent implements OnInit {
   ngOnInit() {
     this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG.width, CANVAS_CONFIG.height, CANVAS_CONFIG.vectorLength);
     this.canvas = this.drawer.render(this.canvas);
-    this.drawScrew();
-
+    this.drawShark();
     this.history.needsRendering$.asObservable().subscribe((bool: Boolean) => {
       if (bool) {
         this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG.width, CANVAS_CONFIG.height, CANVAS_CONFIG.vectorLength);
         this.canvas = this.drawer.render(this.canvas);
+        this.drawPolyhedron();
       }
     });
+    this.drawPolyhedron();
   }
 
   drawCube() {
     this.drawer3d.drawPoints(CUBE);
   }
 
-  // drawScrew() {
-  //   const nsegments = 26;
-  //   const points = [];
-  //   const height = 200;
-  //   const radiusX = 110;
-  //   const radiusZ = 110;
-  //   for (let i = -nsegments; i < (nsegments - 1); i++) {
-  //     const theta_i = i / nsegments;
-  //     const theta_ii = (i + 1) / nsegments;
-  //     const xi = radiusX * Math.cos(Math.PI * theta_i);
-  //     const zi = radiusZ * Math.sin(Math.PI * theta_i);
-  //
-  //     const xii = radiusX * Math.cos(Math.PI * theta_ii);
-  //     const zii = radiusZ * Math.sin(Math.PI * theta_ii);
-  //     points.push(new Point3d(xi, height, zi));
-  //     points.push(new Point3d(xi, -height, zi));
-  //     points.push(new Point3d(xii, -height, zii));
-  //     points.push(new Point3d(xii, height, zii));
-  //   }
-  //   this.drawer3d.drawPoints(points)
-  // }
-
-  drawScrew() {
+  drawPolyhedron() {
     const points = [];
-    const unitVectorSizeInSurface = .3;
+    const unitVectorSizeInSurface = .1;
+    this.history.isRecording = false;
     const [a, b, c, s, h] = [100, 100, 100, 100, 100];
-    for (let u = -10; u <= 10; u += unitVectorSizeInSurface) {
-      for (let v = -10; v <= 10; v += unitVectorSizeInSurface) {
+    for (let u = -10; u <= 5; u += unitVectorSizeInSurface) {
+      for (let v = -10; v <= 5; v += unitVectorSizeInSurface) {
         points.push(new Point3d(b * v * Math.sinh(u), a * v * Math.cosh(u), c * Math.pow(v, 2)));
       }
     }
-    for (let u = -10; u <= 10; u += unitVectorSizeInSurface) {
-      for (let v = -10; v <= 10; v += unitVectorSizeInSurface) {
+    for (let u = -10; u <= 5; u += unitVectorSizeInSurface) {
+      for (let v = -10; v <= 5; v += unitVectorSizeInSurface) {
         points.push(new Point3d(b * v * Math.sinh(u), a * v * Math.cosh(u), c * Math.pow(v, 2)));
       }
     }
     this.drawer3d.drawPoints(points);
+    this.history.isRecording = true;
+  }
 
-    const sharkLines = [];
-    SHARK.forEach((line) => {
+  drawShark() {
+    const sharkLines: Line[] = SHARK.map((line) => {
       const scale = 3;
-      const offset = 400;
+      const offset = 200;
       const p1 = new Point(offset + line[0].x * scale, offset + line[0].y * scale);
       const p2 = new Point(offset + line[3].x * scale, offset + line[3].y * scale);
-      sharkLines.push(new Line3d(p1, p2));
+      return new Line(p1, p2);
     });
     sharkLines.forEach((line) => this.drawCurve(line));
   }
-
 
   private calculatePointsOnTheCurve(line: Line): Point3d[] {
     const u = 0.1;

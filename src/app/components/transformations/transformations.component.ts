@@ -4,6 +4,9 @@ import {TransformationsService} from "./transformations.service";
 import { Point3d } from '../../models/point3d.model';
 import { Drawer3dService } from '../../services/drawer3d.service';
 import { HistoryService } from '../../services/history.service';
+import { Line } from '../../models/line.model';
+import { Point } from '../../models/point.model';
+import { DrawerService } from '../../services/drawer.service';
 
 @Component({
   selector: 'drawer-transformations',
@@ -18,36 +21,30 @@ export class TransformationsComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private history: HistoryService,
               private transformations: TransformationsService,
-              private drawer3d: Drawer3dService) { }
+              private drawer: DrawerService) { }
 
   ngOnInit() {
     this.moveGroup = this.fb.group({
       x: ['', Validators.required],
       y: ['', Validators.required],
-      z: ['', Validators.required]
     });
     this.rotationGroup = this.fb.group({
       x: ['', Validators.required],
       y: ['', Validators.required],
-      z: ['', Validators.required],
       axis: ['x', Validators.required],
       angle: ['', Validators.required]
     });
   }
 
   move(delta: FormGroup) {
-    const lines = this.history.history3d$.value;
-    const controlPoint = new Point3d(delta.value.x, delta.value.y, delta.value.z);
-    const movedLines = this.transformations.move(lines, controlPoint);
-    this.history.clear();
-    this.drawer3d.drawLines(movedLines);
+    const moved = this.transformations.move(delta.value.x, delta.value.y);
+    this.drawer.drawLines(moved);
   }
 
   rotate(rotation: FormGroup) {
-    const lines = this.history.history3d$.value;
-    const controlPoint = new Point3d(rotation.value.x, rotation.value.y, rotation.value.z);
-    const rotatedLines = this.transformations.rotate(lines, controlPoint, rotation.value.axis, rotation.value.angle);
-    this.history.clear();
-    this.drawer3d.drawLines(rotatedLines);
+    const controlPoint = new Point(rotation.value.x, rotation.value.y);
+    const rotated = this.transformations.rotate(controlPoint, rotation.value.angle);
+    this.drawer.drawLines(rotated);
   }
+
 }
