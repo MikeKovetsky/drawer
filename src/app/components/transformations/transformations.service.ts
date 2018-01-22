@@ -2,11 +2,13 @@ import {Injectable} from '@angular/core';
 import {HistoryService} from "../../services/history.service";
 import {Point} from "../../models/point.model";
 import {Line} from "../../models/line.model";
+import { DrawerService } from '../../services/drawer.service';
+import { CANVAS_CONFIG } from '../../configs/canvas-config';
 
 @Injectable()
 export class TransformationsService {
 
-  constructor(private history: HistoryService) {
+  constructor(private drawer: DrawerService, private history: HistoryService) {
   }
 
   move(deltaX: number, deltaY: number): Line[] {
@@ -36,6 +38,25 @@ export class TransformationsService {
 
   toAffine(r0: Point, rx: Point, ry: Point): Line[] {
     const lines = this.history.reset();
+    const canvas = CANVAS_CONFIG;
+    this.drawer.context.clearRect(-canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
+    for (let i = -canvas.width / 2; i < canvas.width / 2; i += canvas.vectorLength) {
+      lines.push(new Line(new Point(i, -canvas.height / 2), new Point(i, canvas.height / 2)));
+    }
+    for (let i = -canvas.height / 2; i < canvas.height / 2; i += canvas.vectorLength) {
+      lines.push(new Line(new Point(-canvas.width / 2, i), new Point(canvas.width / 2, i)));
+    }
+
+    for (let i = -canvas.height / 2; i < canvas.height / 2; i += canvas.vectorLength) {
+      const helperStrokeStart = new Point(-canvas.vectorLength / 2, i);
+      const helperStrokeEnd = new Point(canvas.vectorLength / 2, i);
+      lines.push(new Line(helperStrokeStart, helperStrokeEnd));
+    }
+    for (let i = -canvas.width / 2; i < canvas.width / 2; i += canvas.vectorLength) {
+      const helperStrokeStart = new Point(i, -canvas.vectorLength / 2);
+      const helperStrokeEnd = new Point(i, canvas.vectorLength / 2);
+      lines.push(new Line(helperStrokeStart, helperStrokeEnd));
+    }
     return lines.map((line: Line) => {
       return this.lineToAffine(r0, rx, ry, line);
     });
@@ -43,6 +64,26 @@ export class TransformationsService {
 
   toProjective(r0: Point, rx: Point, ry: Point, w: Point, w0: number): Line[] {
     const lines = this.history.reset();
+    const canvas = CANVAS_CONFIG;
+    this.drawer.context.clearRect(-canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
+    for (let i = -canvas.width / 2; i < canvas.width / 2; i += canvas.vectorLength) {
+      lines.push(new Line(new Point(i, -canvas.height / 2), new Point(i, canvas.height / 2)));
+    }
+    for (let i = -canvas.height / 2; i < canvas.height / 2; i += canvas.vectorLength) {
+      lines.push(new Line(new Point(-canvas.width / 2, i), new Point(canvas.width / 2, i)));
+    }
+
+    for (let i = -canvas.height / 2; i < canvas.height / 2; i += canvas.vectorLength) {
+      const helperStrokeStart = new Point(-canvas.vectorLength / 2, i);
+      const helperStrokeEnd = new Point(canvas.vectorLength / 2, i);
+      lines.push(new Line(helperStrokeStart, helperStrokeEnd));
+    }
+    for (let i = -canvas.width / 2; i < canvas.width / 2; i += canvas.vectorLength) {
+      const helperStrokeStart = new Point(i, -canvas.vectorLength / 2);
+      const helperStrokeEnd = new Point(i, canvas.vectorLength / 2);
+      lines.push(new Line(helperStrokeStart, helperStrokeEnd));
+    }
+
     return lines.map((line: Line) => {
       const start = new Point(
         (r0.x * w0 + rx.x * line.start.x * w.x + rx.y * line.start.y * w.y) / (w0 + line.start.x * w.x + line.start.y * w.y),

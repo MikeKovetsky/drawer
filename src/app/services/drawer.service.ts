@@ -6,7 +6,6 @@ import {Point} from "../models/point.model";
 import {HistoryService} from "./history.service";
 import {HelpersService} from "./helpers.service";
 import {Line} from "../models/line.model";
-import {forEach} from '@angular/router/src/utils/collection';
 
 @Injectable()
 export class DrawerService {
@@ -14,11 +13,13 @@ export class DrawerService {
   context: CanvasRenderingContext2D;
   circleDrawingMethod = CircleDrawingMethod.Custom;
   enableSizeLines = false;
+  canvas: DrawerCanvas;
 
   constructor(private history: HistoryService, private helpers: HelpersService) {
   }
 
   render(canvas: DrawerCanvas): DrawerCanvas {
+    this.canvas = canvas;
     this.history.isRecording = false;
     this.enableSizeLines = false;
     // this.invertYAxis(canvas, true);

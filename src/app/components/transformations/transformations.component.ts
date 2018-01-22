@@ -43,15 +43,15 @@ export class TransformationsComponent implements OnInit {
       r2y: ['', Validators.required]
     });
     this.projectiveGroup = this.fb.group({
-      r0x: ['', Validators.required],
-      r0y: ['', Validators.required],
-      r1x: ['', Validators.required],
-      r1y: ['', Validators.required],
-      r2x: ['', Validators.required],
-      r2y: ['', Validators.required],
-      wx: ['', Validators.required],
-      wy: ['', Validators.required],
-      w0: ['', Validators.required]
+      r0x: [0, Validators.required],
+      r0y: [0, Validators.required],
+      r1x: [1, Validators.required],
+      r1y: [100, Validators.required],
+      r2x: [100, Validators.required],
+      r2y: [100, Validators.required],
+      w0: [100, Validators.required],
+      wx: [1, Validators.required],
+      wy: [1, Validators.required]
     })
   }
 
