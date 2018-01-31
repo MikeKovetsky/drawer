@@ -30,6 +30,7 @@ import {SpecificComponent} from './components/specific/specific.component';
 import {AnchorComponent} from './components/anchor/anchor.component';
 import {ControlPointsService} from "./services/control-points.service";
 import {FractalsService} from "./services/fractals.service";
+import {HotKeysService} from './services/hotkeys.service';
 
 
 @NgModule({
@@ -70,7 +71,8 @@ import {FractalsService} from "./services/fractals.service";
     HelpersService,
     ShapesService,
     ControlPointsService,
-    FractalsService
+    FractalsService,
+    HotKeysService
   ],
   bootstrap: [AppComponent]
 })

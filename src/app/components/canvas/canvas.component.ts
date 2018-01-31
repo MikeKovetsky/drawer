@@ -1,15 +1,17 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {distinctUntilChanged, switchMap, take, tap} from 'rxjs/operators';
 
-import { DrawerService } from "../../services/drawer.service";
-import { CursorPositionService } from "../../services/cursor-position.service";
-import { HistoryService } from "../../services/history.service";
-import { CANVAS_CONFIG } from "../../configs/canvas-config";
+import {DrawerService} from '../../services/drawer.service';
+import {CursorPositionService} from '../../services/cursor-position.service';
+import {HistoryService} from '../../services/history.service';
+import {CANVAS_CONFIG} from '../../configs/canvas-config';
 
-import { DrawerCanvas } from "../../models/canvas.model";
-import { Point } from "../../models/point.model";
-import { SelectionService } from "../../services/selection.service";
-import { HelpersService } from "../../services/helpers.service";
-import { ControlPointsService } from "../../services/control-points.service";
+import {DrawerCanvas} from '../../models/canvas.model';
+import {Point} from '../../models/point.model';
+import {SelectionService} from '../../services/selection.service';
+import {HelpersService} from '../../services/helpers.service';
+import {ControlPointsService} from '../../services/control-points.service';
+import {HistoryEvent} from '../../models/history-event.model';
 
 @Component({
   selector: 'drawer-canvas',
@@ -43,11 +45,13 @@ export class CanvasComponent implements OnInit {
       this.controls = points;
     });
 
-    this.history.needsRendering$.asObservable().subscribe((bool: Boolean) => {
-      if (bool) {
-        this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG.width, CANVAS_CONFIG.height, CANVAS_CONFIG.vectorLength);
-        this.canvas = this.drawer.render(this.canvas);
-      }
+    this.history.needsRender$.subscribe(() => {
+      this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG.width, CANVAS_CONFIG.height, CANVAS_CONFIG.vectorLength);
+      this.canvas = this.drawer.render(this.canvas);
+      const history = this.history.history$.value;
+      this.history.history$.next([]);
+      const lines = history.map((event) => event.line);
+      this.drawer.drawLines(lines);
     });
 
     this.selection.get().subscribe((pos) => {
@@ -74,7 +78,7 @@ export class CanvasComponent implements OnInit {
       this.drawer.drawLine(this.selected, clicked);
       this.selection.set(clicked);
     } else {
-      this.selection.set(this.cursorPosition.coordinates$.getValue())
+      this.selection.set(this.cursorPosition.coordinates$.getValue());
     }
   }
 

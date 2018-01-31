@@ -1,20 +1,22 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {SupportedLineType} from "../configs/supported-lines";
-import {Point} from "../models/point.model";
-import {SelectionService} from "./selection.service";
-import {Line} from "../models/line.model";
-import {HistoryEvent} from "../models/history-event.model";
-import {ControlPointsService} from "./control-points.service";
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {SupportedLineType} from '../configs/supported-lines';
+import {Point} from '../models/point.model';
+import {SelectionService} from './selection.service';
+import {Line} from '../models/line.model';
+import {HistoryEvent} from '../models/history-event.model';
+import {ControlPointsService} from './control-points.service';
+import {Subject} from 'rxjs/Subject';
 
 @Injectable()
 export class HistoryService {
   history$ = new BehaviorSubject<HistoryEvent[]>([]);
-  needsRendering$ = new BehaviorSubject<boolean>(false);
+  needsRender$ = new Subject<boolean>();
   isRecording = false;
   currentFigure: Point[][];
 
-  constructor(private selection: SelectionService, private controls: ControlPointsService) {
+  constructor(private selection: SelectionService,
+              private controls: ControlPointsService) {
   }
 
   add(line: Line, lineType: SupportedLineType) {
@@ -28,7 +30,7 @@ export class HistoryService {
     const history = this.history$.value;
     if (!history.length) return [];
     const points = [this.history$.value[0].line.start];
-    history.forEach((event, index) => {
+    history.forEach((event) => {
       points.push(event.line.end);
     });
     return points;
@@ -43,7 +45,15 @@ export class HistoryService {
     this.selection.set(null);
     this.history$.next([]);
     this.controls.controls$.next([]);
-    this.needsRendering$.next(true);
+    this.needsRender$.next();
+  }
+
+  back() {
+    const newHistory = this.history$.value;
+    newHistory.pop();
+    this.history$.next(newHistory);
+    this.selection.set(null);
+    this.needsRender$.next();
   }
 
   reset(): Line[] {
