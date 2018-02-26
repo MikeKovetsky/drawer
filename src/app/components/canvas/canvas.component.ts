@@ -1,5 +1,4 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {distinctUntilChanged, switchMap, take, tap} from 'rxjs/operators';
 
 import {DrawerService} from '../../services/drawer.service';
 import {CursorPositionService} from '../../services/cursor-position.service';
@@ -11,7 +10,6 @@ import {Point} from '../../models/point.model';
 import {SelectionService} from '../../services/selection.service';
 import {HelpersService} from '../../services/helpers.service';
 import {ControlPointsService} from '../../services/control-points.service';
-import {HistoryEvent} from '../../models/history-event.model';
 
 @Component({
   selector: 'drawer-canvas',
@@ -42,7 +40,7 @@ export class CanvasComponent implements OnInit {
     this.canvas = this.drawer.render(this.canvas);
 
     this.controlPoints.controls$.subscribe((points) => {
-      this.controls = points;
+      setTimeout(() => this.controls = points);
     });
 
     this.history.needsRender$.subscribe(() => {
