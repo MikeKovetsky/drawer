@@ -49,6 +49,10 @@ export class CanvasComponent implements OnInit {
       this.history.history$.next([]);
       const lines = history.map((event) => event.line);
       this.drawer.drawLines(lines);
+      const lastPoint = lines[lines.length - 1].end;
+      if (lastPoint) {
+        this.selection.set(lastPoint);
+      }
     });
 
     this.selection.get().subscribe((pos) => {
