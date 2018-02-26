@@ -25,7 +25,7 @@ export class CanvasComponent implements OnInit {
 
   transformationsShown = false;
   specificShown = false;
-  anchorShown = true;
+  anchorShown = false;
 
   constructor(private drawer: DrawerService,
               private history: HistoryService,

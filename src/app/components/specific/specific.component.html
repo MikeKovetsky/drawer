@@ -1,16 +1,13 @@
 <div class="specific">
   <div class="specific__section">
-    <button mat-raised-button (click)="drawTenth()" class="draw-tenth">Draw Tenth</button>
-  </div>
-  <div class="specific__section">
     Cassini Ovals
     <form [formGroup]="cassiniGroup">
       <input type="number" placeholder="X" formControlName="x" name="controlX">
       <input type="number" placeholder="Y" formControlName="y" name="controlY">
       <input type="number" placeholder="A" formControlName="a" name="a">
       <input type="number" placeholder="B" formControlName="b" name="b">
-      <button [disabled]="cassiniGroup.invalid" (click)="drawOvals(cassiniGroup)">Draw Ovals</button>
-      <button [disabled]="cassiniGroup.invalid" (click)="changeOvals(cassiniGroup)">Change Ovals</button>
+      <button class="button" [disabled]="cassiniGroup.invalid" (click)="drawOvals(cassiniGroup)">Draw Ovals</button>
+      <button class="button" [disabled]="cassiniGroup.invalid" (click)="changeOvals(cassiniGroup)">Change Ovals</button>
     </form>
   </div>
   <div class="specific__section">
@@ -19,8 +16,8 @@
       <input type="number" placeholder="X" formControlName="x" name="controlX">
       <input type="number" placeholder="Y" formControlName="y" name="controlY">
       <input type="number" placeholder="Length" formControlName="length" name="length">
-      <button [disabled]="tangentGroup.invalid" (click)="drawTangent(tangentGroup)">Draw Tangent</button>
-      <button [disabled]="tangentGroup.invalid" (click)="drawNormal(tangentGroup)">Draw Normal</button>
+      <button class="button" [disabled]="tangentGroup.invalid" (click)="drawTangent(tangentGroup)">Draw Tangent</button>
+      <button class="button" [disabled]="tangentGroup.invalid" (click)="drawNormal(tangentGroup)">Draw Normal</button>
     </form>
   </div>
   <div class="specific__section">

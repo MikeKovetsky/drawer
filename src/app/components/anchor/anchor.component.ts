@@ -1,27 +1,23 @@
 import {Component, OnInit} from '@angular/core';
 import {DrawerService} from '../../services/drawer.service';
 import {Point} from '../../models/point.model';
-import {HistoryService} from "../../services/history.service";
-import {SHARK} from "./shark";
-import {ANCHOR} from "./anchor";
-import {ControlPointsService} from "../../services/control-points.service";
-import {FractalsService} from "../../services/fractals.service";
+import {HistoryService} from '../../services/history.service';
+import {SHARK} from './shark';
+import {ANCHOR} from './anchor';
+import {ControlPointsService} from '../../services/control-points.service';
+import {FractalsService} from '../../services/fractals.service';
 
 @Component({
   selector: 'drawer-anchor',
   templateUrl: './anchor.component.html',
   styleUrls: ['./anchor.component.css']
 })
-export class AnchorComponent implements OnInit {
+export class AnchorComponent {
 
   constructor(private drawer: DrawerService,
               private fractals: FractalsService,
               private controlPoints: ControlPointsService,
               private history: HistoryService) {
-  }
-
-  ngOnInit() {
-    this.drawFigure(ANCHOR);
   }
 
   drawAnchor() {
@@ -73,8 +69,8 @@ export class AnchorComponent implements OnInit {
       const vertexes = curve.map((point: Point) => new Point(point.x, point.y));
       vertexes.forEach(p => {
         points.push(p);
-      })
-    })
+      });
+    });
     return points;
   }
 

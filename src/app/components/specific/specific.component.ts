@@ -75,10 +75,6 @@ export class SpecificComponent implements OnInit {
     }
   }
 
-  drawTenth() {
-    this.shapes.drawTenth();
-  }
-
   drawOvals(cassiniGroup: FormGroup) {
     this.cassiniPrevState = this.cassiniGroup.value;
     const center = new Point(cassiniGroup.value.x, cassiniGroup.value.y);
