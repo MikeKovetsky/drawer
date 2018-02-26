@@ -35,8 +35,8 @@
     <button mat-raised-button (click)="scale(zoomDelta)">Scale +</button>
     <button mat-raised-button (click)="scale(-zoomDelta)">Scale -</button>
     <button class="button"
-            [class.button__active]="tools.split"
-            (click)="tools.split = !tools.split">
+            [class.button__active]="tools.splitMode"
+            (click)="tools.splitMode = !tools.splitMode">
       Split Mode
     </button>
     <button class="button"

@@ -71,24 +71,15 @@ export class CanvasComponent implements OnInit {
   selectPoint() {
     const clicked: Point = this.cursorPosition.coordinates$.getValue();
     if (this.activeControl) {
-      const newVertexes = this.addSmooth(this.controlPoints.controls$.value, this.activeControl, clicked);
-      const figure = this.helpers.nestArray(newVertexes, 4);
-      this.history.clear();
-      const controlPoints = this.drawer.drawFigure(figure);
-      this.controlPoints.controls$.next(controlPoints);
-      this.activeControl = void 0;
+      this.moveControlPoint(clicked);
       return;
     }
     if (this.selected) {
-      this.drawer.drawLine(this.selected, clicked);
-      if (this.tools.chainMode.value === true) {
-        this.selection.set(clicked);
-      } else {
-        this.selection.set(void 0);
-      }
-    } else {
-      this.selection.set(this.cursorPosition.coordinates$.getValue());
+      this.finishLine(clicked);
+      return;
     }
+    const selection = this.cursorPosition.coordinates$.value;
+    this.selection.set(selection);
   }
 
   addSmooth(vertexes: Point[], currentPoint: Point, newPoint: Point): Point[] {
@@ -141,6 +132,21 @@ export class CanvasComponent implements OnInit {
 
   get openedPanel() {
     return this.tools.openedPanel;
+  }
+
+  private finishLine(target: Point) {
+    this.drawer.drawLine(this.selected, target);
+    const selected = this.tools.chainMode.value === true ? target : void 0;
+    this.selection.set(selected);
+  }
+
+  private moveControlPoint(target: Point) {
+    const newVertexes = this.addSmooth(this.controlPoints.controls$.value, this.activeControl, target);
+    const figure = this.helpers.nestArray(newVertexes, 4);
+    this.history.clear();
+    const controlPoints = this.drawer.drawFigure(figure);
+    this.controlPoints.controls$.next(controlPoints);
+    this.activeControl = void 0;
   }
 
   private selectLastPoint(lines: Line[]) {

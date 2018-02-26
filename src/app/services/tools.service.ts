@@ -5,7 +5,7 @@ export type TOOL_PANEL = 'anchor' | 'transformations' | 'specific';
 
 @Injectable()
 export class ToolsService {
-  split = false;
+  splitMode = false;
   chainMode = new BehaviorSubject(false);
   private _openedPanel: TOOL_PANEL = null;
 
