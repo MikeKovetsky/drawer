@@ -1,4 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {filter} from 'rxjs/operators';
 
 import {DrawerService} from '../../services/drawer.service';
 import {CursorPositionService} from '../../services/cursor-position.service';
@@ -11,7 +12,7 @@ import {SelectionService} from '../../services/selection.service';
 import {HelpersService} from '../../services/helpers.service';
 import {ControlPointsService} from '../../services/control-points.service';
 import {TOOL_PANEL, ToolsService} from '../../services/tools.service';
-import {filter} from 'rxjs/operators';
+import {Line} from '../../models/line.model';
 
 @Component({
   selector: 'drawer-canvas',
@@ -49,10 +50,7 @@ export class CanvasComponent implements OnInit {
       this.history.history$.next([]);
       const lines = history.map((event) => event.line);
       this.drawer.drawLines(lines);
-      const lastPoint = lines[lines.length - 1].end;
-      if (lastPoint) {
-        this.selection.set(lastPoint);
-      }
+      this.selectLastPoint(lines);
     });
 
     this.selection.get().subscribe((pos) => {
@@ -143,5 +141,14 @@ export class CanvasComponent implements OnInit {
 
   get openedPanel() {
     return this.tools.openedPanel;
+  }
+
+  private selectLastPoint(lines: Line[]) {
+    if (lines.length && this.tools.chainMode.value === true) {
+      const lastPoint = lines[lines.length - 1].end;
+      if (lastPoint) {
+        this.selection.set(lastPoint);
+      }
+    }
   }
 }
