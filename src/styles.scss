@@ -42,4 +42,13 @@ body {
 .button {
   display: block;
   margin: 6px 0;
+  border: 1px solid #eee;
+  background: #eee;
+  outline: none;
+  font-size: 12px;
+
+  &__active {
+    background: #2e7d32;
+    border: 1px solid #aaa;
+  }
 }

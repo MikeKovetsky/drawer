@@ -31,6 +31,7 @@ import {AnchorComponent} from './components/anchor/anchor.component';
 import {ControlPointsService} from "./services/control-points.service";
 import {FractalsService} from "./services/fractals.service";
 import {HotKeysService} from './services/hotkeys.service';
+import {ToolsService} from './services/tools.service';
 
 
 @NgModule({
@@ -72,7 +73,8 @@ import {HotKeysService} from './services/hotkeys.service';
     ShapesService,
     ControlPointsService,
     FractalsService,
-    HotKeysService
+    HotKeysService,
+    ToolsService
   ],
   bootstrap: [AppComponent]
 })

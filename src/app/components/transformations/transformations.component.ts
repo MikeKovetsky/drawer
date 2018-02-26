@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {TransformationsService} from "./transformations.service";
-import {Point} from "../../models/point.model";
-import {DrawerService} from "../../services/drawer.service";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {TransformationsService} from './transformations.service';
+import {Point} from '../../models/point.model';
+import {DrawerService} from '../../services/drawer.service';
+import {ToolsService} from '../../services/tools.service';
 
 @Component({
   selector: 'drawer-transformations',
@@ -17,12 +18,13 @@ export class TransformationsComponent implements OnInit {
   projectiveGroup: FormGroup;
   zoomDelta = .1;
 
-  private center = new Point(0,0);
+  private center = new Point(0, 0);
   private readonly initialZoom = 1;
 
   constructor(private fb: FormBuilder,
               private transformations: TransformationsService,
-              private drawer: DrawerService) { }
+              private drawer: DrawerService,
+              public tools: ToolsService) { }
 
   ngOnInit() {
     this.moveGroup = this.fb.group({
@@ -52,7 +54,7 @@ export class TransformationsComponent implements OnInit {
       w0: [100, Validators.required],
       wx: [1, Validators.required],
       wy: [1, Validators.required]
-    })
+    });
   }
 
   move(delta: FormGroup) {
