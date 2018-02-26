@@ -10,6 +10,7 @@ import {Point} from '../../models/point.model';
 import {SelectionService} from '../../services/selection.service';
 import {HelpersService} from '../../services/helpers.service';
 import {ControlPointsService} from '../../services/control-points.service';
+import {TOOL_PANEL, ToolsService} from '../../services/tools.service';
 
 @Component({
   selector: 'drawer-canvas',
@@ -23,16 +24,13 @@ export class CanvasComponent implements OnInit {
   selected: Point;
   activeControl: Point;
 
-  transformationsShown = false;
-  specificShown = false;
-  anchorShown = false;
-
   constructor(private drawer: DrawerService,
               private history: HistoryService,
               private selection: SelectionService,
               private controlPoints: ControlPointsService,
               private helpers: HelpersService,
-              private cursorPosition: CursorPositionService) {
+              private cursorPosition: CursorPositionService,
+              private tools: ToolsService) {
   }
 
   ngOnInit() {
@@ -118,28 +116,17 @@ export class CanvasComponent implements OnInit {
     this.activeControl = control;
   }
 
-  showSpecific() {
-    this.specificShown = !this.specificShown;
-    this.transformationsShown = false;
-    this.anchorShown = false;
-  }
-
-  showAnchor() {
-    this.anchorShown = !this.anchorShown;
-    this.transformationsShown = false;
-    this.specificShown = false;
-  }
-
-  showTransformations() {
-    this.transformationsShown = !this.transformationsShown;
-    this.specificShown = false;
-    this.anchorShown = false;
-  }
-
   updateCursorPosition(ev: MouseEvent) {
     const rect = this.domCanvas.nativeElement.getBoundingClientRect();
     const clientPos = new Point(ev.clientX, ev.clientY);
     this.cursorPosition.updatePosition(clientPos, this.canvas, rect);
   }
 
+  showPanel(panelName: TOOL_PANEL) {
+    this.tools.openedPanel = panelName;
+  }
+
+  get openedPanel() {
+    return this.tools.openedPanel;
+  }
 }
