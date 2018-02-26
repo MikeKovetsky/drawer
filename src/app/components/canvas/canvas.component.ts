@@ -11,6 +11,7 @@ import {SelectionService} from '../../services/selection.service';
 import {HelpersService} from '../../services/helpers.service';
 import {ControlPointsService} from '../../services/control-points.service';
 import {TOOL_PANEL, ToolsService} from '../../services/tools.service';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'drawer-canvas',
@@ -53,6 +54,12 @@ export class CanvasComponent implements OnInit {
     this.selection.get().subscribe((pos) => {
       this.selected = pos;
     });
+
+    this.tools.chainMode.pipe(
+      filter((modeEnabled) => !modeEnabled)
+    ).subscribe(() =>
+      this.selected = void 0
+    );
   }
 
   toAbs(p: Point): Point {
@@ -72,7 +79,11 @@ export class CanvasComponent implements OnInit {
     }
     if (this.selected) {
       this.drawer.drawLine(this.selected, clicked);
-      this.selection.set(clicked);
+      if (this.tools.chainMode.value === true) {
+        this.selection.set(clicked);
+      } else {
+        this.selection.set(void 0);
+      }
     } else {
       this.selection.set(this.cursorPosition.coordinates$.getValue());
     }
