@@ -66,4 +66,22 @@ export class HelpersService {
     flatten(array, newArray);
     return newArray;
   }
+
+  findNearestPoint(target: Point, allPoints: Point[], accuracyPx = Number.MAX_SAFE_INTEGER): Point | null {
+    let nearest = null;
+    const resultDistance = allPoints.reduce((distance, point) => {
+      const newDistance = this.getDistance(point, target);
+      const closeEnough = newDistance < accuracyPx && newDistance < distance;
+      if (closeEnough) {
+        nearest = point;
+      }
+      return closeEnough ? newDistance : distance;
+    }, Number.MAX_SAFE_INTEGER);
+
+    if (resultDistance === Number.MAX_SAFE_INTEGER) {
+      return null;
+    }
+
+    return nearest;
+  }
 }
