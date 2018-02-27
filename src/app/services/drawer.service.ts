@@ -130,9 +130,13 @@ export class DrawerService {
     }
   }
 
+  splitByPoint(controlPoint: Point) {
+    console.log(controlPoint);
+  }
+
   private getBezierPoint(n1: number, n2: number, perc: number): number {
     const diff = n2 - n1;
-    return n1 + ( diff * perc );
+    return n1 + (diff * perc);
   }
 
   drawCubicCurve(start: Point, end: Point, c1: Point, c2: Point) {
@@ -215,7 +219,9 @@ export class DrawerService {
   }
 
   private drawLineSize(p1: Point, p2: Point) {
-    if (!this.enableSizeLines) { return; }
+    if (!this.enableSizeLines) {
+      return;
+    }
     const distance = Math.round(this.helpers.getDistance(p1, p2));
     if (distance > 10) {
       const lineCenter = this.helpers.getLineCenter(p1, p2);
