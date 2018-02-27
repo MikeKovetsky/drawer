@@ -1,9 +1,9 @@
+import {filter} from 'rxjs/operators';
 import {Component, OnInit} from '@angular/core';
 import {CursorPositionService} from '../../services/cursor-position.service';
 import {HistoryService} from '../../services/history.service';
 import {HelpersService} from '../../services/helpers.service';
 import {Point} from '../../models/point.model';
-import {filter} from 'rxjs/operators';
 import {ToolsService} from '../../services/tools.service';
 
 @Component({
@@ -14,7 +14,6 @@ import {ToolsService} from '../../services/tools.service';
 export class PointPositionComponent implements OnInit {
   nearestPoint: Point = null;
   nearestCurvePoint = null;
-  private readonly minDistanceToPoint = 10;
 
   constructor(private cursorPosition: CursorPositionService,
               private history: HistoryService,
@@ -30,7 +29,7 @@ export class PointPositionComponent implements OnInit {
   watchNearestPoint() {
     this.cursorPosition.coordinates$.subscribe(pos => {
       const allPoints = this.history.getPoints();
-      this.nearestPoint = this.findNearestPoint(pos, allPoints);
+      this.nearestPoint = this.findNearestPoint(pos, allPoints, 10);
     });
   }
 
@@ -39,11 +38,11 @@ export class PointPositionComponent implements OnInit {
       filter(() => this.tools.splitMode)
     ).subscribe(pos => {
       const allLines = this.history.getLines();
-      allLines.forEach(line => {
+      const nearestLinePoints = allLines.map(line => {
         const linePoints = line.getPoints(100);
-        const nearest = this.findNearestPoint(pos, linePoints);
-        console.log(linePoints);
-      });
+        return this.findNearestPoint(pos, linePoints, 2);
+      }).filter(l => !!l);
+      this.nearestCurvePoint = this.findNearestPoint(pos, nearestLinePoints);
     });
   }
 
@@ -52,11 +51,11 @@ export class PointPositionComponent implements OnInit {
     return this.helpers.toAbsoluteCoordinates(p);
   }
 
-  private findNearestPoint(target: Point, allPoints: Point[]): Point | null {
+  private findNearestPoint(target: Point, allPoints: Point[], accuracyPx = Number.MAX_SAFE_INTEGER): Point | null {
     let nearest = null;
     const resultDistance = allPoints.reduce((distance, point) => {
       const newDistance = this.helpers.getDistance(point, target);
-      const closeEnough = newDistance < this.minDistanceToPoint && newDistance < distance;
+      const closeEnough = newDistance < accuracyPx && newDistance < distance;
       if (closeEnough) {
         nearest = point;
       }

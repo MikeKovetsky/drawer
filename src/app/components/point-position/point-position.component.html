@@ -9,3 +9,10 @@
     y: {{nearestPoint.y | number:'2.1-1'}}
   </div>
 </div>
+
+<div class="nearest-curve-point"
+     *ngIf="nearestCurvePoint"
+     [style.left.px]="toAbs(nearestCurvePoint).x"
+     [style.top.px]="toAbs(nearestCurvePoint).y">
+</div>
+
