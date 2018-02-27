@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {SupportedLineType} from '../configs/supported-lines';
 import {Point} from '../models/point.model';
 import {SelectionService} from './selection.service';
 import {Line} from '../models/line.model';
@@ -19,10 +18,10 @@ export class HistoryService {
               private controls: ControlPointsService) {
   }
 
-  add(line: Line, lineType: SupportedLineType) {
+  add(line: Line) {
     if (!this.isRecording) return;
     const history = this.history$.value;
-    history.push({line, lineType});
+    history.push({line});
     this.history$.next(history);
   }
 

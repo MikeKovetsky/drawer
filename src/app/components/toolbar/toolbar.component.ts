@@ -1,11 +1,9 @@
 import {Component} from '@angular/core';
 import {FormGroup} from "@angular/forms";
-import {SupportedLineType} from "../../configs/supported-lines";
 
 import {DrawerService} from "../../services/drawer.service";
 import {SelectionService} from "../../services/selection.service";
-import {HistoryService} from "../../services/history.service";
-import {ShapesService} from "../../services/shapes.service";
+import {SupportedLineType} from '../../configs/supported-lines';
 
 @Component({
   selector: 'drawer-toolbar',

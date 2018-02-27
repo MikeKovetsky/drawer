@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {SupportedLineType} from '../configs/supported-lines';
 import {CircleDrawingMethod} from '../configs/canvas-config';
 import {DrawerCanvas} from '../models/canvas.model';
 import {Point} from '../models/point.model';
@@ -89,7 +88,7 @@ export class DrawerService {
     this.invertPointsY(p1, p2);
     this.context.stroke();
     this.drawLineSize(p1, p2);
-    this.history.add(new Line(p1, p2), SupportedLineType.Line);
+    this.history.add(new Line(p1, p2));
   }
 
   drawEndlessLine(p1: Point, p2: Point, pixels: number) {
