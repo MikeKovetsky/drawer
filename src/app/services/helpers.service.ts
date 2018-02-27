@@ -1,12 +1,13 @@
-import { Injectable } from '@angular/core';
-import {Point} from "../models/point.model";
-import {CANVAS_CONFIG} from "../configs/canvas-config";
-import {Line} from "../models/line.model";
+import {Injectable} from '@angular/core';
+import {Point} from '../models/point.model';
+import {CANVAS_CONFIG} from '../configs/canvas-config';
+import {Line} from '../models/line.model';
 
 @Injectable()
 export class HelpersService {
 
-  constructor() { }
+  constructor() {
+  }
 
   toAbsoluteCoordinates(p: Point): Point {
     return new Point(p.x + CANVAS_CONFIG.width / 2, -p.y + CANVAS_CONFIG.height / 2);
@@ -18,8 +19,10 @@ export class HelpersService {
 
   toLines(points: Point[]): Line[] {
     const lines: Line[] = [];
-    points.forEach((point, index) =>{
-      if (!index) return;
+    points.forEach((point, index) => {
+      if (!index) {
+        return;
+      }
       lines.push(new Line(points[index - 1], point));
     });
     return lines;
@@ -44,24 +47,23 @@ export class HelpersService {
     return newArr;
   }
 
-  flattenArray<T>(arr: T[][]) : T[] {
-    // the new flattened array
-    var newArr: T[] = [];
+  flattenArray<T>(array: T[][]): T[] {
+    const newArray: T[] = [];
+
     // recursive function
     function flatten(arr, newArr) {
       // go through array
-      for (var i = 0; i < arr.length; i++) {
+      for (let i = 0; i < arr.length; i++) {
         // if element i of the current array is a non-array value push it
         if (Array.isArray(arr[i]) === false) {
           newArr.push(arr[i]);
-        }
-        // else the element is an array, so unwrap it
-        else {
+        } else {
           flatten(arr[i], newArr);
         }
       }
     }
-    flatten(arr, newArr);
-    return newArr;
+
+    flatten(array, newArray);
+    return newArray;
   }
 }

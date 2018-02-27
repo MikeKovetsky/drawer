@@ -12,7 +12,7 @@ export class SelectionComponent implements OnChanges {
   @Input() position: Point;
   absolutePosition: Point = new Point();
 
-  constructor(private helpersService: HelpersService, private tools: ToolsService) {
+  constructor(private helpersService: HelpersService) {
   }
 
   ngOnChanges() {
@@ -22,9 +22,4 @@ export class SelectionComponent implements OnChanges {
       this.absolutePosition = null;
     }
   }
-
-  get splitMode() {
-    return this.tools.splitMode;
-  }
-
 }
