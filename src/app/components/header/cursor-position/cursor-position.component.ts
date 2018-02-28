@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {CursorPositionService} from "../../services/cursor-position.service";
-import {Point} from "../../models/point.model";
+import {CursorPositionService} from "../../../services/cursor-position.service";
+import {Point} from "../../../models/point.model";
 
 @Component({
   selector: 'drawer-cursor-position',

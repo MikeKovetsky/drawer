@@ -2,8 +2,6 @@
 
 <drawer-specific *ngIf="openedPanel === 'specific'"></drawer-specific>
 
-<!--<drawer-anchor *ngIf="openedPanel === 'anchor'"></drawer-anchor>-->
-
 <div class="control"
      [class.active]="activeControl === p"
      (click)="activateControl(p)"
@@ -16,9 +14,6 @@
 </div>
 <div class="specific-toggler" (click)="showPanel('specific')">
   Draw specific lines
-</div>
-<div class="anchor-toggler" (click)="showPanel('anchor')">
-  Draw anchor
 </div>
 <canvas #canvas id="canvas"
         (click)="selectPoint()"

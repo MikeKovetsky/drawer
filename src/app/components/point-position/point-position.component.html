@@ -1,5 +1,4 @@
-<div class="box-nearest"
-     *ngIf="nearestPoint"
+<div *ngIf="nearestPoint"
      [style.left.px]="toAbs(nearestPoint).x"
      [style.top.px]="toAbs(nearestPoint).y">
   <div class="box-input">

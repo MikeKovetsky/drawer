@@ -4,14 +4,14 @@ import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {
-  MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule, MatSelectModule
-} from "@angular/material";
+  MatButtonModule, MatCheckboxModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatSelectModule
+} from '@angular/material';
 
 import {AppComponent} from './app.component';
 import {CanvasComponent} from './components/canvas/canvas.component';
 import {HistoryComponent} from './components/history/history.component';
 import {HistoryEventComponent} from './components/history/history-event/history-event.component';
-import {CursorPositionComponent} from './components/cursor-position/cursor-position.component';
+import {CursorPositionComponent} from './components/header/cursor-position/cursor-position.component';
 import {SelectionComponent} from './components/selection/selection.component';
 import {ToolbarComponent} from './components/toolbar/toolbar.component';
 import {PointPositionComponent} from './components/point-position/point-position.component';
@@ -33,6 +33,8 @@ import {FractalsService} from "./services/fractals.service";
 import {HotKeysService} from './services/hotkeys.service';
 import {ToolsService} from './services/tools.service';
 import { SplitPointComponent } from './components/split-point/split-point.component';
+import { HeaderComponent } from './components/header/header.component';
+import { HotkeysDialogComponent } from './components/header/dialogs/hotkeys-dialog/hotkeys-dialog.component';
 
 
 @NgModule({
@@ -51,7 +53,9 @@ import { SplitPointComponent } from './components/split-point/split-point.compon
     TransformationsComponent,
     SpecificComponent,
     AnchorComponent,
-    SplitPointComponent
+    SplitPointComponent,
+    HeaderComponent,
+    HotkeysDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +68,8 @@ import { SplitPointComponent } from './components/split-point/split-point.compon
     MatInputModule,
     MatButtonModule,
     MatCheckboxModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDialogModule
   ],
   providers: [
     DrawerService,
@@ -77,6 +82,9 @@ import { SplitPointComponent } from './components/split-point/split-point.compon
     FractalsService,
     HotKeysService,
     ToolsService
+  ],
+  entryComponents: [
+    HotkeysDialogComponent
   ],
   bootstrap: [AppComponent]
 })

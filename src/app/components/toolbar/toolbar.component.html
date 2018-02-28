@@ -7,8 +7,6 @@
         <mat-option [value]="lineTypes.Circle">Circle</mat-option>
       </mat-select>
     </mat-form-field>
-
-    <drawer-cursor-position></drawer-cursor-position>
   </header>
 
   <drawer-new-line (newEvent)="add($event, lineType)" *ngIf="lineType === lineTypes.Line"></drawer-new-line>

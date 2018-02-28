@@ -1,7 +1,7 @@
 
 .transformations-toggler {
   position: absolute;
-  left: 120px;
+  left: 420px;
   top: 0;
   width: 70px;
   text-align: center;
@@ -16,7 +16,7 @@
 
 .specific-toggler {
   position: absolute;
-  left: 220px;
+  left: 520px;
   top: 0;
   width: 130px;
   text-align: center;
