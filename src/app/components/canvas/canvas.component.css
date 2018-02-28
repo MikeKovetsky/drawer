@@ -42,6 +42,7 @@
 }
 
 .control {
+  z-index: -1;
   cursor: move;
   height: 6px;
   width: 6px;
