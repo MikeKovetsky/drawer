@@ -129,10 +129,6 @@ export class DrawerService {
     }
   }
 
-  splitByPoint(controlPoint: Point) {
-    console.log(controlPoint);
-  }
-
   private getBezierPoint(n1: number, n2: number, perc: number): number {
     const diff = n2 - n1;
     return n1 + (diff * perc);

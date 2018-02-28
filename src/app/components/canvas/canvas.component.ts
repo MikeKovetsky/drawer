@@ -74,10 +74,6 @@ export class CanvasComponent implements OnInit {
       this.moveControlPoint(clicked);
       return;
     }
-    if (this.tools.splitMode && this.selected) {
-      this.drawer.splitByPoint(clicked);
-      return;
-    }
     if (this.selected) {
       this.finishLine(clicked);
       return;

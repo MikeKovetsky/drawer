@@ -17,4 +17,8 @@ export class Line {
       return new Point(x, y);
     });
   }
+
+  equals(line: Line) {
+    return line.start.equals(this.start) && line.end.equals(this.end);
+  }
 }
