@@ -1,12 +1,12 @@
-import {Component, Input, OnChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges} from '@angular/core';
 import {Point} from '../../models/point.model';
 import {HelpersService} from '../../services/helpers.service';
-import {ToolsService} from '../../services/tools.service';
 
 @Component({
   selector: 'drawer-selection',
   templateUrl: './selection.component.html',
-  styleUrls: ['./selection.component.scss']
+  styleUrls: ['./selection.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SelectionComponent implements OnChanges {
   @Input() position: Point;

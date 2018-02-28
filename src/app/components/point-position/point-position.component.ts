@@ -1,10 +1,8 @@
-import {filter} from 'rxjs/operators';
 import {Component, OnInit} from '@angular/core';
 import {CursorPositionService} from '../../services/cursor-position.service';
 import {HistoryService} from '../../services/history.service';
 import {HelpersService} from '../../services/helpers.service';
 import {Point} from '../../models/point.model';
-import {ToolsService} from '../../services/tools.service';
 
 @Component({
   selector: 'drawer-point-position',
@@ -13,17 +11,14 @@ import {ToolsService} from '../../services/tools.service';
 })
 export class PointPositionComponent implements OnInit {
   nearestPoint: Point = null;
-  nearestCurvePoint = null;
 
   constructor(private cursorPosition: CursorPositionService,
               private history: HistoryService,
-              private helpers: HelpersService,
-              private tools: ToolsService) {
+              private helpers: HelpersService) {
   }
 
   ngOnInit() {
     this.watchNearestPoint();
-    this.watchNearestCurvePoint();
   }
 
   watchNearestPoint() {
@@ -33,22 +28,7 @@ export class PointPositionComponent implements OnInit {
     });
   }
 
-  watchNearestCurvePoint() {
-    this.cursorPosition.coordinates$.pipe(
-      filter(() => this.tools.splitMode)
-    ).subscribe(pos => {
-      const allLines = this.history.getLines();
-      const nearestLinePoints = allLines.map(line => {
-        const linePoints = line.getPoints(100);
-        return this.helpers.findNearestPoint(pos, linePoints, 2);
-      }).filter(l => !!l);
-      this.nearestCurvePoint = this.helpers.findNearestPoint(pos, nearestLinePoints);
-    });
-  }
-
-
   toAbs(p: Point): Point {
     return this.helpers.toAbsoluteCoordinates(p);
   }
-
 }

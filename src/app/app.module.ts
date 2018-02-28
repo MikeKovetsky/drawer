@@ -32,6 +32,7 @@ import {ControlPointsService} from "./services/control-points.service";
 import {FractalsService} from "./services/fractals.service";
 import {HotKeysService} from './services/hotkeys.service';
 import {ToolsService} from './services/tools.service';
+import { SplitPointComponent } from './components/split-point/split-point.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import {ToolsService} from './services/tools.service';
     NewCurveComponent,
     TransformationsComponent,
     SpecificComponent,
-    AnchorComponent
+    AnchorComponent,
+    SplitPointComponent
   ],
   imports: [
     BrowserModule,
