@@ -26,18 +26,33 @@ export class HistoryService {
   }
 
   getPoints(): Point[] {
-    const history = this.history$.value;
-    if (!history.length) return [];
-    const points = [this.history$.value[0].line.start];
-    history.forEach((event) => {
-      points.push(event.line.end);
-    });
-    return points;
+    const lines = this.history$.value.map(events => events.line);
+    const startPoints = lines.map(l => l.start);
+    const endPoints = lines.map(l => l.end);
+    return startPoints.concat(endPoints);
   }
 
   getLines(): Line[] {
     const events: HistoryEvent[] = this.history$.value;
     return events.map(event => event.line);
+  }
+
+  replacePoint(prevPoint: Point, point: Point) {
+    const historyLines = this.getLines();
+    const newlines = historyLines.map(line => {
+      if (line.start.equals(prevPoint)) {
+        line.start = point;
+      }
+      if (line.end.equals(prevPoint)) {
+        line.end = point;
+      }
+      return line;
+    });
+    const newHistory = newlines.map((line) => {
+      return {line} as HistoryEvent;
+    });
+    this.history$.next(newHistory);
+    this.needsRender$.next();
   }
 
   clear() {

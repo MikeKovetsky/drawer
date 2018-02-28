@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {filter} from 'rxjs/operators';
 
 import {DrawerService} from '../../services/drawer.service';
@@ -39,9 +39,9 @@ export class CanvasComponent implements OnInit {
     this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG.width, CANVAS_CONFIG.height, CANVAS_CONFIG.vectorLength);
     this.canvas = this.drawer.render(this.canvas);
 
-    this.controlPoints.controls$.subscribe((points) => {
-      setTimeout(() => this.controls = points);
-    });
+    this.history.history$.subscribe(() =>
+      this.controls = this.history.getPoints()
+    );
 
     this.history.needsRender$.subscribe(() => {
       this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG.width, CANVAS_CONFIG.height, CANVAS_CONFIG.vectorLength);
@@ -58,7 +58,7 @@ export class CanvasComponent implements OnInit {
     });
 
     this.tools.chainMode.pipe(
-      filter((modeEnabled) => !modeEnabled)
+      filter((chainModeEnabled) => !chainModeEnabled)
     ).subscribe(() =>
       this.selected = void 0
     );
@@ -74,50 +74,16 @@ export class CanvasComponent implements OnInit {
       this.moveControlPoint(clicked);
       return;
     }
+    if (this.tools.splitMode && this.selected) {
+      this.drawer.splitByPoint(clicked);
+      return;
+    }
     if (this.selected) {
       this.finishLine(clicked);
       return;
     }
     const selection = this.cursorPosition.coordinates$.value;
-    this.selection.set(selection);
-  }
-
-  addSmooth(vertexes: Point[], currentPoint: Point, newPoint: Point): Point[] {
-    for (let i = 0; i < vertexes.length; i++) {
-      if (vertexes[i].equals(currentPoint)) {
-        let prevIndex = 0;
-        let prevPrevIndex = 0;
-        if (i == 0) {
-          prevIndex = vertexes.length - 2;
-          prevPrevIndex = prevIndex - 1;
-        } else if (i == 1) {
-          prevIndex = 0;
-          prevPrevIndex = vertexes.length - 2;
-        } else {
-          prevIndex = i - 1;
-          prevPrevIndex = i - 2;
-        }
-        const prevVertex: Point = vertexes[prevIndex];
-        const prevPrevVertex: Point = vertexes[prevPrevIndex];
-        vertexes[i].x = newPoint.x;
-        vertexes[i].y = newPoint.y;
-        const firstAlpha: number = this.calculateVectorLength(prevPrevVertex, prevVertex);
-        const secondAlpha: number = this.calculateVectorLength(prevVertex, vertexes[i]);
-        const x: number = prevVertex.x - (firstAlpha * (vertexes[i].x - prevVertex.x) / secondAlpha);
-        const y: number = prevVertex.y - (firstAlpha * (vertexes[i].y - prevVertex.y) / secondAlpha);
-        prevPrevVertex.x = x;
-        prevPrevVertex.y = y;
-      }
-    }
-    return vertexes;
-  }
-
-  calculateVectorLength(p1: Point, p2: Point): number {
-    return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
-  }
-
-  startMovingControl(control: Point) {
-    this.activeControl = control;
+    this.startLine(selection);
   }
 
   updateCursorPosition(ev: MouseEvent) {
@@ -130,23 +96,27 @@ export class CanvasComponent implements OnInit {
     this.tools.openedPanel = panelName;
   }
 
+  activateControl(p: Point) {
+    this.activeControl = p;
+  }
+
+  moveControlPoint(target: Point) {
+    this.history.replacePoint(this.activeControl, target);
+    this.activeControl = void 0;
+  }
+
   get openedPanel() {
     return this.tools.openedPanel;
   }
 
-  private finishLine(target: Point) {
-    this.drawer.drawLine(this.selected, target);
-    const selected = this.tools.chainMode.value === true ? target : void 0;
-    this.selection.set(selected);
+  private startLine(selection: Point) {
+    this.selection.set(selection);
   }
 
-  private moveControlPoint(target: Point) {
-    const newVertexes = this.addSmooth(this.controlPoints.controls$.value, this.activeControl, target);
-    const figure = this.helpers.nestArray(newVertexes, 4);
-    this.history.clear();
-    const controlPoints = this.drawer.drawFigure(figure);
-    this.controlPoints.controls$.next(controlPoints);
-    this.activeControl = void 0;
+  private finishLine(target: Point) {
+    const selected = this.tools.chainMode.value === true ? target : void 0;
+    this.drawer.drawLine(this.selected, target);
+    this.selection.set(selected);
   }
 
   private selectLastPoint(lines: Line[]) {
