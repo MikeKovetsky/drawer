@@ -11,6 +11,7 @@
   font-size: 12px;
   height: 20px;
   line-height: 1.8;
+  z-index: 2;
 }
 
 .specific-toggler {
@@ -25,6 +26,7 @@
   font-size: 12px;
   height: 20px;
   line-height: 1.8;
+  z-index: 2;
 }
 
 .anchor-toggler {
@@ -39,10 +41,10 @@
   font-size: 12px;
   height: 20px;
   line-height: 1.8;
+  z-index: 2;
 }
 
 .control {
-  z-index: -1;
   cursor: move;
   height: 6px;
   width: 6px;
