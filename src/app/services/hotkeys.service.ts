@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HistoryService} from './history.service';
+import {ToolsService} from './tools.service';
 
 @Injectable()
 export class HotKeysService {
 
-  constructor(private history: HistoryService) {}
+  constructor(private history: HistoryService, private tools: ToolsService) {}
 
   init() {
     document.onkeyup = (e) => {
@@ -13,9 +14,17 @@ export class HotKeysService {
   }
 
   handler(e: KeyboardEvent) {
-    console.log(e);
-    if (e.ctrlKey && e.key === 'z') {
-      this.history.back();
+    if (e.ctrlKey) {
+      if (e.key === 'z') {
+        this.history.back();
+      }
+      if (e.key === 's') {
+        this.tools.splitMode = !this.tools.splitMode;
+      }
+      if (e.key === 'c') {
+        this.tools.chainMode.next(!this.tools.chainMode.value);
+      }
     }
+
   }
 }
