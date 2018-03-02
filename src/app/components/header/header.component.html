@@ -13,14 +13,12 @@
       <span class="dropdown-label">Modes</span>
       <div class="dropdown-content">
         <p (click)="tools.splitMode.toggle()">
-          Chain Mode
-          <span *ngIf="tools.splitMode.get()">On</span>
-          <span *ngIf="!tools.splitMode.get()">Off</span>
+          Split Mode
+          <span *ngIf="tools.splitMode.get()">✔</span>
         </p>
         <p (click)="tools.chainMode.toggle()">
-          Split Mode
-          <span *ngIf="tools.chainMode.get()">On</span>
-          <span *ngIf="!tools.chainMode.get()">Off</span>
+          Chain Mode
+          <span *ngIf="tools.chainMode.get()">✔</span>
         </p>
       </div>
     </div>
