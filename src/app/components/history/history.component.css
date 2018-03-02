@@ -9,6 +9,7 @@
   color: white;
   overflow-y: auto;
   z-index: 1;
+  padding-top: 46px;
 }
 
 .history__header {

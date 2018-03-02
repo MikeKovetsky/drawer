@@ -8,24 +8,15 @@ import {HistoryEvent} from "../../models/history-event.model";
   styleUrls: ['./history.component.css']
 })
 export class HistoryComponent implements OnInit {
-  history: HistoryEvent[] = [];
+  historyEvents: HistoryEvent[] = [];
   readonly maxItems = 50;
 
-  constructor(private historyService: HistoryService) {
+  constructor(private history: HistoryService) {
   }
 
   ngOnInit() {
-    this.historyService.history$.subscribe((updated) => {
-      this.history = updated;
+    this.history.history$.subscribe((updated) => {
+      this.historyEvents = updated;
     });
   }
-
-  clear() {
-    this.historyService.clear();
-  }
-
-  back() {
-    this.historyService.back();
-  }
-
 }

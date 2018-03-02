@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {HotkeysDialogComponent} from './dialogs/hotkeys-dialog/hotkeys-dialog.component';
 import {MatDialog} from '@angular/material';
 import {ToolsService} from '../../services/tools.service';
+import {HistoryService} from '../../services/history.service';
 
 @Component({
   selector: 'drawer-header',
@@ -10,7 +11,9 @@ import {ToolsService} from '../../services/tools.service';
 })
 export class HeaderComponent {
 
-  constructor(private dialog: MatDialog, public tools: ToolsService) { }
+  constructor(private dialog: MatDialog,
+              public history: HistoryService,
+              public tools: ToolsService) { }
 
   showHotKeys() {
     this.dialog.open(HotkeysDialogComponent);
