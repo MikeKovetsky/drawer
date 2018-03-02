@@ -30,7 +30,7 @@ export class SplitPointComponent implements OnInit {
 
   ngOnInit() {
     this.cursorPosition.coordinates$.pipe(
-      filter(() => this.tools.splitMode)
+      filter(() => this.tools.splitMode.get())
     ).subscribe(pos => {
       const allLines = this.history.getLines();
       const nearest: Nearest[] = allLines.map(line => {

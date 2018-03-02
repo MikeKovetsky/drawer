@@ -23,8 +23,7 @@ export class TransformationsComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private transformations: TransformationsService,
-              private drawer: DrawerService,
-              public tools: ToolsService) { }
+              private drawer: DrawerService) { }
 
   ngOnInit() {
     this.moveGroup = this.fb.group({

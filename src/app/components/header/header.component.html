@@ -3,10 +3,27 @@
     <drawer-cursor-position></drawer-cursor-position>
 
     <div class="dropdown">
-      <span class="dropdown-label">Help</span>
-      <div class="dropdown-content" (click)="showHotKeys()">
-        <p>Hotkeys List</p>
+    <span class="dropdown-label">Help</span>
+    <div class="dropdown-content" (click)="showHotKeys()">
+      <p>Hotkeys List</p>
+    </div>
+  </div>
+
+    <div class="dropdown">
+      <span class="dropdown-label">Modes</span>
+      <div class="dropdown-content">
+        <p (click)="tools.splitMode.toggle()">
+          Chain Mode
+          <span *ngIf="tools.splitMode.get()">On</span>
+          <span *ngIf="!tools.splitMode.get()">Off</span>
+        </p>
+        <p (click)="tools.chainMode.toggle()">
+          Split Mode
+          <span *ngIf="tools.chainMode.get()">On</span>
+          <span *ngIf="!tools.chainMode.get()">Off</span>
+        </p>
       </div>
     </div>
+
   </div>
 </div>

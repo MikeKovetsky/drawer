@@ -57,7 +57,7 @@ export class CanvasComponent implements OnInit {
       this.selected = pos;
     });
 
-    this.tools.chainMode.pipe(
+    this.tools.chainMode.watch().pipe(
       filter((chainModeEnabled) => !chainModeEnabled)
     ).subscribe(() =>
       this.selected = void 0
@@ -110,13 +110,13 @@ export class CanvasComponent implements OnInit {
   }
 
   private finishLine(target: Point) {
-    const selected = this.tools.chainMode.value === true ? target : void 0;
+    const selected = this.tools.chainMode.get() === true ? target : void 0;
     this.drawer.drawLine(this.selected, target);
     this.selection.set(selected);
   }
 
   private selectLastPoint(lines: Line[]) {
-    if (lines.length && this.tools.chainMode.value === true) {
+    if (lines.length && this.tools.chainMode.get() === true) {
       const lastPoint = lines[lines.length - 1].end;
       if (lastPoint) {
         this.selection.set(lastPoint);

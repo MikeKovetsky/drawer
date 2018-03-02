@@ -19,10 +19,10 @@ export class HotKeysService {
         this.history.back();
       }
       if (e.key === 's') {
-        this.tools.splitMode = !this.tools.splitMode;
+        this.tools.splitMode.toggle();
       }
       if (e.key === 'c') {
-        this.tools.chainMode.next(!this.tools.chainMode.value);
+        this.tools.chainMode.toggle();
       }
     }
 
