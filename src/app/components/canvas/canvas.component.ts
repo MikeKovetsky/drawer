@@ -32,7 +32,7 @@ export class CanvasComponent implements OnInit {
               private controlPoints: ControlPointsService,
               private helpers: HelpersService,
               private cursorPosition: CursorPositionService,
-              private tools: ToolsService) {
+              public tools: ToolsService) {
   }
 
   ngOnInit() {
@@ -88,10 +88,6 @@ export class CanvasComponent implements OnInit {
     this.cursorPosition.updatePosition(clientPos, this.canvas, rect);
   }
 
-  showPanel(panelName: TOOL_PANEL) {
-    this.tools.openedPanel = panelName;
-  }
-
   activateControl(p: Point) {
     this.activeControl = p;
   }
@@ -99,10 +95,6 @@ export class CanvasComponent implements OnInit {
   moveControlPoint(target: Point) {
     this.history.replacePoint(this.activeControl, target);
     this.activeControl = void 0;
-  }
-
-  get openedPanel() {
-    return this.tools.openedPanel;
   }
 
   private startLine(selection: Point) {

@@ -1,6 +1,6 @@
-<drawer-transformations *ngIf="openedPanel === 'transformations'"></drawer-transformations>
+<drawer-transformations *ngIf="tools.openedPanel === 'transformations'"></drawer-transformations>
 
-<drawer-specific *ngIf="openedPanel === 'specific'"></drawer-specific>
+<drawer-specific *ngIf="tools.openedPanel === 'specific'"></drawer-specific>
 
 <div class="control"
      [class.active]="activeControl === p"
@@ -9,12 +9,6 @@
      [style.top.px]="toAbs(p).y"
      [style.left.px]="toAbs(p).x"></div>
 
-<div class="transformations-toggler" (click)="showPanel('transformations')">
-  Transform
-</div>
-<div class="specific-toggler" (click)="showPanel('specific')">
-  Draw specific lines
-</div>
 <canvas #canvas id="canvas"
         (click)="selectPoint()"
         (mousemove)="updateCursorPosition($event)">

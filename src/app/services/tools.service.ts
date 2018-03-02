@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
 
-export type TOOL_PANEL = 'anchor' | 'transformations' | 'specific';
+  export type TOOL_PANEL = 'anchor' | 'transformations' | 'specific';
 
 class Tool {
   private _tool: BehaviorSubject<boolean>;
@@ -31,5 +31,12 @@ class Tool {
 export class ToolsService {
   splitMode = new Tool();
   chainMode = new Tool();
-  openedPanel: TOOL_PANEL;
+  private _openedPanel: TOOL_PANEL;
+
+  set openedPanel(pane: TOOL_PANEL) {
+    this._openedPanel = pane === this._openedPanel ? null : pane;
+  }
+  get openedPanel() {
+    return this._openedPanel;
+  }
 }
