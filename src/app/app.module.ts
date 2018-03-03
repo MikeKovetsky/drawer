@@ -35,6 +35,7 @@ import {ToolsService} from './services/tools.service';
 import { SplitPointComponent } from './components/split-point/split-point.component';
 import { HeaderComponent } from './components/header/header.component';
 import { HotkeysDialogComponent } from './components/header/dialogs/hotkeys-dialog/hotkeys-dialog.component';
+import {PavementService} from './services/pave.service';
 
 
 @NgModule({
@@ -81,7 +82,8 @@ import { HotkeysDialogComponent } from './components/header/dialogs/hotkeys-dial
     ControlPointsService,
     FractalsService,
     HotKeysService,
-    ToolsService
+    ToolsService,
+    PavementService
   ],
   entryComponents: [
     HotkeysDialogComponent

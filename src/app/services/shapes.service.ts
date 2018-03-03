@@ -31,4 +31,11 @@ export class ShapesService {
     this.drawer.enableSizeLines = true;
   }
 
+  drawCube(height: number) {
+    this.drawer.drawLine(new Point(-height, -height), new Point(-height, height));
+    this.drawer.drawLine(new Point(-height, -height), new Point(height, -height));
+    this.drawer.drawLine(new Point(height, height), new Point(-height, height));
+    this.drawer.drawLine(new Point(height, height), new Point(height, -height));
+  }
+
 }

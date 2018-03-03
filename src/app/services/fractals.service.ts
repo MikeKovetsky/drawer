@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Point} from "../models/point.model";
-import {DrawerService} from "./drawer.service";
+import {Point} from '../models/point.model';
+import {DrawerService} from './drawer.service';
+import {HistoryService} from './history.service';
+import {Line} from '../models/line.model';
 
 @Injectable()
 export class FractalsService {
