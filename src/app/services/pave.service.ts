@@ -18,6 +18,7 @@ export class PavementService {
     const lines = this.history.getLines();
     for (let x = -pavementSize; x < pavementSize; x++) {
       for (let y = -pavementSize; y < pavementSize; y++) {
+        if (!y && !x) continue; // skip self
         const newLines = this.offsetLines(lines, offsetX * x, offsetY* y);
         this.drawer.drawLines(newLines);
       }
