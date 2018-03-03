@@ -13,6 +13,8 @@ import {HelpersService} from '../../services/helpers.service';
 import {ControlPointsService} from '../../services/control-points.service';
 import {TOOL_PANEL, ToolsService} from '../../services/tools.service';
 import {Line} from '../../models/line.model';
+import {ShapesService} from '../../services/shapes.service';
+import {merge} from 'rxjs/observable/merge';
 
 @Component({
   selector: 'drawer-canvas',
@@ -31,6 +33,7 @@ export class CanvasComponent implements OnInit {
               private selection: SelectionService,
               private controlPoints: ControlPointsService,
               private helpers: HelpersService,
+              private shapes: ShapesService,
               private cursorPosition: CursorPositionService,
               public tools: ToolsService) {
   }
@@ -39,9 +42,12 @@ export class CanvasComponent implements OnInit {
     this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG.width, CANVAS_CONFIG.height, CANVAS_CONFIG.vectorLength);
     this.canvas = this.drawer.render(this.canvas);
 
-    this.history.history$.subscribe(() =>
-      this.controls = this.history.getPoints()
-    );
+    merge(
+      this.history.history$,
+      this.tools.controlPointsShown.watch()
+    ).subscribe(() => {
+      this.controls = this.tools.controlPointsShown.get() ? this.history.getPoints() : [];
+    });
 
     this.history.needsRender$.subscribe(() => {
       this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG.width, CANVAS_CONFIG.height, CANVAS_CONFIG.vectorLength);
@@ -52,6 +58,8 @@ export class CanvasComponent implements OnInit {
       this.drawer.drawLines(lines);
       this.selectLastPoint(lines);
     });
+
+    this.shapes.drawPegasus();
 
     this.selection.get().subscribe((pos) => {
       this.selected = pos;
