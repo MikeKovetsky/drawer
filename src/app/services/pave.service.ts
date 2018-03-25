@@ -10,14 +10,14 @@ export class PavementService {
   constructor(private history: HistoryService, private drawer: DrawerService) {
   }
 
-  pave(pavementSize: number) {
+  tile(tileSize: number) {
     const points = this.history.getPoints();
     const borders = this.findBorders(points);
     const offsetX = Math.abs(borders.maxX - borders.minX);
     const offsetY = Math.abs(borders.maxY - borders.minY);
     const lines = this.history.getLines();
-    for (let x = -pavementSize; x < pavementSize; x++) {
-      for (let y = -pavementSize; y < pavementSize; y++) {
+    for (let x = -tileSize; x < tileSize; x++) {
+      for (let y = -tileSize; y < tileSize; y++) {
         if (!y && !x) continue; // skip self
         const newLines = this.offsetLines(lines, offsetX * x, offsetY* y);
         this.drawer.drawLines(newLines);
