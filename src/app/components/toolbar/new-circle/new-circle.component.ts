@@ -21,10 +21,10 @@ export class NewCircleComponent implements OnInit {
   ngOnInit() {
     this.newEventForm = this.fb.group({
       circleCenter: this.fb.group({
-        x: [null, [Validators.required, Validators.min(GRID_CONFIG.minX), Validators.max(GRID_CONFIG.maxX)]],
-        y: [null, [Validators.required, Validators.min(GRID_CONFIG.minY), Validators.max(GRID_CONFIG.maxY)]],
+        x: [null, [Validators.required]],
+        y: [null, [Validators.required]],
       }),
-      radius: [null, [Validators.min(GRID_CONFIG.minY), Validators.max(GRID_CONFIG.maxY)]]
+      radius: [null, [Validators.required]]
     });
 
     this.selection.get().subscribe(pos => {

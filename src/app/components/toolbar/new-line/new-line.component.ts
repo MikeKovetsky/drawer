@@ -1,7 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {GRID_CONFIG} from "../../../configs/canvas-config";
-import {SelectionService} from "../../../services/selection.service";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {SelectionService} from '../../../services/selection.service';
 import {DrawerService} from '../../../services/drawer.service';
 import {Point} from '../../../models/point.model';
 
@@ -21,12 +20,12 @@ export class NewLineComponent implements OnInit {
   ngOnInit() {
     this.newEventForm = this.fb.group({
       p1: this.fb.group({
-        x: [null, [Validators.required, Validators.min(GRID_CONFIG.minX), Validators.max(GRID_CONFIG.maxX)]],
-        y: [null, [Validators.required, Validators.min(GRID_CONFIG.minY), Validators.max(GRID_CONFIG.maxY)]],
+        x: [null, [Validators.required]],
+        y: [null, [Validators.required]],
       }),
       p2: this.fb.group({
-        x: [null, [Validators.required, Validators.min(GRID_CONFIG.minX), Validators.max(GRID_CONFIG.maxX)]],
-        y: [null, [Validators.required, Validators.min(GRID_CONFIG.minY), Validators.max(GRID_CONFIG.maxY)]],
+        x: [null, [Validators.required]],
+        y: [null, [Validators.required]],
       }),
     });
 
