@@ -9,8 +9,8 @@
     </mat-form-field>
   </header>
 
-  <drawer-new-line (newEvent)="add($event, lineType)" *ngIf="lineType === lineTypes.Line"></drawer-new-line>
+  <drawer-new-line *ngIf="lineType === lineTypes.Line"></drawer-new-line>
   <!--<drawer-new-curve (newEvent)="add($event, lineType)" *ngIf="lineType === lineTypes.QuadraticCurve"></drawer-new-curve>-->
-  <drawer-new-circle (newEvent)="add($event, lineType)" *ngIf="lineType === lineTypes.Circle"></drawer-new-circle>
+  <drawer-new-circle *ngIf="lineType === lineTypes.Circle"></drawer-new-circle>
 
 </section>

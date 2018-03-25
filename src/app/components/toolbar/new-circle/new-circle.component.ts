@@ -2,6 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {GRID_CONFIG} from "../../../configs/canvas-config";
 import {SelectionService} from "../../../services/selection.service";
+import {DrawerService} from '../../../services/drawer.service';
 
 @Component({
   selector: 'drawer-new-circle',
@@ -13,6 +14,7 @@ export class NewCircleComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private drawer: DrawerService,
     private selection: SelectionService) {
   }
 
@@ -37,7 +39,9 @@ export class NewCircleComponent implements OnInit {
   }
 
   submit(form: FormGroup) {
-    this.newEvent.emit(form);
+    const points = form.value;
+    this.drawer.drawCircle(points.circleCenter, points.radius);
+    this.selection.set(points.circleCenter);
   }
 
 }

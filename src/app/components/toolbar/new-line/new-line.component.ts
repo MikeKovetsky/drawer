@@ -1,7 +1,9 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {GRID_CONFIG} from "../../../configs/canvas-config";
 import {SelectionService} from "../../../services/selection.service";
+import {DrawerService} from '../../../services/drawer.service';
+import {Point} from '../../../models/point.model';
 
 @Component({
   selector: 'drawer-new-line',
@@ -12,6 +14,7 @@ export class NewLineComponent implements OnInit {
   newEventForm: FormGroup;
 
   constructor(private fb: FormBuilder,
+              private drawer: DrawerService,
               private selection: SelectionService) {
   }
 
@@ -30,18 +33,17 @@ export class NewLineComponent implements OnInit {
     this.selection.get().subscribe(pos => {
       if (!pos) return;
       this.newEventForm.patchValue({
-        p1: {
-          x: pos.x,
-          y: pos.y
-        }
+        p1: {x: pos.x, y: pos.y},
+        p2: {x: 0, y: 0}
       });
     });
   }
 
-  submit(form: FormGroup) {
-    this.newEvent.emit(form);
-    this.newEventForm.controls.p1.setValue(this.newEventForm.controls.p2.value);
-    this.newEventForm.controls.p2.reset();
+  drawLine(form: FormGroup) {
+    const p1 = new Point(form.value.p1.x, form.value.p1.y);
+    const p2 = new Point(form.value.p2.x, form.value.p2.y);
+    this.drawer.drawLine(p1, p2);
+    this.selection.set(p2);
   }
 
 }
