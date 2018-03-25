@@ -39,7 +39,7 @@ export class CanvasComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG.width, CANVAS_CONFIG.height, CANVAS_CONFIG.vectorLength);
+    this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG);
     this.canvas = this.drawer.render(this.canvas);
 
     merge(
@@ -50,7 +50,7 @@ export class CanvasComponent implements OnInit {
     });
 
     this.history.needsRender$.subscribe(() => {
-      this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG.width, CANVAS_CONFIG.height, CANVAS_CONFIG.vectorLength);
+      this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG);
       this.canvas = this.drawer.render(this.canvas);
       const history = this.history.history$.value;
       this.history.history$.next([]);
@@ -58,8 +58,8 @@ export class CanvasComponent implements OnInit {
       this.drawer.drawLines(lines);
       this.selectLastPoint(lines);
     });
-
-    this.shapes.drawPegasus();
+    this.tools.controlPointsShown.set(false);
+    // this.shapes.drawPegasus();
 
     this.selection.get().subscribe((pos) => {
       this.selected = pos;
