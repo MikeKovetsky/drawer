@@ -5,11 +5,9 @@ import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 @Injectable()
 export class CursorPositionService {
-  coordinates$ = new BehaviorSubject<Point>(null);
+  coordinates$ = new BehaviorSubject<Point>(new Point());
 
-  constructor() {
-    this.coordinates$.next(new Point());
-  }
+  constructor() {}
 
   updatePosition(clientPosition: Point, canvas: DrawerCanvas, rect) {
     const x = clientPosition.x - rect.left - canvas.width / 2;
