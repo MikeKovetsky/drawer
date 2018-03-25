@@ -8,6 +8,7 @@ export type TOOL_PANEL = 'anchor' | 'transformations' | 'specific';
 export class ToolsService {
   splitMode = new Tool();
   chainMode = new Tool();
+  autoScaleMode = new Tool(true);
   controlPointsShown = new Tool(true);
   private _openedPanel: TOOL_PANEL;
 
