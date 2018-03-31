@@ -10,6 +10,7 @@ export class HelpersService {
   }
 
   toAbsoluteCoordinates(p: Point): Point {
+    // TODO: add canvas zoom
     return new Point(p.x + CANVAS_CONFIG.width / 2, -p.y + CANVAS_CONFIG.height / 2);
   }
 
@@ -26,6 +27,15 @@ export class HelpersService {
       lines.push(new Line(points[index - 1], point));
     });
     return lines;
+  }
+
+  toPoints(lines: Line[]): Point[] {
+    const points = [];
+    lines.forEach((l) => {
+      points.push(l.start);
+      points.push(l.end);
+    });
+    return points;
   }
 
 

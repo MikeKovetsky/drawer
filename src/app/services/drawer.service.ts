@@ -6,6 +6,11 @@ import {HistoryService} from './history.service';
 import {HelpersService} from './helpers.service';
 import {Line} from '../models/line.model';
 
+interface LineOptions {
+  zoom?: number;
+  color?: string;
+}
+
 @Injectable()
 export class DrawerService {
   yAxisInverted = false;
@@ -77,10 +82,10 @@ export class DrawerService {
     this.context.translate(x, y);
   }
 
-  drawLine(p1: Point, p2: Point, color = 'black') {
+  drawLine(p1: Point, p2: Point, opts: LineOptions = {zoom: 1, color: 'black'}) {
     p1.round();
     p2.round();
-    this.context.strokeStyle = color;
+    this.context.strokeStyle = opts.color;
     this.invertPointsY(p1, p2);
     this.context.beginPath();
     this.context.moveTo(p1.x, p1.y);
@@ -100,10 +105,8 @@ export class DrawerService {
     this.drawLine(a, b);
   }
 
-  drawLines(lines: Line[]) {
-    lines.forEach((line) => {
-      this.drawLine(line.start, line.end);
-    });
+  drawLines(lines: Line[], opts: LineOptions = {zoom: 1, color: 'black'}) {
+    lines.forEach(line => this.drawLine(line.start, line.end, opts));
   }
 
   invertPointsY(p1: Point, p2: Point) {
@@ -157,7 +160,8 @@ export class DrawerService {
         if (i) {
           const prevSizeLinesMode = this.enableSizeLines;
           this.enableSizeLines = false;
-          this.drawLine(points[i - 1], points[i], 'rgba(255, 0, 0, 0.4)');
+          const opts = {color: 'rgba(255, 0, 0, 0.4)'}
+          this.drawLine(points[i - 1], points[i], opts);
           this.enableSizeLines = prevSizeLinesMode;
         }
       }
@@ -203,8 +207,9 @@ export class DrawerService {
 
   private drawVectorLength(canvas) {
     this.context.font = '10px Arial';
-    this.context.fillText(canvas.vectorLength.toString(), canvas.vectorLength, -canvas.vectorLength);
-    this.context.fillText(canvas.vectorLength.toString(), canvas.vectorLength, canvas.vectorLength);
+    const v = (canvas.vectorLength * canvas.zoom).toString();
+    this.context.fillText(v, canvas.vectorLength, -canvas.vectorLength);
+    this.context.fillText(v, canvas.vectorLength, canvas.vectorLength);
   }
 
   private getCirclePoint(center, angle, radius, clockwise = true): Point {

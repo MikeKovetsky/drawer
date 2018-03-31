@@ -1,7 +1,8 @@
 export const CANVAS_CONFIG = {
-  width: 1000,
-  height: 800,
-  vectorLength: 20
+  width: 600,
+  height: 600,
+  vectorLength: 20,
+  zoom: 1
 };
 
 export const GRID_CONFIG = {
