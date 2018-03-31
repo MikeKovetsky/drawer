@@ -38,6 +38,7 @@ import { HotkeysDialogComponent } from './components/header/dialogs/hotkeys-dial
 import {PavementService} from './services/pave.service';
 import {ScaleService} from './services/scale.service';
 import {TransformationsService} from './components/transformations/transformations.service';
+import {CanvasService} from './services/canvas.service';
 
 
 @NgModule({
@@ -76,6 +77,7 @@ import {TransformationsService} from './components/transformations/transformatio
   ],
   providers: [
     DrawerService,
+    CanvasService,
     HistoryService,
     CursorPositionService,
     SelectionService,

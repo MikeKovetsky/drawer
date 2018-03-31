@@ -4,24 +4,26 @@ import {HelpersService} from './helpers.service';
 import {Point} from '../models/point.model';
 import {GRID_CONFIG} from '../configs/canvas-config';
 import {DrawerService} from './drawer.service';
-import {DrawerCanvas} from '../models/canvas.model';
+import {CanvasService} from './canvas.service';
 
 @Injectable()
 export class ScaleService {
   maxCoordinate: Point;
 
-  constructor(private drawer: DrawerService, private helpers: HelpersService) {
+  constructor(private canvas: CanvasService,
+              private drawer: DrawerService,
+              private helpers: HelpersService) {
     this.maxCoordinate = new Point(GRID_CONFIG.maxX, GRID_CONFIG.maxY);
   }
 
-  autoScale(lines: Line[], canvas: DrawerCanvas): DrawerCanvas {
+  autoScale(lines: Line[]) {
     const maxPoint = this.findMaxPoint(lines);
     const delta = this.calculateScaleDelta(maxPoint);
     console.log(delta);
     const initialZoom = 1;
     const zoom = initialZoom + delta;
     this.setMaxCoordinate(maxPoint);
-    return this.zoomCanvas(canvas, zoom);
+    this.zoomCanvas(zoom);
   }
 
   zoomLine(line: Line, zoom: number): Line {
@@ -30,14 +32,14 @@ export class ScaleService {
     return new Line(start, end)
   }
 
-  private zoomCanvas(canvas: DrawerCanvas, zoom: number) {
+  private zoomCanvas(zoom: number) {
     const config = {
-      width: canvas.width,
-      height: canvas.height,
-      vectorLength: canvas.vectorLength,
+      width: this.canvas.width,
+      height: this.canvas.height,
+      vectorLength: this.canvas.vectorLength,
       zoom: zoom
     };
-    return new DrawerCanvas(canvas.canvas, config);
+    this.canvas.buildCanvas(this.canvas.canvas, config)
   }
 
   private calculateScaleDelta(maxPoint): number {

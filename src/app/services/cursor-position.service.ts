@@ -1,17 +1,17 @@
 import {Injectable} from '@angular/core';
 import {Point} from "../models/point.model";
-import {DrawerCanvas} from "../models/canvas.model";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {CanvasService} from './canvas.service';
 
 @Injectable()
 export class CursorPositionService {
   coordinates$ = new BehaviorSubject<Point>(new Point());
 
-  constructor() {}
+  constructor(private canvas: CanvasService) {}
 
-  updatePosition(clientPosition: Point, canvas: DrawerCanvas) {
-    const x = (clientPosition.x  - canvas.width / 2) * canvas.zoom;
-    const y = -(clientPosition.y - canvas.height / 2) * canvas.zoom;
+  updatePosition(clientPosition: Point) {
+    const x = (clientPosition.x  - this.canvas.width / 2) * this.canvas.zoom;
+    const y = -(clientPosition.y - this.canvas.height / 2) * this.canvas.zoom;
     this.coordinates$.next(new Point(x, y))
   }
 

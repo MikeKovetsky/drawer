@@ -6,7 +6,6 @@ import {CursorPositionService} from '../../services/cursor-position.service';
 import {HistoryService} from '../../services/history.service';
 import {CANVAS_CONFIG} from '../../configs/canvas-config';
 
-import {DrawerCanvas} from '../../models/canvas.model';
 import {Point} from '../../models/point.model';
 import {SelectionService} from '../../services/selection.service';
 import {HelpersService} from '../../services/helpers.service';
@@ -16,6 +15,7 @@ import {Line} from '../../models/line.model';
 import {ShapesService} from '../../services/shapes.service';
 import {merge} from 'rxjs/observable/merge';
 import {ScaleService} from '../../services/scale.service';
+import {CanvasService} from '../../services/canvas.service';
 
 @Component({
   selector: 'drawer-canvas',
@@ -25,12 +25,12 @@ import {ScaleService} from '../../services/scale.service';
 export class CanvasComponent implements OnInit {
   @ViewChild('canvas') domCanvas: ElementRef;
   controls: Point[] = [];
-  canvas: DrawerCanvas;
   selected: Point;
   activeControl: Point;
 
   constructor(private drawer: DrawerService,
               private history: HistoryService,
+              private canvas: CanvasService,
               private selection: SelectionService,
               private controlPoints: ControlPointsService,
               private helpers: HelpersService,
@@ -41,8 +41,7 @@ export class CanvasComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG);
-    this.canvas = this.drawer.render(this.canvas);
+    this.drawer.render(this.domCanvas.nativeElement, CANVAS_CONFIG);
 
     merge(
       this.history.history$,
@@ -52,8 +51,8 @@ export class CanvasComponent implements OnInit {
     });
 
     this.history.needsRender$.subscribe(() => {
-      this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG);
-      this.canvas = this.drawer.render(this.canvas);
+      this.canvas.buildCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG);
+      this.drawer.render(this.domCanvas.nativeElement, CANVAS_CONFIG);
       const history = this.history.history$.value;
       this.history.history$.next([]);
       const lines = history.map((event) => event.line);
@@ -69,8 +68,8 @@ export class CanvasComponent implements OnInit {
       filter(events => !!events.length)
     ).subscribe((events) => {
       const lines = events.map(e => e.line);
-      this.canvas = this.scale.autoScale(lines, this.canvas);
-      this.canvas = this.drawer.render(this.canvas);
+      this.scale.autoScale(lines);
+      this.drawer.render(this.domCanvas.nativeElement, this.canvas);
       this.history.isRecording = false;
       const scaledLines = lines.map(l => this.scale.zoomLine(l, this.canvas.zoom));
       this.drawer.drawLines(scaledLines);
@@ -103,7 +102,7 @@ export class CanvasComponent implements OnInit {
 
   updateCursorPosition(ev: MouseEvent) {
     const clientPos = new Point(ev.clientX, ev.clientY);
-    this.cursorPosition.updatePosition(clientPos, this.canvas);
+    this.cursorPosition.updatePosition(clientPos);
   }
 
   activateControl(p: Point) {
