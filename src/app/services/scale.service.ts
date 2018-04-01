@@ -24,7 +24,8 @@ export class ScaleService {
     const rx = new Point(this.zoom, center.y);
     const ry = new Point(center.x, this.zoom);
     points.forEach((view, realPoint) => {
-      points.set(realPoint, this.transformations.pointToAffine(center, rx, ry, realPoint))
+      const viewPoints = this.transformations.pointToAffine(center, rx, ry, realPoint);
+      points.set(realPoint, viewPoints);
     });
     this.history.clear();
     return points;

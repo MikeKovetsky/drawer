@@ -73,16 +73,6 @@ export class DrawerService {
     }
   }
 
-  drawPoint(realPoint: Point, p: Point) {
-    const pointSizePx = 4;
-    this.context.fillRect(p.x - pointSizePx / 2, -p.y - pointSizePx / 2, pointSizePx, pointSizePx);
-    this.history.addPoint(realPoint, p);
-  }
-
-  drawPoints(points: Map<Point, Point> ) {
-    points.forEach((val, key) => this.drawPoint(key, val));
-  }
-
   invertYAxis(initial: boolean) {
     // set the canvas origin (0,0) to center canvas
     // All coordinates to the left of center canvas are negative

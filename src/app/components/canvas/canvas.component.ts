@@ -15,7 +15,7 @@ import {ShapesService} from '../../services/shapes.service';
 import {ScaleService} from '../../services/scale.service';
 import {CanvasService} from '../../services/canvas.service';
 import {TransformationsService} from '../transformations/transformations.service';
-import {distinct, distinctUntilChanged, filter} from 'rxjs/operators';
+import {distinct, filter} from 'rxjs/operators';
 
 @Component({
   selector: 'drawer-canvas',
@@ -53,7 +53,8 @@ export class CanvasComponent implements OnInit {
       distinct((points) => points.size)
     ).subscribe(points => {
       const scaledPoints = this.scale.scalePoints(points);
-      this.drawer.drawPoints(scaledPoints);
+      this.history.historyPoints$.next(scaledPoints);
+      this.controls = Array.from(scaledPoints.values());
     });
   }
 
