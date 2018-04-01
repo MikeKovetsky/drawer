@@ -39,6 +39,7 @@ import {PavementService} from './services/pave.service';
 import {ScaleService} from './services/scale.service';
 import {TransformationsService} from './components/transformations/transformations.service';
 import {CanvasService} from './services/canvas.service';
+import {NewPointComponent} from './components/toolbar/new-point/new-point.component';
 
 
 @NgModule({
@@ -54,6 +55,7 @@ import {CanvasService} from './services/canvas.service';
     NewCircleComponent,
     NewLineComponent,
     NewCurveComponent,
+    NewPointComponent,
     TransformationsComponent,
     SpecificComponent,
     AnchorComponent,

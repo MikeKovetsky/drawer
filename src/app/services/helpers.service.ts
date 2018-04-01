@@ -2,16 +2,18 @@ import {Injectable} from '@angular/core';
 import {Point} from '../models/point.model';
 import {CANVAS_CONFIG} from '../configs/canvas-config';
 import {Line} from '../models/line.model';
+import {CanvasService} from './canvas.service';
 
 @Injectable()
 export class HelpersService {
 
-  constructor() {
+  constructor(private canvas: CanvasService) {
   }
 
   toAbsoluteCoordinates(p: Point): Point {
-    // TODO: add canvas zoom
-    return new Point(p.x + CANVAS_CONFIG.width / 2, -p.y + CANVAS_CONFIG.height / 2);
+    const x = p.x + CANVAS_CONFIG.width / 2;
+    const y = -p.y + CANVAS_CONFIG.height / 2;
+    return new Point(x, y);
   }
 
   getLineCenter(p1: Point, p2: Point): Point {

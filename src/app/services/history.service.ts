@@ -13,9 +13,9 @@ export class HistoryService {
   needsRender$ = new Subject<boolean>();
   isRecording = false;
   currentFigure: Point[][];
+  historyPoints$ = new BehaviorSubject<Map<Point, Point>>(new Map());
 
-  constructor(private selection: SelectionService,
-              private controls: ControlPointsService) {
+  constructor(private selection: SelectionService) {
   }
 
   add(line: Line) {
@@ -23,6 +23,13 @@ export class HistoryService {
     const history = this.history$.value;
     history.push({line});
     this.history$.next(history);
+  }
+
+  addPoint(realPoint: Point, viewPoint: Point) {
+    if (!this.isRecording) return;
+    const history = this.historyPoints$.value;
+    history.set(realPoint, viewPoint);
+    this.historyPoints$.next(history);
   }
 
   getPoints(): Point[] {
@@ -56,9 +63,7 @@ export class HistoryService {
   }
 
   clear() {
-    this.selection.set(null);
-    this.history$.next([]);
-    this.controls.controls$.next([]);
+    this.historyPoints$.next(new Map());
     this.needsRender$.next();
   }
 

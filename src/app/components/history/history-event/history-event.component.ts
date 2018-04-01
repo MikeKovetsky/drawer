@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {SupportedLineType} from "../../../configs/supported-lines";
 import {HistoryEvent} from "../../../models/history-event.model";
+import {Point} from '../../../models/point.model';
 
 @Component({
   selector: 'drawer-history-event',
@@ -8,7 +9,7 @@ import {HistoryEvent} from "../../../models/history-event.model";
   styleUrls: ['./history-event.component.css'],
 })
 export class HistoryEventComponent{
-  @Input() event: HistoryEvent;
+  @Input() event: Point;
   readonly lineTypes = SupportedLineType;
 
   constructor() {

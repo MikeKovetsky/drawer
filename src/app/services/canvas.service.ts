@@ -15,12 +15,12 @@ export class CanvasService {
   zoom: number;
   canvas;
 
-  buildCanvas(canvas, config: Config) {
+  buildCanvas(canvasNativeEl, config: Config) {
     this.width = config.width;
     this.height = config.height;
     this.vectorLength = config.vectorLength;
     this.zoom = config.zoom;
-    this.canvas = canvas;
+    this.canvas = canvasNativeEl;
     this.canvas.setAttribute('width', config.width);
     this.canvas.setAttribute('height', config.height);
   }

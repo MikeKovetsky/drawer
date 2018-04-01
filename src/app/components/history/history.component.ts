@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HistoryService} from "../../services/history.service";
 import {HistoryEvent} from "../../models/history-event.model";
+import {Point} from '../../models/point.model';
 
 @Component({
   selector: 'drawer-history',
@@ -8,15 +9,15 @@ import {HistoryEvent} from "../../models/history-event.model";
   styleUrls: ['./history.component.css']
 })
 export class HistoryComponent implements OnInit {
-  historyEvents: HistoryEvent[] = [];
+  viewPoints: Point[] = [];
   readonly maxItems = 50;
 
   constructor(private history: HistoryService) {
   }
 
   ngOnInit() {
-    this.history.history$.subscribe((updated) => {
-      this.historyEvents = updated;
+    this.history.historyPoints$.subscribe((updated) => {
+      this.viewPoints = Array.from(updated.keys());
     });
   }
 }

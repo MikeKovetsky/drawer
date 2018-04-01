@@ -1,0 +1,14 @@
+<form [formGroup]="newEventForm" (ngSubmit)="drawPoint(newEventForm)">
+  <div class="toolbar__group">
+    <div formGroupName="p">
+      <div class="toolbar__label">Point:</div>
+      <mat-form-field>
+        <input matInput type="number" placeholder="x" formControlName="x" name="px">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="number" placeholder="y" formControlName="y" name="py">
+      </mat-form-field>
+    </div>
+  </div>
+  <button mat-raised-button [disabled]="!newEventForm.valid">Add Point</button>
+</form>

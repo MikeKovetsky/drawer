@@ -7,7 +7,7 @@
     <input id="limit" type="text" [(ngModel)]="maxItems">
   </div>
   <div>
-    <drawer-history-event *ngFor="let event of historyEvents.slice(-maxItems)" [event]="event">
+    <drawer-history-event *ngFor="let event of viewPoints.slice(-maxItems)" [event]="event">
     </drawer-history-event>
   </div>
 </section>

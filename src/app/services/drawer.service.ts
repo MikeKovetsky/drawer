@@ -5,6 +5,7 @@ import {HistoryService} from './history.service';
 import {HelpersService} from './helpers.service';
 import {Line} from '../models/line.model';
 import {CanvasService, Config} from './canvas.service';
+import {ScaleService} from './scale.service';
 
 interface LineOptions {
   zoom?: number;
@@ -20,6 +21,7 @@ export class DrawerService {
 
   constructor(private canvas: CanvasService,
               private history: HistoryService,
+              private scale: ScaleService,
               private helpers: HelpersService) {
   }
 
@@ -69,6 +71,16 @@ export class DrawerService {
       const helperStrokeEnd = new Point(i, this.canvas.vectorLength / 2);
       this.drawLine(helperStrokeStart, helperStrokeEnd);
     }
+  }
+
+  drawPoint(realPoint: Point, p: Point) {
+    const pointSizePx = 4;
+    this.context.fillRect(p.x - pointSizePx / 2, -p.y - pointSizePx / 2, pointSizePx, pointSizePx);
+    this.history.addPoint(realPoint, p);
+  }
+
+  drawPoints(points: Map<Point, Point> ) {
+    points.forEach((val, key) => this.drawPoint(key, val));
   }
 
   invertYAxis(initial: boolean) {
@@ -206,7 +218,7 @@ export class DrawerService {
 
   private drawVectorLength() {
     this.context.font = '10px Arial';
-    const v = (this.canvas.vectorLength * this.canvas.zoom).toString();
+    const v = (this.canvas.vectorLength / this.scale.zoom).toFixed(2).toString();
     this.context.fillText(v, this.canvas.vectorLength, -this.canvas.vectorLength);
     this.context.fillText(v, this.canvas.vectorLength, this.canvas.vectorLength);
   }

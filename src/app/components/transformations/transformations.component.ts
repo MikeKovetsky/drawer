@@ -66,27 +66,6 @@ export class TransformationsComponent implements OnInit {
     this.drawer.drawLines(rotatedLines);
   }
 
-  toAffine(affine: FormGroup) {
-    const points = affine.value;
-    const r0 = new Point(points.r0x, points.r0y);
-    const rx = new Point(points.r1x, points.r1y);
-    const ry = new Point(points.r2x, points.r2y);
-    this.center = r0;
-    const affineLines = this.transformations.toAffine(r0, rx, ry);
-    this.drawer.drawLines(affineLines);
-  }
-
-  toProjective(projective: FormGroup) {
-    const points = projective.value;
-    const r0 = new Point(points.r0x, points.r0y);
-    const rx = new Point(points.r1x, points.r1y);
-    const ry = new Point(points.r2x, points.r2y);
-    const w = new Point(points.wx, points.wy);
-    this.center = r0;
-    const projectiveLines = this.transformations.toProjective(r0, rx, ry, w, projective.value.w0);
-    this.drawer.drawLines(projectiveLines);
-  }
-
   scale(zoom: number) {
     const scaledLines = this.transformations.scale(this.initialZoom + zoom);
     this.drawer.drawLines(scaledLines);

@@ -1,5 +1,4 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {filter} from 'rxjs/operators';
 
 import {DrawerService} from '../../services/drawer.service';
 import {CursorPositionService} from '../../services/cursor-position.service';
@@ -13,9 +12,10 @@ import {ControlPointsService} from '../../services/control-points.service';
 import {ToolsService} from '../../services/tools.service';
 import {Line} from '../../models/line.model';
 import {ShapesService} from '../../services/shapes.service';
-import {merge} from 'rxjs/observable/merge';
 import {ScaleService} from '../../services/scale.service';
 import {CanvasService} from '../../services/canvas.service';
+import {TransformationsService} from '../transformations/transformations.service';
+import {distinct, distinctUntilChanged, filter} from 'rxjs/operators';
 
 @Component({
   selector: 'drawer-canvas',
@@ -35,6 +35,7 @@ export class CanvasComponent implements OnInit {
               private controlPoints: ControlPointsService,
               private helpers: HelpersService,
               private shapes: ShapesService,
+              private transformations: TransformationsService,
               private scale: ScaleService,
               private cursorPosition: CursorPositionService,
               public tools: ToolsService) {
@@ -43,43 +44,16 @@ export class CanvasComponent implements OnInit {
   ngOnInit() {
     this.drawer.render(this.domCanvas.nativeElement, CANVAS_CONFIG);
 
-    merge(
-      this.history.history$,
-      this.tools.controlPointsShown.watch()
-    ).subscribe(() => {
-      this.controls = this.tools.controlPointsShown.get() ? this.history.getPoints() : [];
-    });
-
     this.history.needsRender$.subscribe(() => {
-      this.canvas.buildCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG);
       this.drawer.render(this.domCanvas.nativeElement, CANVAS_CONFIG);
-      const history = this.history.history$.value;
-      this.history.history$.next([]);
-      const lines = history.map((event) => event.line);
-      this.drawer.drawLines(lines);
-      this.selectLastPoint(lines);
-    });
-    this.tools.controlPointsShown.set(false);
-    // this.shapes.drawPegasus();
-
-    this.selection.get().subscribe((pos) => this.selected = pos);
-
-    this.history.history$.pipe(
-      filter(events => !!events.length)
-    ).subscribe((events) => {
-      const lines = events.map(e => e.line);
-      this.scale.autoScale(lines);
-      this.drawer.render(this.domCanvas.nativeElement, this.canvas);
-      this.history.isRecording = false;
-      const scaledLines = lines.map(l => this.scale.zoomLine(l, this.canvas.zoom));
-      this.drawer.drawLines(scaledLines);
-      this.history.isRecording = true;
     });
 
-    this.tools.chainMode.watch().pipe(
-      filter((chainModeEnabled) => !chainModeEnabled),
-    ).subscribe(() => {
-      this.selected = void 0;
+    this.history.historyPoints$.pipe(
+      filter(points => !!points.size),
+      distinct((points) => points.size)
+    ).subscribe(points => {
+      const scaledPoints = this.scale.scalePoints(points);
+      this.drawer.drawPoints(scaledPoints);
     });
   }
 
@@ -89,15 +63,10 @@ export class CanvasComponent implements OnInit {
 
   selectPoint() {
     const clicked = this.cursorPosition.coordinates$.value;
-    if (this.activeControl) {
-      this.moveControlPoint(clicked);
-      return;
-    }
-    if (this.selected) {
-      this.finishLine(clicked);
-      return;
-    }
-    this.startLine(clicked);
+    const rx = new Point(1 / this.scale.zoom, 0);
+    const ry = new Point(0, 1 / this.scale.zoom);
+    const pos = this.transformations.pointToAffine(new Point(0, 0), rx, ry, clicked);
+    this.history.addPoint(pos, pos);
   }
 
   updateCursorPosition(ev: MouseEvent) {
