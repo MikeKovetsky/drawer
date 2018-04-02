@@ -10,12 +10,11 @@ import {SelectionService} from '../../services/selection.service';
 import {HelpersService} from '../../services/helpers.service';
 import {ControlPointsService} from '../../services/control-points.service';
 import {ToolsService} from '../../services/tools.service';
-import {Line} from '../../models/line.model';
 import {ShapesService} from '../../services/shapes.service';
 import {ScaleService} from '../../services/scale.service';
 import {CanvasService} from '../../services/canvas.service';
 import {TransformationsService} from '../transformations/transformations.service';
-import {distinct, filter} from 'rxjs/operators';
+import {distinct, distinctUntilChanged, filter, map} from 'rxjs/operators';
 
 @Component({
   selector: 'drawer-canvas',
@@ -24,8 +23,7 @@ import {distinct, filter} from 'rxjs/operators';
 })
 export class CanvasComponent implements OnInit {
   @ViewChild('canvas') domCanvas: ElementRef;
-  controls: Point[] = [];
-  selected: Point;
+  controls: Point[][] = [];
   activeControl: Point;
 
   constructor(private drawer: DrawerService,
@@ -50,11 +48,11 @@ export class CanvasComponent implements OnInit {
 
     this.history.historyPoints$.pipe(
       filter(points => !!points.size),
-      distinct((points) => points.size)
-    ).subscribe(points => {
-      const scaledPoints = this.scale.scalePoints(points);
+      distinctUntilChanged((a, b) => this.helpers.deepMapEqual(a, b)),
+      map((points) =>  this.scale.scalePoints(points))
+    ).subscribe(scaledPoints => {
       this.history.historyPoints$.next(scaledPoints);
-      this.controls = Array.from(scaledPoints.values());
+      this.controls = Array.from(scaledPoints.entries());
     });
   }
 
@@ -64,10 +62,18 @@ export class CanvasComponent implements OnInit {
 
   selectPoint() {
     const clicked = this.cursorPosition.coordinates$.value;
+    const realPoint = this.revertPointZoom(clicked);
+    if (this.activeControl) {
+      this.moveControlPoint(realPoint);
+      return;
+    }
+    this.history.addPoint(realPoint, realPoint);
+  }
+
+  revertPointZoom(p: Point): Point {
     const rx = new Point(1 / this.scale.zoom, 0);
     const ry = new Point(0, 1 / this.scale.zoom);
-    const pos = this.transformations.pointToAffine(new Point(0, 0), rx, ry, clicked);
-    this.history.addPoint(pos, pos);
+    return this.transformations.pointToAffine(new Point(0, 0), rx, ry, p);
   }
 
   updateCursorPosition(ev: MouseEvent) {
@@ -75,31 +81,12 @@ export class CanvasComponent implements OnInit {
     this.cursorPosition.updatePosition(clientPos);
   }
 
-  activateControl(p: Point) {
-    this.activeControl = p;
+  activateControl(realPoint: Point) {
+    this.activeControl = realPoint;
   }
 
-  moveControlPoint(target: Point) {
-    this.history.replacePoint(this.activeControl, target);
+  moveControlPoint(realPoint: Point) {
+    this.history.replacePoint(this.activeControl, realPoint);
     this.activeControl = void 0;
-  }
-
-  private startLine(selection: Point) {
-    this.selection.set(selection);
-  }
-
-  private finishLine(target: Point) {
-    this.drawer.drawLine(this.selected, target);
-    const selected = this.tools.chainMode.get() === true ? target : void 0;
-    this.selection.set(selected);
-  }
-
-  private selectLastPoint(lines: Line[]) {
-    if (lines.length && this.tools.chainMode.get() === true) {
-      const lastPoint = lines[lines.length - 1].end;
-      if (lastPoint) {
-        this.selection.set(lastPoint);
-      }
-    }
   }
 }

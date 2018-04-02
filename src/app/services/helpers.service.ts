@@ -4,6 +4,8 @@ import {CANVAS_CONFIG} from '../configs/canvas-config';
 import {Line} from '../models/line.model';
 import {CanvasService} from './canvas.service';
 
+type ReferenceType = any[] | object;
+
 @Injectable()
 export class HelpersService {
 
@@ -20,31 +22,24 @@ export class HelpersService {
     return new Point((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
   }
 
-  toLines(points: Point[]): Line[] {
-    const lines: Line[] = [];
-    points.forEach((point, index) => {
-      if (!index) {
-        return;
-      }
-      lines.push(new Line(points[index - 1], point));
-    });
-    return lines;
+  deepEqual(a: ReferenceType, b: ReferenceType) {
+    return JSON.stringify(a) === JSON.stringify(b)
   }
-
-  toPoints(lines: Line[]): Point[] {
-    const points = [];
-    lines.forEach((l) => {
-      points.push(l.start);
-      points.push(l.end);
-    });
-    return points;
-  }
-
 
   getDistance(p1: Point, p2: Point): number {
     const a = p1.x - p2.x;
     const b = p1.y - p2.y;
     return Math.sqrt(a * a + b * b);
+  }
+
+  deepMapEqual<M, K>(a: Map<M, K>, b: Map<M, K>): boolean {
+    const aEntries = Array.from(a.entries());
+    const bEntries = Array.from(b.entries());
+    return this.deepEqual(aEntries, bEntries);
+  }
+
+  deepCopy<T>(a: T): T {
+    return JSON.parse(JSON.stringify(a));
   }
 
   nestArray<T>(arr: T[], nestedLength: number): T[][] {

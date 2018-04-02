@@ -6,6 +6,7 @@ import {Line} from '../models/line.model';
 import {HistoryEvent} from '../models/history-event.model';
 import {ControlPointsService} from './control-points.service';
 import {Subject} from 'rxjs/Subject';
+import {HelpersService} from './helpers.service';
 
 @Injectable()
 export class HistoryService {
@@ -15,7 +16,7 @@ export class HistoryService {
   currentFigure: Point[][];
   historyPoints$ = new BehaviorSubject<Map<Point, Point>>(new Map());
 
-  constructor(private selection: SelectionService) {
+  constructor(private selection: SelectionService, private helpers: HelpersService) {
   }
 
   add(line: Line) {
@@ -27,7 +28,7 @@ export class HistoryService {
 
   addPoint(realPoint: Point, viewPoint: Point) {
     if (!this.isRecording) return;
-    const history = this.historyPoints$.value;
+    const history = new Map(this.historyPoints$.value);
     history.set(realPoint, viewPoint);
     this.historyPoints$.next(history);
   }
@@ -44,21 +45,11 @@ export class HistoryService {
     return events.map(event => event.line);
   }
 
-  replacePoint(prevPoint: Point, point: Point) {
-    const historyLines = this.getLines();
-    const newlines = historyLines.map(line => {
-      if (line.start.equals(prevPoint)) {
-        line.start = point;
-      }
-      if (line.end.equals(prevPoint)) {
-        line.end = point;
-      }
-      return line;
-    });
-    const newHistory = newlines.map((line) => {
-      return {line} as HistoryEvent;
-    });
-    this.history$.next(newHistory);
+  replacePoint(prevRealPoint: Point, newRealPoint: Point) {
+    const history = new Map(this.historyPoints$.value);
+    history.delete(prevRealPoint);
+    history.set(newRealPoint, newRealPoint);
+    this.historyPoints$.next(history);
     this.needsRender$.next();
   }
 
