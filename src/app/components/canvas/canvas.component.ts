@@ -46,10 +46,16 @@ export class CanvasComponent implements OnInit {
       this.drawer.render(this.domCanvas.nativeElement, CANVAS_CONFIG);
     });
 
+    this.history.cleared$.subscribe(() => {
+      this.controls = [];
+      this.scale.zoom = 1;
+      this.drawer.render(this.domCanvas.nativeElement, CANVAS_CONFIG);
+    });
+
     this.history.historyPoints$.pipe(
       filter(points => !!points.size),
       distinctUntilChanged((a, b) => this.helpers.deepMapEqual(a, b)),
-      map((points) =>  this.scale.scalePoints(points))
+      map((points) =>  this.scale.scalePoints(points)),
     ).subscribe(scaledPoints => {
       this.history.historyPoints$.next(scaledPoints);
       this.controls = Array.from(scaledPoints.entries());
@@ -83,6 +89,16 @@ export class CanvasComponent implements OnInit {
 
   activateControl(realPoint: Point) {
     this.activeControl = realPoint;
+  }
+
+  removePoint(realPoint: Point) {
+    this.history.removePoint(realPoint);
+    this.activeControl = void 0;
+  }
+
+  clearHistory() {
+    this.history.clear();
+    this.activeControl = void 0;
   }
 
   moveControlPoint(realPoint: Point) {

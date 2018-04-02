@@ -15,6 +15,9 @@ export class ScaleService {
   }
 
   scalePoints(points: Map<Point, Point>) {
+    if (points.size === 0) {
+      return points;
+    }
     const maxPoint = this.findMaxPoint(points);
     const unitVectorSizeX = maxPoint.x / (GRID_CONFIG.maxX / this.zoom);
     const unitVectorSizeY = maxPoint.y / (GRID_CONFIG.maxY / this.zoom);
@@ -27,7 +30,7 @@ export class ScaleService {
       const viewPoints = this.transformations.pointToAffine(center, rx, ry, realPoint);
       points.set(realPoint, viewPoints);
     });
-    this.history.clear();
+    this.history.clear(true);
     return points;
   }
 

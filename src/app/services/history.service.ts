@@ -12,6 +12,7 @@ import {HelpersService} from './helpers.service';
 export class HistoryService {
   history$ = new BehaviorSubject<HistoryEvent[]>([]);
   needsRender$ = new Subject<boolean>();
+  cleared$ = new Subject<void>();
   isRecording = false;
   currentFigure: Point[][];
   historyPoints$ = new BehaviorSubject<Map<Point, Point>>(new Map());
@@ -53,9 +54,19 @@ export class HistoryService {
     this.needsRender$.next();
   }
 
-  clear() {
+  removePoint(realPoint: Point) {
+    const history = new Map(this.historyPoints$.value);
+    history.delete(realPoint);
+    this.historyPoints$.next(history);
+    this.needsRender$.next();
+  }
+
+  clear(silent = false) {
     this.historyPoints$.next(new Map());
     this.needsRender$.next();
+    if (silent === false) {
+      this.cleared$.next();
+    }
   }
 
   back() {

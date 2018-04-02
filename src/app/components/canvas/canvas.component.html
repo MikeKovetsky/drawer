@@ -2,6 +2,14 @@
 
 <drawer-specific *ngIf="tools.openedPanel === 'specific'"></drawer-specific>
 
+<button class="button button-delete" [disabled]="!activeControl" (click)="removePoint(activeControl)">
+  Delete active point
+</button>
+
+<button class="button button-clear" (click)="clearHistory(activeControl)">
+  Clear history
+</button>
+
 <div class="control"
      [class.active]="activeControl === p[0]"
      (click)="activateControl(p[0])"
