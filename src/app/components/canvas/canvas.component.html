@@ -10,6 +10,19 @@
   Clear history
 </button>
 
+<button class="button button-nmk" (click)="drawNmk()">
+  draw NMK
+</button>
+
+<div class="radio" >
+  <mat-checkbox [formControl]="drawNmkLine">Line</mat-checkbox>
+  <mat-checkbox [formControl]="drawNmkParabola">Parabola</mat-checkbox>
+  <mat-form-field>
+    <input matInput type="number" [formControl]="nmkX">
+  </mat-form-field>
+  <button (click)="findY()">Find Y</button>
+</div>
+
 <div class="control"
      [class.active]="activeControl === p[0]"
      (click)="activateControl(p[0])"

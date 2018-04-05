@@ -15,6 +15,8 @@ import {ScaleService} from '../../services/scale.service';
 import {CanvasService} from '../../services/canvas.service';
 import {TransformationsService} from '../transformations/transformations.service';
 import {distinct, distinctUntilChanged, filter, map} from 'rxjs/operators';
+import {FormControl} from '@angular/forms';
+import {MNK_Class} from '../../models/mnk';
 
 @Component({
   selector: 'drawer-canvas',
@@ -25,6 +27,10 @@ export class CanvasComponent implements OnInit {
   @ViewChild('canvas') domCanvas: ElementRef;
   controls: Point[][] = [];
   activeControl: Point;
+  drawNmkLine = new FormControl(true);
+  drawNmkParabola = new FormControl(true);
+  nmkX = new FormControl(0);
+  nmk: MNK_Class;
 
   constructor(private drawer: DrawerService,
               private history: HistoryService,
@@ -60,6 +66,40 @@ export class CanvasComponent implements OnInit {
       this.history.historyPoints$.next(scaledPoints);
       this.controls = Array.from(scaledPoints.entries());
     });
+  }
+
+  drawNmk() {
+    const viewPoints = this.controls.map(p => p[1]);
+    if (viewPoints.length < 1) {
+      alert('Введите хотя бы 1 точку');
+      return;
+    }
+    this.nmk = new MNK_Class(viewPoints);
+    if (this.drawNmkLine.value) {
+      const points = this.nmk.calculatePointsUsingOrdinaryLeastSquaresByLine();
+      for (let i = 0; i < points.length - 1; i++) {
+        this.drawer.drawLine(points[i], points[i + 1]);
+      }
+    }
+    if (this.drawNmkParabola.value) {
+      const points = this.nmk.calculatePointsUsingOrdinaryLeastSquaresByParabola();
+      for (let i = 0; i < points.length - 1; i++) {
+        this.drawer.drawLine(points[i], points[i + 1]);
+      }
+    }
+  }
+
+  findY() {
+    if (!this.controls.length) {
+      alert('Введите хотя бы 1 точку');
+    }
+    if (!this.nmk) {
+      alert('постройке МНК');
+    }
+    const x = +this.nmkX.value;
+    const yByLine = this.nmk.calculateYUsingOrdinaryLeastSquaresByLine(x);
+    const yByParabola = this.nmk.calculateYUsingOrdinaryLeastSquaresByParabola(x);
+    alert('y by line:' + yByLine + ' y by parabola ' + yByParabola);
   }
 
   toAbs(p: Point): Point {

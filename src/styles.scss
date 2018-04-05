@@ -53,6 +53,14 @@ body {
   }
 }
 
+.radio {
+  position: absolute;
+  bottom: 220px;
+  left: 0;
+  background: #eee;
+  padding: 10px;
+}
+
 .button-delete {
   position: absolute;
   bottom: 300px;
@@ -62,5 +70,11 @@ body {
 .button-clear {
   position: absolute;
   bottom: 270px;
+  left: 0;
+}
+
+.button-nmk {
+  position: absolute;
+  bottom: 180px;
   left: 0;
 }
