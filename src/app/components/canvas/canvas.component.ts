@@ -64,18 +64,6 @@ export class CanvasComponent implements OnInit {
 
     this.selection.get().subscribe((pos) => this.selected = pos);
 
-    this.history.history$.pipe(
-      filter(events => !!events.length)
-    ).subscribe((events) => {
-      const lines = events.map(e => e.line);
-      this.scale.autoScale(lines);
-      this.drawer.render(this.domCanvas.nativeElement, this.canvas);
-      this.history.isRecording = false;
-      const scaledLines = lines.map(l => this.scale.zoomLine(l, this.canvas.zoom));
-      this.drawer.drawLines(scaledLines);
-      this.history.isRecording = true;
-    });
-
     this.tools.chainMode.watch().pipe(
       filter((chainModeEnabled) => !chainModeEnabled),
     ).subscribe(() => {

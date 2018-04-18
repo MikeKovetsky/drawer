@@ -12,7 +12,7 @@ export class CursorPositionService {
   updatePosition(clientPosition: Point) {
     const x = (clientPosition.x  - this.canvas.width / 2) * this.canvas.zoom;
     const y = -(clientPosition.y - this.canvas.height / 2) * this.canvas.zoom;
-    this.coordinates$.next(new Point(x, y))
+    this.coordinates$.next(new Point(x, y));
   }
 
 }
