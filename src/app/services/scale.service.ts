@@ -34,6 +34,13 @@ export class ScaleService {
     return points;
   }
 
+  zoomPointsList(points: Point[]): Point[] {
+    const center = new Point(0, 0);
+    const rx = new Point(this.zoom, center.y);
+    const ry = new Point(center.x, this.zoom);
+    return points.map(p => this.transformations.pointToAffine(center, rx, ry, p))
+  }
+
   private findMaxPoint(pointsMap: Map<Point, Point>) {
     const realPoints = Array.from(pointsMap.keys());
     const maxX = this.findMax(realPoints.map(p => Math.abs(p.x)));

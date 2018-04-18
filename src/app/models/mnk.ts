@@ -32,6 +32,7 @@ export class MNK_Class {
     const mainDeterminant = mainMatrix.calculateDeterminant(mainMatrix.matrix);
     this.aLine = this.calculateCoefficient(mainDeterminant, new Matrix([[sumOfListY, n], [sumOfMultipliedListXListY, sumOfListX]]));
     this.bLine = this.calculateCoefficient(mainDeterminant, new Matrix([[sumOfListX, sumOfListY], [sumOfSquaredListX, sumOfMultipliedListXListY]]));
+    alert('Line a:' + this.aLine + 'b: ' + this.bLine);
     for (let x = -500; x <= 500; x += 1) {
       points.push(new Point(x, this.calculateYUsingOrdinaryLeastSquaresByLine(x)));
     }
@@ -56,6 +57,7 @@ export class MNK_Class {
     this.bParabola = this.calculateCoefficient(mainDeterminant, matrixB);
     const matrixC = new Matrix([[sumOfSquaredListX, sumOfListX, sumOfListY], [sumOfCubedListX, sumOfSquaredListX, sumOfMultipliedListXListY], [sumOfListXInFourthDegree, sumOfCubedListX, sumOfMultipliedSquaredListXListY]]);
     this.cParabola = this.calculateCoefficient(mainDeterminant, matrixC);
+    alert('Parabola a:' + this.aParabola + 'b: ' + this.bParabola + 'c:' + this.cParabola);
     for (let x = -500; x <= 500; x += 1) {
       points.push(new Point(x, this.calculateYUsingOrdinaryLeastSquaresByParabola(x)));
     }

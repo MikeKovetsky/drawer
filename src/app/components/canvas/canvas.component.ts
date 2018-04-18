@@ -69,20 +69,21 @@ export class CanvasComponent implements OnInit {
   }
 
   drawNmk() {
-    const viewPoints = this.controls.map(p => p[1]);
-    if (viewPoints.length < 1) {
+    const realPoints = this.controls.map(p => p[0]);
+    console.log(realPoints);
+    if (realPoints.length < 1) {
       alert('Введите хотя бы 1 точку');
       return;
     }
-    this.nmk = new MNK_Class(viewPoints);
+    this.nmk = new MNK_Class(realPoints);
     if (this.drawNmkLine.value) {
-      const points = this.nmk.calculatePointsUsingOrdinaryLeastSquaresByLine();
+      const points = this.scale.zoomPointsList(this.nmk.calculatePointsUsingOrdinaryLeastSquaresByLine());
       for (let i = 0; i < points.length - 1; i++) {
         this.drawer.drawLine(points[i], points[i + 1]);
       }
     }
     if (this.drawNmkParabola.value) {
-      const points = this.nmk.calculatePointsUsingOrdinaryLeastSquaresByParabola();
+      const points = this.scale.zoomPointsList(this.nmk.calculatePointsUsingOrdinaryLeastSquaresByParabola());
       for (let i = 0; i < points.length - 1; i++) {
         this.drawer.drawLine(points[i], points[i + 1]);
       }
