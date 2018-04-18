@@ -1,18 +1,12 @@
-<form [formGroup]="newEventForm" (ngSubmit)="submit(newEventForm)">
+<form [formGroup]="newEventForm" (ngSubmit)="drawLine(newEventForm)">
   <div class="toolbar__group">
     <div formGroupName="p1">
       <div class="toolbar__label">Start point:</div>
       <mat-form-field>
         <input matInput type="number" placeholder="x" formControlName="x" name="p1x">
-        <mat-error *ngIf="newEventForm.get('p1').get('x').invalid && newEventForm.get('p1').get('x').touched">
-          Your value is out of bounds
-        </mat-error>
       </mat-form-field>
       <mat-form-field>
         <input matInput type="number" placeholder="y" formControlName="y" name="p1y">
-        <mat-error *ngIf="newEventForm.get('p1').get('y').invalid && newEventForm.get('p1').get('y').touched">
-          Your value is out of bounds
-        </mat-error>
       </mat-form-field>
     </div>
 
@@ -20,15 +14,9 @@
       <div class="toolbar__label">End point:</div>
       <mat-form-field>
         <input matInput type="number" placeholder="x" formControlName="x" name="p2x">
-        <mat-error *ngIf="newEventForm.get('p2').get('x').invalid && newEventForm.get('p2').get('x').touched">
-          Your value is out of bounds
-        </mat-error>
       </mat-form-field>
       <mat-form-field>
         <input matInput type="number" placeholder="y" formControlName="y" name="p2y">
-        <mat-error *ngIf="newEventForm.get('p2').get('y').invalid && newEventForm.get('p2').get('y').touched">
-          Your value is out of bounds
-        </mat-error>
       </mat-form-field>
     </div>
   </div>

@@ -1,4 +1,4 @@
-import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {filter} from 'rxjs/operators';
 
 import {DrawerService} from '../../services/drawer.service';
@@ -6,15 +6,16 @@ import {CursorPositionService} from '../../services/cursor-position.service';
 import {HistoryService} from '../../services/history.service';
 import {CANVAS_CONFIG} from '../../configs/canvas-config';
 
-import {DrawerCanvas} from '../../models/canvas.model';
 import {Point} from '../../models/point.model';
 import {SelectionService} from '../../services/selection.service';
 import {HelpersService} from '../../services/helpers.service';
 import {ControlPointsService} from '../../services/control-points.service';
-import {TOOL_PANEL, ToolsService} from '../../services/tools.service';
+import {ToolsService} from '../../services/tools.service';
 import {Line} from '../../models/line.model';
 import {ShapesService} from '../../services/shapes.service';
 import {merge} from 'rxjs/observable/merge';
+import {ScaleService} from '../../services/scale.service';
+import {CanvasService} from '../../services/canvas.service';
 
 @Component({
   selector: 'drawer-canvas',
@@ -24,23 +25,23 @@ import {merge} from 'rxjs/observable/merge';
 export class CanvasComponent implements OnInit {
   @ViewChild('canvas') domCanvas: ElementRef;
   controls: Point[] = [];
-  canvas: DrawerCanvas;
   selected: Point;
   activeControl: Point;
 
   constructor(private drawer: DrawerService,
               private history: HistoryService,
+              private canvas: CanvasService,
               private selection: SelectionService,
               private controlPoints: ControlPointsService,
               private helpers: HelpersService,
               private shapes: ShapesService,
+              private scale: ScaleService,
               private cursorPosition: CursorPositionService,
               public tools: ToolsService) {
   }
 
   ngOnInit() {
-    this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG);
-    this.canvas = this.drawer.render(this.canvas);
+    this.drawer.render(this.domCanvas.nativeElement, CANVAS_CONFIG);
 
     merge(
       this.history.history$,
@@ -50,8 +51,8 @@ export class CanvasComponent implements OnInit {
     });
 
     this.history.needsRender$.subscribe(() => {
-      this.canvas = new DrawerCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG);
-      this.canvas = this.drawer.render(this.canvas);
+      this.canvas.buildCanvas(this.domCanvas.nativeElement, CANVAS_CONFIG);
+      this.drawer.render(this.domCanvas.nativeElement, CANVAS_CONFIG);
       const history = this.history.history$.value;
       this.history.history$.next([]);
       const lines = history.map((event) => event.line);
@@ -61,15 +62,25 @@ export class CanvasComponent implements OnInit {
     this.tools.controlPointsShown.set(false);
     // this.shapes.drawPegasus();
 
-    this.selection.get().subscribe((pos) => {
-      this.selected = pos;
+    this.selection.get().subscribe((pos) => this.selected = pos);
+
+    this.history.history$.pipe(
+      filter(events => !!events.length)
+    ).subscribe((events) => {
+      const lines = events.map(e => e.line);
+      this.scale.autoScale(lines);
+      this.drawer.render(this.domCanvas.nativeElement, this.canvas);
+      this.history.isRecording = false;
+      const scaledLines = lines.map(l => this.scale.zoomLine(l, this.canvas.zoom));
+      this.drawer.drawLines(scaledLines);
+      this.history.isRecording = true;
     });
 
     this.tools.chainMode.watch().pipe(
-      filter((chainModeEnabled) => !chainModeEnabled)
-    ).subscribe(() =>
-      this.selected = void 0
-    );
+      filter((chainModeEnabled) => !chainModeEnabled),
+    ).subscribe(() => {
+      this.selected = void 0;
+    });
   }
 
   toAbs(p: Point): Point {
@@ -77,7 +88,7 @@ export class CanvasComponent implements OnInit {
   }
 
   selectPoint() {
-    const clicked: Point = this.cursorPosition.coordinates$.getValue();
+    const clicked = this.cursorPosition.coordinates$.value;
     if (this.activeControl) {
       this.moveControlPoint(clicked);
       return;
@@ -86,14 +97,12 @@ export class CanvasComponent implements OnInit {
       this.finishLine(clicked);
       return;
     }
-    const selection = this.cursorPosition.coordinates$.value;
-    this.startLine(selection);
+    this.startLine(clicked);
   }
 
   updateCursorPosition(ev: MouseEvent) {
-    const rect = this.domCanvas.nativeElement.getBoundingClientRect();
     const clientPos = new Point(ev.clientX, ev.clientY);
-    this.cursorPosition.updatePosition(clientPos, this.canvas, rect);
+    this.cursorPosition.updatePosition(clientPos);
   }
 
   activateControl(p: Point) {
@@ -110,8 +119,8 @@ export class CanvasComponent implements OnInit {
   }
 
   private finishLine(target: Point) {
-    const selected = this.tools.chainMode.get() === true ? target : void 0;
     this.drawer.drawLine(this.selected, target);
+    const selected = this.tools.chainMode.get() === true ? target : void 0;
     this.selection.set(selected);
   }
 

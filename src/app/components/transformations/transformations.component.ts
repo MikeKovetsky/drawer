@@ -9,7 +9,6 @@ import {ToolsService} from '../../services/tools.service';
   selector: 'drawer-transformations',
   templateUrl: './transformations.component.html',
   styleUrls: ['./transformations.component.css'],
-  providers: [TransformationsService]
 })
 export class TransformationsComponent implements OnInit {
   moveGroup: FormGroup;
