@@ -48,9 +48,13 @@
     </div>
 
     <div class="dropdown">
-      <span class="dropdown-label">Extras</span>
+      <span class="dropdown-label">Paving</span>
       <div class="dropdown-content">
         <p (click)="pavement.tile(8)">Pave</p>
+        <p (click)="tools.realTimePaving.toggle()">
+          RealTime Paving
+          <span *ngIf="tools.realTimePaving.get()">✔</span>
+        </p>
       </div>
     </div>
 

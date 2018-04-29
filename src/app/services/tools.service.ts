@@ -9,6 +9,7 @@ export class ToolsService {
   splitMode = new Tool();
   chainMode = new Tool();
   autoScaleMode = new Tool(true);
+  realTimePaving = new Tool();
   controlPointsShown = new Tool(true);
   private _openedPanel: TOOL_PANEL;
 
