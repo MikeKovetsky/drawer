@@ -45,9 +45,9 @@ export class CanvasComponent implements OnInit {
 
     merge(
       this.history.history$,
-      this.tools.controlPointsShown.watch()
+      this.tools.editMode.watch()
     ).subscribe(() => {
-      this.controls = this.tools.controlPointsShown.get() ? this.history.getPoints() : [];
+      this.controls = this.tools.editMode.get() ? this.history.getPoints() : [];
     });
 
     this.history.needsRender$.subscribe(() => {
@@ -59,7 +59,7 @@ export class CanvasComponent implements OnInit {
       this.drawer.drawLines(lines);
       this.selectLastPoint(lines);
     });
-    this.tools.controlPointsShown.set(false);
+    this.tools.editMode.set(false);
     // this.shapes.drawPegasus();
 
     this.selection.get().subscribe((pos) => this.selected = pos);

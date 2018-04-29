@@ -9,7 +9,7 @@ export class ToolsService {
   splitMode = new Tool();
   chainMode = new Tool();
   autoScaleMode = new Tool(true);
-  controlPointsShown = new Tool(true);
+  editMode = new Tool(true);
   private _openedPanel: TOOL_PANEL;
 
   set openedPanel(pane: TOOL_PANEL) {
