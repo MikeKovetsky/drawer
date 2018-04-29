@@ -93,7 +93,7 @@ export class DrawerService {
     this.context.lineTo(p2.x, p2.y);
     this.invertPointsY(p1, p2);
     this.context.stroke();
-    this.drawLineSize(p1, p2);
+    // this.drawLineSize(p1, p2);
     this.history.add(new Line(p1, p2));
   }
 

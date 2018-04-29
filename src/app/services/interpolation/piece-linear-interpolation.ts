@@ -1,7 +1,7 @@
 import {Interpolation} from './interpolation';
 import {Point} from '../../models/point.model';
 
-class PieceLinearInterpolation extends Interpolation {
+export class PieceLinear extends Interpolation {
 
   constructor(points: Point[]) {
     super(points);

@@ -14,9 +14,12 @@ import {ShapesService} from '../../services/shapes.service';
 import {ScaleService} from '../../services/scale.service';
 import {CanvasService} from '../../services/canvas.service';
 import {TransformationsService} from '../transformations/transformations.service';
-import {distinct, distinctUntilChanged, filter, map} from 'rxjs/operators';
+import {distinctUntilChanged, filter, map} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
 import {MNK_Class} from '../../models/mnk';
+import {LagrangePolynomial} from '../../services/interpolation/lagrange-polynomial';
+import {Interpolation} from '../../services/interpolation/interpolation';
+import {PieceLinear} from '../../services/interpolation/piece-linear-interpolation';
 
 @Component({
   selector: 'drawer-canvas',
@@ -27,8 +30,8 @@ export class CanvasComponent implements OnInit {
   @ViewChild('canvas') domCanvas: ElementRef;
   controls: Point[][] = [];
   activeControl: Point;
-  drawNmkLine = new FormControl(true);
-  drawNmkParabola = new FormControl(true);
+  lagrange = new FormControl(true);
+  piece = new FormControl(true);
   nmkX = new FormControl(0);
   nmk: MNK_Class;
 
@@ -61,46 +64,70 @@ export class CanvasComponent implements OnInit {
     this.history.historyPoints$.pipe(
       filter(points => !!points.size),
       distinctUntilChanged((a, b) => this.helpers.deepMapEqual(a, b)),
-      map((points) =>  this.scale.scalePoints(points)),
+      map((points) => this.scale.scalePoints(points)),
     ).subscribe(scaledPoints => {
       this.history.historyPoints$.next(scaledPoints);
       this.controls = Array.from(scaledPoints.entries());
     });
+    const points = [
+      new Point(1.61, 0.8947),
+      new Point(1.63, 0.8972),
+      new Point(1.65, 0.9001),
+      new Point(1.67, 0.9033),
+      new Point(1.69, 0.9068)
+    ];
+    points.forEach(p => this.history.addPoint(p, p))
   }
 
-  drawNmk() {
+  scalethis() {
+    this.findY();
     const realPoints = this.controls.map(p => p[0]);
-    console.log(realPoints);
+    this.drawer.enableSizeLines = false;
+    let movedLines = this.transformations.move(-290, -160);
+    this.drawer.drawLines(movedLines);
+    movedLines = this.transformations.scale(30);
+    this.drawer.drawLines(movedLines);
+    // const points = this.scale.zoomPointsList(realPoints);
+    // points.forEach(p => this.history.addPoint(p, p))
+  }
+
+  draw() {
+    const realPoints = this.controls.map(p => p[0]);
     if (realPoints.length < 1) {
       alert('Введите хотя бы 1 точку');
       return;
     }
-    this.nmk = new MNK_Class(realPoints);
-    if (this.drawNmkLine.value) {
-      const points = this.scale.zoomPointsList(this.nmk.calculatePointsUsingOrdinaryLeastSquaresByLine());
-      for (let i = 0; i < points.length - 1; i++) {
-        this.drawer.drawLine(points[i], points[i + 1]);
-      }
+    if (this.lagrange.value) {
+      const method = new LagrangePolynomial(realPoints);
+      this.drawPlot(method, realPoints);
     }
-    if (this.drawNmkParabola.value) {
-      const points = this.scale.zoomPointsList(this.nmk.calculatePointsUsingOrdinaryLeastSquaresByParabola());
-      for (let i = 0; i < points.length - 1; i++) {
-        this.drawer.drawLine(points[i], points[i + 1]);
-      }
+    if (this.piece.value) {
+      const method = new PieceLinear(realPoints);
+      this.drawPlot(method, realPoints);
     }
   }
 
   findY() {
+    const realPoints = this.controls.map(p => p[0]);
     if (!this.controls.length) {
       alert('Введите хотя бы 1 точку');
     }
-    if (!this.nmk) {
-      alert('постройке МНК');
+    if (!this.lagrange.value && !this.piece.value) {
+      alert('Выбирайте метод интерполяции!');
     }
     const x = +this.nmkX.value;
-    const yByLine = this.nmk.calculateYUsingOrdinaryLeastSquaresByLine(x);
-    const yByParabola = this.nmk.calculateYUsingOrdinaryLeastSquaresByParabola(x);
-    alert('y by line:' + yByLine + ' y by parabola ' + yByParabola);
+    const xPoint = realPoints.map(p => p.x);
+    const yPoint = realPoints.map(p => p.y);
+    if (this.lagrange.value) {
+      const method = new LagrangePolynomial(realPoints);
+      const y = method.executeInterpolation(x, xPoint, yPoint);
+      console.log('Y by lagrange interpolation: ' + y);
+    }
+    if (this.piece.value) {
+      const method = new PieceLinear(realPoints);
+      const y = method.executeInterpolation(x, xPoint, yPoint);
+      console.log('Y by Piece interpolation: ' + y);
+    }
   }
 
   toAbs(p: Point): Point {
@@ -145,5 +172,15 @@ export class CanvasComponent implements OnInit {
   moveControlPoint(realPoint: Point) {
     this.history.replacePoint(this.activeControl, realPoint);
     this.activeControl = void 0;
+  }
+
+  private drawPlot(method: Interpolation, realPoints: Point[]) {
+    const xPoints = realPoints.map(p => p.x);
+    const minX = this.scale.findMin(xPoints);
+    const maxX = this.scale.findMax(xPoints);
+    const points = this.scale.zoomPointsList(method.calculatePoints(minX, maxX));
+    for (let i = 0; i < points.length - 1; i++) {
+      this.drawer.drawLine(points[i], points[i + 1]);
+    }
   }
 }

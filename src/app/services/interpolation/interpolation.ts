@@ -19,8 +19,8 @@ export abstract class Interpolation {
 
   calculatePoints(minValue, maxValue): Point[] {
     const resultPoints = [];
-    for (let i = minValue; i <= maxValue; i += 0.01) {
-      resultPoints.push(new Point(i, this.executeInterpolation(i, this.listX, this.listY)));
+    for (let x = minValue; x <= maxValue; x += 0.01) {
+      resultPoints.push(new Point(x, this.executeInterpolation(x, this.listX, this.listY)));
     }
     return resultPoints;
   }

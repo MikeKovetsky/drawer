@@ -63,6 +63,7 @@ export class HistoryService {
 
   clear(silent = false) {
     this.historyPoints$.next(new Map());
+    this.history$.next([]);
     this.needsRender$.next();
     if (silent === false) {
       this.cleared$.next();

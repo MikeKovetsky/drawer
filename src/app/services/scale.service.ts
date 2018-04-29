@@ -41,14 +41,18 @@ export class ScaleService {
     return points.map(p => this.transformations.pointToAffine(center, rx, ry, p))
   }
 
+  findMin<T>(a: T[]): T {
+    return Math.min.apply(null, a);
+  }
+
+  findMax<T>(a: T[]): T {
+    return Math.max.apply(null, a);
+  }
+
   private findMaxPoint(pointsMap: Map<Point, Point>) {
     const realPoints = Array.from(pointsMap.keys());
     const maxX = this.findMax(realPoints.map(p => Math.abs(p.x)));
     const maxY = this.findMax(realPoints.map(p => Math.abs(p.y)));
     return new Point(maxX, maxY);
-  }
-
-  private findMax<T>(a: T[]): T {
-    return Math.max.apply(null, a);
   }
 }

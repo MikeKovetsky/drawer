@@ -10,13 +10,19 @@
   Clear history
 </button>
 
-<button class="button button-nmk" (click)="drawNmk()">
-  draw NMK
+<button class="button button-nmk" (click)="draw()">
+  draw
+</button>
+
+
+<button class="button button-scale" (click)="scalethis()">
+  scale
 </button>
 
 <div class="radio" >
-  <mat-checkbox [formControl]="drawNmkLine">Line</mat-checkbox>
-  <mat-checkbox [formControl]="drawNmkParabola">Parabola</mat-checkbox>
+  <mat-checkbox [formControl]="lagrange">lagrange</mat-checkbox>
+  <mat-checkbox [formControl]="piece">piece</mat-checkbox>
+  <br>
   <mat-form-field>
     <input matInput type="number" [formControl]="nmkX">
   </mat-form-field>

@@ -46,11 +46,11 @@
 
 .control {
   cursor: move;
-  height: 6px;
-  width: 6px;
+  height: 2px;
+  width: 2px;
   background: #444;
-  margin-left: -3px;
-  margin-top: -3px;
+  margin-left: -1px;
+  margin-top: -1px;
   border-radius: 50%;
   border: 1px solid green;
   position: absolute;

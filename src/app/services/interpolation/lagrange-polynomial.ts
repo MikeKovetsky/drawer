@@ -1,7 +1,7 @@
 import {Interpolation} from './interpolation';
 import {Point} from '../../models/point.model';
 
-class LagrangePolynomial extends Interpolation {
+export class LagrangePolynomial extends Interpolation {
 
   constructor(points: Point[]) {
     super(points);
