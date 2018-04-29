@@ -1,6 +1,6 @@
 export const CANVAS_CONFIG = {
-  width: 600,
-  height: 600,
+  width: 960,
+  height: 760,
   vectorLength: 20,
   zoom: 1
 };
