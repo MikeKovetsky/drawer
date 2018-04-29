@@ -69,6 +69,13 @@ export class CanvasComponent implements OnInit {
     ).subscribe(() => {
       this.selected = void 0;
     });
+
+    this.tools.realTimePaving.watch().pipe(
+      filter(realTimeEnabled => realTimeEnabled)
+    ).subscribe(() => {
+      this.tools.splitMode.set(true);
+      this.tools.controlPointsShown.set(true);
+    });
   }
 
   toAbs(p: Point): Point {
