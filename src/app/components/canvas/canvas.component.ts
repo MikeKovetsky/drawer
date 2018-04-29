@@ -74,7 +74,7 @@ export class CanvasComponent implements OnInit {
       filter(realTimeEnabled => realTimeEnabled)
     ).subscribe(() => {
       this.tools.splitMode.set(true);
-      this.tools.controlPointsShown.set(true);
+      this.tools.editMode.set(true);
     });
   }
 
