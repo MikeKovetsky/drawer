@@ -20,9 +20,9 @@
           Chain Mode
           <span *ngIf="tools.chainMode.get()">✔</span>
         </p>
-        <p (click)="tools.controlPointsShown.toggle()">
+        <p (click)="tools.editMode.toggle()">
           Edit Mode
-          <span *ngIf="tools.controlPointsShown.get()">✔</span>
+          <span *ngIf="tools.editMode.get()">✔</span>
         </p>
       </div>
     </div>
