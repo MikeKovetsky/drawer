@@ -16,6 +16,7 @@ import {ShapesService} from '../../services/shapes.service';
 import {merge} from 'rxjs/observable/merge';
 import {ScaleService} from '../../services/scale.service';
 import {CanvasService} from '../../services/canvas.service';
+import {PavementService} from '../../services/pave.service';
 
 @Component({
   selector: 'drawer-canvas',
@@ -37,7 +38,8 @@ export class CanvasComponent implements OnInit {
               private shapes: ShapesService,
               private scale: ScaleService,
               private cursorPosition: CursorPositionService,
-              public tools: ToolsService) {
+              public tools: ToolsService,
+              private pave: PavementService) {
   }
 
   ngOnInit() {
@@ -59,8 +61,6 @@ export class CanvasComponent implements OnInit {
       this.drawer.drawLines(lines);
       this.selectLastPoint(lines);
     });
-    this.tools.editMode.set(false);
-    // this.shapes.drawPegasus();
 
     this.selection.get().subscribe((pos) => this.selected = pos);
 
@@ -68,13 +68,6 @@ export class CanvasComponent implements OnInit {
       filter((chainModeEnabled) => !chainModeEnabled),
     ).subscribe(() => {
       this.selected = void 0;
-    });
-
-    this.tools.realTimePaving.watch().pipe(
-      filter(realTimeEnabled => realTimeEnabled)
-    ).subscribe(() => {
-      this.tools.splitMode.set(true);
-      this.tools.editMode.set(true);
     });
   }
 
@@ -105,8 +98,18 @@ export class CanvasComponent implements OnInit {
   }
 
   moveControlPoint(target: Point) {
-    this.history.replacePoint(this.activeControl, target);
+    const lines = this.tools.realTimePaving.get() ? this.pave.pavementBase : this.history.getLines();
+    const newHistory = this.history.replacePoint(lines, this.activeControl, target);
+    if (this.tools.realTimePaving.get()) {
+      this.pave.pavementBase = newHistory;
+    }
+    this.history.clear();
+    this.drawer.drawLines(newHistory);
     this.activeControl = void 0;
+    if (this.tools.realTimePaving.get() === true) {
+      this.pave.tile(3);
+      this.pave.pavementBase = newHistory;
+    }
   }
 
   private startLine(selection: Point) {

@@ -77,6 +77,26 @@ export class HelpersService {
     return newArray;
   }
 
+  pointBelongsToLine(p: Point, line: Line): boolean {
+    const dxc = p.x - line.start.x;
+    const dyc = p.y - line.start.y;
+
+    const dxl = line.end.x - line.start.x;
+    const dyl = line.end.y - line.start.y;
+
+    const cross = dxc * dyl - dyc * dxl;
+    if (cross != 0)
+      return false;
+    if (Math.abs(dxl) >= Math.abs(dyl))
+      return dxl > 0 ?
+        line.start.x <= p.x && p.x <= line.end.x :
+        line.end.x <= p.x && p.x <= line.start.x;
+    else
+      return dyl > 0 ?
+        line.start.y <= p.y && p.y <= line.end.y :
+        line.end.y <= p.y && p.y <= line.start.y;
+  }
+
   findNearestPoint(target: Point, allPoints: Point[], accuracyPx = Number.MAX_SAFE_INTEGER): Point | null {
     let nearest = null;
     const resultDistance = allPoints.reduce((distance, point) => {

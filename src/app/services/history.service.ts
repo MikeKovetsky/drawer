@@ -6,6 +6,7 @@ import {Line} from '../models/line.model';
 import {HistoryEvent} from '../models/history-event.model';
 import {ControlPointsService} from './control-points.service';
 import {Subject} from 'rxjs/Subject';
+import {HelpersService} from './helpers.service';
 
 @Injectable()
 export class HistoryService {
@@ -15,6 +16,7 @@ export class HistoryService {
   currentFigure: Point[][];
 
   constructor(private selection: SelectionService,
+              private helpers: HelpersService,
               private controls: ControlPointsService) {
   }
 
@@ -37,9 +39,8 @@ export class HistoryService {
     return events.map(event => event.line);
   }
 
-  replacePoint(prevPoint: Point, point: Point) {
-    const historyLines = this.getLines();
-    const newlines = historyLines.map(line => {
+  replacePoint(lines: Line[], prevPoint: Point, point: Point) {
+    return lines.map(line => {
       if (line.start.equals(prevPoint)) {
         line.start = point;
       }
@@ -48,11 +49,6 @@ export class HistoryService {
       }
       return line;
     });
-    const newHistory = newlines.map((line) => {
-      return {line} as HistoryEvent;
-    });
-    this.history$.next(newHistory);
-    this.needsRender$.next();
   }
 
   clear() {

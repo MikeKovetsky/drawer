@@ -3,11 +3,21 @@ import {Point} from '../models/point.model';
 import {Line} from '../models/line.model';
 import {HistoryService} from './history.service';
 import {DrawerService} from './drawer.service';
+import {ToolsService} from './tools.service';
+import {filter} from 'rxjs/operators';
 
 @Injectable()
 export class PavementService {
+  pavementBase: Line[] = [];
 
-  constructor(private history: HistoryService, private drawer: DrawerService) {
+  constructor(private history: HistoryService,
+              private drawer: DrawerService,
+              private tools: ToolsService) {
+
+    this.tools.realTimePaving.watch().pipe(
+      filter(realTimeEnabled => realTimeEnabled)
+    ).subscribe(() => this.initRealTimePaving());
+
   }
 
   tile(tileSize: number) {
@@ -19,10 +29,16 @@ export class PavementService {
     for (let x = -tileSize; x < tileSize; x++) {
       for (let y = -tileSize; y < tileSize; y++) {
         if (!y && !x) continue; // skip self
-        const newLines = this.offsetLines(lines, offsetX * x, offsetY* y);
+        const newLines = this.offsetLines(lines, offsetX * x, offsetY * y);
         this.drawer.drawLines(newLines);
       }
     }
+  }
+
+  private initRealTimePaving() {
+    this.tools.splitMode.set(true);
+    this.tools.editMode.set(true);
+    this.pavementBase = this.history.getLines();
   }
 
   private offsetLines(lines: Line[], offsetX, offsetY) {

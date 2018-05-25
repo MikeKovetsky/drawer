@@ -59,7 +59,7 @@ import {CanvasService} from './services/canvas.service';
     AnchorComponent,
     SplitPointComponent,
     HeaderComponent,
-    HotkeysDialogComponent
+    HotkeysDialogComponent,
   ],
   imports: [
     BrowserModule,
