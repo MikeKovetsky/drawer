@@ -5,6 +5,7 @@ import {HistoryService} from './history.service';
 import {DrawerService} from './drawer.service';
 import {ToolsService} from './tools.service';
 import {filter} from 'rxjs/operators';
+import {GRID_CONFIG} from '../configs/canvas-config';
 
 @Injectable()
 export class PavementService {
@@ -30,7 +31,15 @@ export class PavementService {
       for (let y = -tileSize; y < tileSize; y++) {
         if (!y && !x) continue; // skip self
         const newLines = this.offsetLines(lines, offsetX * x, offsetY * y);
-        this.drawer.drawLines(newLines);
+        const inCanvas = newLines.every(l => {
+          return l.start.x > GRID_CONFIG.minX && l.start.x < GRID_CONFIG.maxX &&
+            l.start.y > GRID_CONFIG.minY && l.start.y < GRID_CONFIG.maxY &&
+            l.end.x > GRID_CONFIG.minX && l.end.x < GRID_CONFIG.maxX &&
+            l.end.y > GRID_CONFIG.minY && l.end.y < GRID_CONFIG.maxY
+        });
+        if (inCanvas) {
+          this.drawer.drawLines(newLines);
+        }
       }
     }
   }
